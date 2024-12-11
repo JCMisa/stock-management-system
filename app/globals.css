@@ -69,4 +69,62 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  body::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  body::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: #24ae7c;
+  }
+}
+
+.card-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.card-scroll::-webkit-scrollbar-track {
+  display: none;
+}
+
+.card-scroll::-webkit-scrollbar-thumb {
+  background: #24ae7c;
+}
+
+/* spinner */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid #79b5ec;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.spinner::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left: 4px solid #24ae7c;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
