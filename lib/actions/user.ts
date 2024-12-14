@@ -39,7 +39,8 @@ export const createUser = async (
   firstname: string,
   lastname: string,
   imageUrl: string,
-  role: string
+  role: string,
+  createdAt: string
 ) => {
   try {
     const existingUser = await getUserById(userId);
@@ -52,6 +53,7 @@ export const createUser = async (
         lastname: lastname,
         imageUrl: imageUrl,
         role: role,
+        createdAt: createdAt,
       });
 
       // if successful creation

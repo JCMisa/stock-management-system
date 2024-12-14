@@ -96,6 +96,19 @@ body {
   background: #24ae7c;
 }
 
+.sidenav-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.sidenav-scroll::-webkit-scrollbar-track {
+  display: none;
+}
+
+.sidenav-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 /* spinner */
 .spinner {
   width: 48px;

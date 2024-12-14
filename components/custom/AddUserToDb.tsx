@@ -3,6 +3,7 @@
 
 import { createUser } from "@/lib/actions/user";
 import { useUser } from "@clerk/nextjs";
+import moment from "moment";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
@@ -20,7 +21,8 @@ const AddUserToDb = () => {
           user?.firstName as string,
           user?.lastName as string,
           user?.imageUrl as string,
-          "guest"
+          "guest",
+          moment().format("MM-DD-YYYY")
         );
 
         if (result?.data !== null) {
