@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const HomeHero = ({ user }: { user: any }) => {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden mt-10">
       <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
         <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
           <div className="sm:max-w-lg">

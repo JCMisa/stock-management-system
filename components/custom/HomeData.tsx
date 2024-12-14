@@ -2,11 +2,11 @@ import React from "react";
 
 const HomeData = () => {
   return (
-    <div className="py-24 sm:py-32">
+    <div className="py-32 sm:py-60">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-none">
           <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-[#E8E9E9] sm:text-4xl">
+            <h2 className="text-4xl md:text-6xl lg:text-5xl font-extrabold tracking-tight text-[#E8E9E9]">
               Empowering Businesses Globally
             </h2>
             <p className="mt-4 text-lg leading-8 text-[#76828D]">
