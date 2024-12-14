@@ -70,3 +70,78 @@ export const createUser = async (
     return parseStringify({ data: null });
   }
 };
+
+export const updateUserAvatar = async (userId: string, downloadUrl: string) => {
+  try {
+    const existingUser = await getUserById(userId);
+    if (existingUser?.data !== null) {
+      const data = await db.update(User).set({
+        imageUrl: downloadUrl,
+      });
+
+      if (data) {
+        return parseStringify({ data: data });
+      }
+      return parseStringify({ data: null });
+    }
+  } catch (error) {
+    console.log(
+      "Internal error occured while updating the user profile: ",
+      error
+    );
+    return parseStringify({ data: null });
+  }
+};
+
+export const updateUserInfo = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state: any,
+  form: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    dateOfBirth: string;
+    age: string;
+    contact: string;
+    address: string;
+    bio: string;
+    gender: string;
+    role: string;
+  }
+) => {
+  try {
+    const {
+      firstname,
+      lastname,
+      email,
+      dateOfBirth,
+      age,
+      contact,
+      address,
+      bio,
+      gender,
+      role,
+    } = form;
+
+    const result = await db.update(User).set({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      dateOfBirth: dateOfBirth,
+      age: Number(age),
+      contact: contact,
+      address: address,
+      bio: bio,
+      gender: gender,
+      role: role,
+    });
+
+    if (result) {
+      return parseStringify({ data: result });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    console.log("Internal error occured while updating the user info: ", error);
+    return parseStringify({ data: null });
+  }
+};

@@ -15,7 +15,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       <section className="flex h-full flex-1 flex-col">
         <DashboardMobileNavigation />
         <DashboardHeader user={currentUser} />
-        <div className="p-5">{children}</div>
+        <div className="p-5 md:ml-32 lg:ml-64">{children}</div>
       </section>
     </main>
   );

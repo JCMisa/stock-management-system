@@ -48,7 +48,7 @@ const DashboardSidebar = () => {
   }, [user]);
 
   return (
-    <aside className="hidden bg-dark-100 md:block h-screen overflow-auto sidenav-scroll">
+    <aside className="hidden fixed top-0 left-0 md:w-32 lg:w-64 bg-dark-100 md:block h-screen overflow-auto sidenav-scroll">
       <div className="mt-3 text-2xl uppercase text-center tracking-widest">
         <Link href="/" className="text-white flex items-center px-3">
           <Image
