@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserButton } from "@clerk/nextjs";
 import { Search } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 const DashboardHeader = ({ user }: { user: any }) => {
@@ -22,12 +22,28 @@ const DashboardHeader = ({ user }: { user: any }) => {
 
         <div className="relative flex flex-col">
           <div className="sm:flex gap-1 hidden">
-            <UserButton />
+            {user ? (
+              <Image
+                src={user?.imageUrl}
+                alt="avatar"
+                width={1000}
+                height={1000}
+                className="w-10 h-10 rounded-full"
+              />
+            ) : (
+              <Image
+                src={"/empty-img.png"}
+                alt="avatar"
+                width={1000}
+                height={1000}
+                className="w-10 h-10"
+              />
+            )}
             <div className="lg:flex flex-col items-start hidden">
-              <p className="tesm-sm">{user?.fullName}</p>
-              <span className="text-xs text-gray-400">
-                {user?.primaryEmailAddress?.emailAddress}
-              </span>
+              <p className="tesm-sm capitalize">
+                {user?.firstname} {user?.lastname}
+              </p>
+              <span className="text-xs text-gray-400">{user?.email}</span>
             </div>
           </div>
         </div>

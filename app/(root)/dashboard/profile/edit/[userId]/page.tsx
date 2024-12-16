@@ -3,7 +3,12 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { getUserById, updateUserInfo } from "@/lib/actions/user";
+import {
+  deleteUser,
+  getUserByEmail,
+  getUserById,
+  updateUserInfo,
+} from "@/lib/actions/user";
 import React, { useActionState, useEffect, useState } from "react";
 import {
   Select,
@@ -17,21 +22,36 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import UploadImage from "./_components/UploadImage";
 import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const EditProfilePage = ({
   params,
 }: {
   params: Promise<{ userId: string }>;
 }) => {
+  const { user } = useUser();
   const router = useRouter();
 
   const [currentUser, setCurrentUser] = useState<any>();
+  const [currentUserRole, setCurrentUserRole] = useState<string>("");
   const [gender, setGender] = useState<string>(currentUser?.gender);
   const [role, setRole] = useState<string>(currentUser?.role);
+  const [loading, setLoading] = useState(false);
 
-  const getCurrentUser = async () => {
+  const getUserInfoById = async () => {
     const userId = (await params)?.userId;
     try {
       const result = await getUserById(userId);
@@ -46,10 +66,56 @@ const EditProfilePage = ({
   };
 
   useEffect(() => {
-    getCurrentUser();
+    getUserInfoById();
   }, [params]);
 
+  const getCurrentUserRole = async () => {
+    try {
+      const result = await getUserByEmail(
+        user?.primaryEmailAddress?.emailAddress as string
+      );
+      if (result?.data !== null) {
+        setCurrentUserRole(result?.data.role);
+      }
+    } catch {
+      toast(
+        <p className="font-bold text-sm text-red-500">
+          Failed to fetch user role.
+        </p>
+      );
+    }
+  };
+
+  useEffect(() => {
+    getCurrentUserRole();
+  }, [user]);
+
+  const handleDelete = async () => {
+    const userId = (await params)?.userId;
+    try {
+      setLoading(true);
+      const result = await deleteUser(userId);
+      if (result?.data !== null) {
+        toast(
+          <p className="font-bold text-sm text-green-500">
+            User deleted successfully
+          </p>
+        );
+        router.push("/dashboard");
+      }
+    } catch {
+      toast(
+        <p className="font-bold text-sm text-red-500">
+          Failed to dalete the user.
+        </p>
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
+    const userId = (await params)?.userId;
     try {
       const finalGender = gender || currentUser?.gender;
       const finalRole = role || currentUser?.role;
@@ -66,7 +132,7 @@ const EditProfilePage = ({
         role: finalRole as string,
       };
 
-      const result = await updateUserInfo(prevState, formField);
+      const result = await updateUserInfo(prevState, userId, formField);
 
       if (result?.data !== null) {
         toast(
@@ -75,7 +141,7 @@ const EditProfilePage = ({
           </p>
         );
 
-        router.push(`/dashboard/profile`);
+        router.push(`/dashboard/profile/${userId}`);
       }
 
       return result?.data;
@@ -104,9 +170,44 @@ const EditProfilePage = ({
           {/* profile image */}
           <div>
             <div>
-              <h3 className="leading-6 font-medium text-white text-3xl">
-                Profile
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="leading-6 font-medium text-white text-3xl">
+                  Profile
+                </h3>
+                <AlertDialog>
+                  <AlertDialogTrigger className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 transition-all cursor-pointer p-3 px-5 min-w-32 max-w-32 rounded-lg">
+                    {loading ? (
+                      <LoaderCircle className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <Trash className="w-5 h-5" />
+                        Delete
+                      </>
+                    )}
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete this account and remove related data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-red-500 hover:bg-red-600 transition-all"
+                        onClick={() => handleDelete()}
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
               <p className="mt-1 text-sm text-gray-500">
                 This information will be displayed publicly so be careful what
                 you share.
@@ -326,7 +427,7 @@ const EditProfilePage = ({
         </div>
 
         {/* manage role for admin access only */}
-        {currentUser?.role === "admin" && (
+        {currentUserRole === "admin" && (
           <div className="pt-8">
             <div>
               <h3 className="text-lg leading-6 font-medium text-white">

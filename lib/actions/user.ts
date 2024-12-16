@@ -5,6 +5,20 @@ import { User } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { parseStringify } from "../utils";
 
+export const getAllUser = async () => {
+  try {
+    const data = await db.select().from(User);
+
+    if (data.length > 0) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    console.log("Internal error occured while fetching all users: ", error);
+    return parseStringify({ data: null });
+  }
+};
+
 export const getUserById = async (userId: string) => {
   try {
     const data = await db.select().from(User).where(eq(User.userId, userId));
@@ -43,7 +57,7 @@ export const createUser = async (
   createdAt: string
 ) => {
   try {
-    const existingUser = await getUserById(userId);
+    const existingUser = await getUserByEmail(email);
     if (existingUser?.data === null) {
       // proceed on adding the user
       const data = await db.insert(User).values({
@@ -71,13 +85,66 @@ export const createUser = async (
   }
 };
 
+export const createUserInfo = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state: any,
+  userId: string,
+  form: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    dateOfBirth: string;
+    age: string;
+    contact: string;
+    address: string;
+    bio: string;
+    gender: string;
+    role: string;
+  },
+  imageUrl: string,
+  createdAt: string
+) => {
+  try {
+    const data = await db.insert(User).values({
+      userId: userId,
+
+      firstname: form.firstname,
+      lastname: form.lastname,
+      email: form.email,
+      dateOfBirth: form.dateOfBirth,
+      age: Number(form.age),
+      contact: form.contact,
+      address: form.address,
+      bio: form.bio,
+      gender: form.gender,
+
+      role: form.role,
+      imageUrl: imageUrl,
+      createdAt: createdAt,
+    });
+
+    // if successful creation
+    if (data) {
+      return parseStringify({ data: data });
+    }
+    // if creation failed
+    return parseStringify({ data: null });
+  } catch (error) {
+    console.log("Internal error occured while creating the use: ", error);
+    return parseStringify({ data: null });
+  }
+};
+
 export const updateUserAvatar = async (userId: string, downloadUrl: string) => {
   try {
     const existingUser = await getUserById(userId);
     if (existingUser?.data !== null) {
-      const data = await db.update(User).set({
-        imageUrl: downloadUrl,
-      });
+      const data = await db
+        .update(User)
+        .set({
+          imageUrl: downloadUrl,
+        })
+        .where(eq(User.userId, userId));
 
       if (data) {
         return parseStringify({ data: data });
@@ -96,6 +163,7 @@ export const updateUserAvatar = async (userId: string, downloadUrl: string) => {
 export const updateUserInfo = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any,
+  userId: string,
   form: {
     firstname: string;
     lastname: string;
@@ -123,18 +191,21 @@ export const updateUserInfo = async (
       role,
     } = form;
 
-    const result = await db.update(User).set({
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      dateOfBirth: dateOfBirth,
-      age: Number(age),
-      contact: contact,
-      address: address,
-      bio: bio,
-      gender: gender,
-      role: role,
-    });
+    const result = await db
+      .update(User)
+      .set({
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        dateOfBirth: dateOfBirth,
+        age: Number(age),
+        contact: contact,
+        address: address,
+        bio: bio,
+        gender: gender,
+        role: role,
+      })
+      .where(eq(User.userId, userId));
 
     if (result) {
       return parseStringify({ data: result });
@@ -142,6 +213,20 @@ export const updateUserInfo = async (
     return parseStringify({ data: null });
   } catch (error) {
     console.log("Internal error occured while updating the user info: ", error);
+    return parseStringify({ data: null });
+  }
+};
+
+export const deleteUser = async (userId: string) => {
+  try {
+    const data = await db.delete(User).where(eq(User.userId, userId));
+
+    if (data) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    console.log("Internal error occured while deleting the user: ", error);
     return parseStringify({ data: null });
   }
 };

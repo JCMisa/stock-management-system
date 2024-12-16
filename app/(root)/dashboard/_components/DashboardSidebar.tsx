@@ -2,7 +2,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { menuItems } from "@/constants";
+import {
+  ChartBarIncreasing,
+  Cross,
+  LayoutGrid,
+  Newspaper,
+  Pill,
+  SquareActivity,
+  User,
+  UserCircle,
+} from "lucide-react";
 import { getUserByEmail } from "@/lib/actions/user";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
@@ -47,8 +56,84 @@ const DashboardSidebar = () => {
     user && getLoggedInUserByEmail();
   }, [user]);
 
+  const menuItems = [
+    {
+      title: "MENU",
+      items: [
+        {
+          icon: LayoutGrid,
+          label: "Dashboard",
+          href: `/dashboard`,
+          visible: ["admin", "doctor", "receptionist", "pharmacist", "guest"],
+        },
+      ],
+    },
+    {
+      title: "MANAGE",
+      items: [
+        {
+          icon: User,
+          label: "Users",
+          href: `/dashboard/manage/users`,
+          visible: ["admin", "doctor", "receptionist", "pharmacist"],
+        },
+        {
+          icon: Cross,
+          label: "Patients",
+          href: "/dashboard/manage/patients",
+          visible: ["admin", "doctor", "receptionist", "pharmacist"],
+        },
+        {
+          icon: Pill,
+          label: "Medicines",
+          href: "/dashboard/manage/medicines",
+          visible: ["admin", "doctor", "receptionist", "pharmacist"],
+        },
+      ],
+    },
+    {
+      title: "INVENTORY",
+      items: [
+        {
+          icon: ChartBarIncreasing,
+          label: "Status",
+          href: "/inventory/status",
+          visible: ["admin", "doctor", "receptionist", "pharmacist"],
+        },
+        {
+          icon: SquareActivity,
+          label: "Manage",
+          href: "/inventory/manage",
+          visible: ["admin", "pharmacist"],
+        },
+      ],
+    },
+    {
+      title: "INFORMATION MANAGEMENT",
+      items: [
+        {
+          icon: Newspaper,
+          label: "Reports",
+          href: "/reports",
+          visible: ["admin", "doctor", "receptionist", "pharmacist"],
+        },
+      ],
+    },
+    {
+      title: "PROFILE MANAGEMENT",
+      items: [
+        {
+          icon: UserCircle,
+          label: "Profile",
+          href: `/dashboard/profile/${loggedInUser?.userId}`,
+          visible: ["admin", "doctor", "receptionist", "pharmacist", "guest"],
+        },
+      ],
+    },
+  ];
+
   return (
-    <aside className="hidden fixed top-0 left-0 md:w-32 lg:w-64 bg-dark-100 md:block h-screen overflow-auto sidenav-scroll">
+    <aside className="hidden fixed top-0 left-0 md:w-32 lg:w-64 bg-dark-100 md:block h-screen overflow-auto sidenav-scroll z-30">
       <div className="mt-3 text-2xl uppercase text-center tracking-widest">
         <Link href="/" className="text-white flex items-center px-3">
           <Image
