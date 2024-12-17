@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 
-const HomeHero = ({ user }: { user: any }) => {
+const HomeHero = ({ user }: { user: UserType }) => {
   return (
     <div className="relative overflow-hidden mt-10">
       <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">

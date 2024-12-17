@@ -1,5 +1,4 @@
-import { getUser } from "@/app/(auth)/GetUser";
-import { getUserByEmail, getUserById } from "@/lib/actions/user";
+import { getCurrentUser, getUserById } from "@/lib/actions/user";
 import { SignOutButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,10 +18,7 @@ const ProfilePage = async ({
     redirect("/sign-in");
   }
 
-  const userFromClerk = await getUser();
-  const userFromDb = await getUserByEmail(
-    userFromClerk?.primaryEmailAddress?.emailAddress as string
-  );
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="bg-gradient-to-r from-dark to-dark-100 min-h-screen flex items-center justify-center p-4 rounded-lg">
@@ -33,7 +29,7 @@ const ProfilePage = async ({
               <Image
                 src={userFromProps?.data?.imageUrl as string}
                 alt="Profile Picture"
-                className="rounded-full w-48 h-48 mx-auto mb-4 border-4 from-primary to-secondary transition-transform duration-300 hover:scale-105"
+                className="rounded-full w-48 h-48 mx-auto mb-4 shadow-lg from-primary to-secondary transition-transform duration-300 hover:scale-105"
                 width={1000}
                 height={1000}
               />
@@ -41,7 +37,7 @@ const ProfilePage = async ({
               <Image
                 src="empty-img.png"
                 alt="Profile Picture"
-                className="rounded-full w-48 h-48 mx-auto mb-4 border-4 from-primary to-secondary transition-transform duration-300 hover:scale-105"
+                className="rounded-full w-48 h-48 mx-auto mb-4 shadow-lg from-primary to-secondary transition-transform duration-300 hover:scale-105"
                 width={1000}
                 height={1000}
               />
@@ -54,8 +50,8 @@ const ProfilePage = async ({
             <p className="text-gray-300 capitalize mb-4">
               {userFromProps?.data?.role || ""}
             </p>
-            {(userFromDb?.data?.userId === userId ||
-              userFromDb?.data?.role === "admin") && (
+            {(currentUser?.data?.userId === userId ||
+              currentUser?.data?.role === "admin") && (
               <div className="flex flex-col gap-1">
                 <Link
                   href={`/dashboard/profile/edit/${userId}`}

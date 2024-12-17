@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Search } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-const DashboardHeader = ({ user }: { user: any }) => {
+const DashboardHeader = ({ user }: { user: UserType }) => {
   return (
     <header className="bg-dark hidden md:block shadow-xl md:ml-32 lg:ml-64">
       <div className="flex flex-row items-center justify-between p-3 px-5">

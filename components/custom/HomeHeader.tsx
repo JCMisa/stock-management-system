@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
@@ -6,7 +5,7 @@ import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 
-const HomeHeader = ({ user }: { user: any }) => {
+const HomeHeader = ({ user }: { user: UserType }) => {
   return (
     <header className="bg-dark body-font shadow-xl">
       <div className="container mx-auto md:flex flex-wrap p-5 flex-col md:flex-row items-center hidden">
@@ -30,10 +29,10 @@ const HomeHeader = ({ user }: { user: any }) => {
           <div className="sm:flex gap-1 hidden">
             <UserButton />
             <div className="lg:flex flex-col items-start hidden">
-              <p className="tesm-sm">{user?.fullName}</p>
-              <span className="text-xs text-gray-400">
-                {user?.primaryEmailAddress?.emailAddress}
-              </span>
+              <p className="tesm-sm capitalize">
+                {user?.firstname} {user?.lastname}
+              </p>
+              <span className="text-xs text-gray-400">{user?.email}</span>
             </div>
           </div>
         ) : (

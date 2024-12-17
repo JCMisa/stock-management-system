@@ -24,16 +24,7 @@ const DashboardSidebar = () => {
   const { user } = useUser();
   const path = usePathname();
 
-  const [loggedInUser, setLoggedInUser] = useState<{
-    id: number;
-    userId: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-    imageUrl: string;
-    role: string;
-    createdAt: string;
-  }>();
+  const [loggedInUser, setLoggedInUser] = useState<UserType>();
 
   const getLoggedInUserByEmail = async () => {
     try {

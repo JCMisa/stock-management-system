@@ -36,7 +36,7 @@ export default {
         },
         primary: {
           DEFAULT: "#24AE7C", // alternative #0F6292
-          100: "#0D2A1F", // alternative #1575ad
+          100: "#137F56", // alternative #1575ad
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {

@@ -4,6 +4,29 @@ import { db } from "@/utils/db";
 import { User } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { parseStringify } from "../utils";
+import { currentUser } from "@clerk/nextjs/server";
+
+export const getCurrentUser = async () => {
+  try {
+    const userFromClerk = await currentUser();
+    if (!userFromClerk) return parseStringify({ data: null });
+    const userFromDb = await db
+      .select()
+      .from(User)
+      .where(
+        eq(
+          User.email,
+          userFromClerk?.primaryEmailAddress?.emailAddress as string
+        )
+      );
+    if (userFromDb?.length > 0) {
+      return parseStringify({ data: userFromDb[0] });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
 
 export const getAllUser = async () => {
   try {
@@ -14,8 +37,7 @@ export const getAllUser = async () => {
     }
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while fetching all users: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -28,8 +50,7 @@ export const getUserById = async (userId: string) => {
     }
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while fetching user by id: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -42,8 +63,7 @@ export const getUserByEmail = async (userEmail: string) => {
     }
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while fetching user by email: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -80,8 +100,7 @@ export const createUser = async (
     // if user already exists
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while creating the use: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -130,8 +149,7 @@ export const createUserInfo = async (
     // if creation failed
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while creating the use: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -152,11 +170,7 @@ export const updateUserAvatar = async (userId: string, downloadUrl: string) => {
       return parseStringify({ data: null });
     }
   } catch (error) {
-    console.log(
-      "Internal error occured while updating the user profile: ",
-      error
-    );
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -212,8 +226,7 @@ export const updateUserInfo = async (
     }
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while updating the user info: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
 };
 
@@ -226,7 +239,11 @@ export const deleteUser = async (userId: string) => {
     }
     return parseStringify({ data: null });
   } catch (error) {
-    console.log("Internal error occured while deleting the user: ", error);
-    return parseStringify({ data: null });
+    handleError(error);
   }
+};
+
+const handleError = (error: unknown) => {
+  console.log("Internal error: ", error);
+  return parseStringify({ data: null });
 };

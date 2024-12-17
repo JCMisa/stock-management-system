@@ -33,16 +33,7 @@ const DashboardMobileNavigation = () => {
   const path = usePathname();
 
   const [open, setOpen] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState<{
-    id: number;
-    userId: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-    imageUrl: string;
-    role: string;
-    createdAt: string;
-  }>();
+  const [loggedInUser, setLoggedInUser] = useState<UserType>();
 
   const getLoggedInUserByEmail = async () => {
     try {

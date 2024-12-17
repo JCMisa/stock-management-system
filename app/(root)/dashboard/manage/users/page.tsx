@@ -1,27 +1,23 @@
-import { getUser } from "@/app/(auth)/GetUser";
 import { DataTable } from "@/components/dataTable/data-table";
 import { columns } from "@/components/dataTable/user-columns";
-import { getAllUser, getUserByEmail } from "@/lib/actions/user";
+import { getAllUser, getCurrentUser } from "@/lib/actions/user";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const ManageUsersPage = async () => {
-  const user = await getUser();
-  if (user === null) return redirect("/");
-  const userFromDb = await getUserByEmail(
-    user?.primaryEmailAddress?.emailAddress as string
-  );
+  const user = await getCurrentUser();
+  if (user?.data === null) redirect("/sign-in");
 
   const userList = await getAllUser();
 
   return (
-    <div className="p-6">
+    <div>
       <DataTable
         columns={columns}
         data={userList?.data}
         query1="userId"
         query2="email"
-        showCreate={userFromDb?.data?.role === "admin"}
+        showCreate={user?.data?.role === "admin"}
       />
     </div>
   );
