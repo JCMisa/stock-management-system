@@ -25,7 +25,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import CreatePatient from "@/app/(root)/dashboard/manage/patients/_components/CreatePatient";
+import AddPatientLayout from "@/app/(root)/dashboard/manage/patients/_components/AddPatientLayout";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        {showCreate && <CreatePatient />}
+        {showCreate && <AddPatientLayout />}
       </div>
       <div className="rounded-md bg-dark-100">
         <Table>

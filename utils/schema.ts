@@ -27,18 +27,18 @@ export const User = pgTable("user", {
 
 export const Patient = pgTable("patient", {
   id: serial("id").primaryKey(),
-  patientId: varchar("patientId").notNull(),
+  patientId: varchar("patientId").notNull(), //ok
   doctorId: varchar("doctorId"), // doctor who prescribed medicine to the patient
   pharmacistId: varchar("pharmacistId"), // pharmacist who sold medicine to the patient
-  addedBy: varchar("addedBy"), // receptionist or admin who added this patient
+  addedBy: varchar("addedBy"), // receptionist or admin who added this patient - ok
 
-  firstname: varchar("firstname"),
-  lastname: varchar("lastname"),
-  fullname: varchar("fullname"),
-  email: varchar("email"),
+  firstname: varchar("firstname"), //ok
+  lastname: varchar("lastname"), //ok
+  fullname: varchar("fullname"), //ok
+  email: varchar("email"), //ok
   imageUrl: varchar("imageUrl"),
-  gender: varchar("gender"),
-  age: integer("age"),
+  gender: varchar("gender"), //ok
+  age: integer("age"), //ok
   address: varchar("address"),
   contact: varchar("contact"),
   occupation: varchar("occupation"),
@@ -50,7 +50,7 @@ export const Patient = pgTable("patient", {
   identificationCardNumber: varchar("identificationCardNumber"),
   identificationImageUrl: varchar("identificationImageUrl"),
 
-  conditionName: varchar("conditionName"),
+  conditionName: varchar("conditionName"), //ok
   conditionDescription: varchar("conditionDescription"),
   conditionSeverity: varchar("conditionSeverity"),
   allergies: varchar("allergies"),
