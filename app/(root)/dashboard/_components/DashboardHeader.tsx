@@ -21,28 +21,30 @@ const DashboardHeader = ({ user }: { user: UserType }) => {
 
         <div className="relative flex flex-col">
           <div className="sm:flex gap-1 hidden">
-            {user ? (
-              <Image
-                src={user?.imageUrl}
-                alt="avatar"
-                width={1000}
-                height={1000}
-                className="w-10 h-10 rounded-full"
-              />
-            ) : (
-              <Image
-                src={"/empty-img.png"}
-                alt="avatar"
-                width={1000}
-                height={1000}
-                className="w-10 h-10"
-              />
-            )}
-            <div className="lg:flex flex-col items-start hidden">
-              <p className="tesm-sm capitalize">
-                {user?.firstname} {user?.lastname}
-              </p>
-              <span className="text-xs text-gray-400">{user?.email}</span>
+            <div className="flex items-center gap-1">
+              {user ? (
+                <Image
+                  src={user?.imageUrl}
+                  alt="avatar"
+                  width={1000}
+                  height={1000}
+                  className="w-8 h-8 rounded-full"
+                />
+              ) : (
+                <Image
+                  src={"/empty-img.png"}
+                  alt="avatar"
+                  width={1000}
+                  height={1000}
+                  className="w-8 h-8"
+                />
+              )}
+              <div className="lg:flex flex-col items-start hidden">
+                <p className="tesm-sm capitalize">
+                  {user?.firstname} {user?.lastname}
+                </p>
+                <span className="text-xs text-gray-400">{user?.email}</span>
+              </div>
             </div>
           </div>
         </div>

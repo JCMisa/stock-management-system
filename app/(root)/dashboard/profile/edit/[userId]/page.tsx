@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -45,10 +44,10 @@ const EditProfilePage = ({
   const { user } = useUser();
   const router = useRouter();
 
-  const [currentUser, setCurrentUser] = useState<any>();
+  const [currentUser, setCurrentUser] = useState<UserType>();
   const [currentUserRole, setCurrentUserRole] = useState<string>("");
-  const [gender, setGender] = useState<string>(currentUser?.gender);
-  const [role, setRole] = useState<string>(currentUser?.role);
+  const [gender, setGender] = useState<string>(currentUser?.gender as string);
+  const [role, setRole] = useState<string>(currentUser?.role as string);
   const [loading, setLoading] = useState(false);
 
   const getUserInfoById = async () => {
@@ -332,7 +331,7 @@ const EditProfilePage = ({
                   </label>
                   <Select
                     onValueChange={(value) =>
-                      setGender(value ? value : currentUser?.gender)
+                      setGender(value ? value : (currentUser?.gender as string))
                     }
                     defaultValue={currentUser?.gender}
                   >
@@ -449,7 +448,7 @@ const EditProfilePage = ({
               <div className="mt-1">
                 <Select
                   onValueChange={(value) =>
-                    setRole(value ? value : currentUser?.role)
+                    setRole(value ? value : (currentUser?.role as string))
                   }
                   defaultValue={currentUser?.role}
                 >
@@ -476,7 +475,9 @@ const EditProfilePage = ({
               variant={"outline"}
               className="min-w-32 max-w-32"
             >
-              <Link href={"/dashboard/profile"}>Cancel</Link>
+              <Link href={`/dashboard/profile/${currentUser?.userId}`}>
+                Cancel
+              </Link>
             </Button>
             <Button
               type="submit"

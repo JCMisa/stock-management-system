@@ -126,7 +126,6 @@ export const createUserInfo = async (
   try {
     const data = await db.insert(User).values({
       userId: userId,
-
       firstname: form.firstname,
       lastname: form.lastname,
       email: form.email,
@@ -136,7 +135,6 @@ export const createUserInfo = async (
       address: form.address,
       bio: form.bio,
       gender: form.gender,
-
       role: form.role,
       imageUrl: imageUrl,
       createdAt: createdAt,

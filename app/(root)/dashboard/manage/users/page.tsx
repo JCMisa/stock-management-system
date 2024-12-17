@@ -15,8 +15,7 @@ const ManageUsersPage = async () => {
       <DataTable
         columns={columns}
         data={userList?.data}
-        query1="userId"
-        query2="email"
+        query1="email"
         showCreate={user?.data?.role === "admin"}
       />
     </div>
