@@ -7,7 +7,7 @@ import {
   ArrowUpDown,
   ListCollapse,
   MoreHorizontal,
-  Settings,
+  Pencil,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -20,6 +20,7 @@ import Image from "next/image";
 import { getUserByEmail } from "@/lib/actions/user";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { Badge } from "@/components/ui/badge";
 
 const CurrentUserRole = () => {
   const { user } = useUser();
@@ -109,6 +110,21 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorKey: "age",
     header: ({ column }) => {
       return (
@@ -136,6 +152,43 @@ export const columns: ColumnDef<any>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
         </Button>
       );
+    },
+  },
+  {
+    accessorKey: "conditionSeverity",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Severity
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const severity = row.getValue("conditionSeverity") as string;
+
+      if (severity === "mild")
+        return (
+          <Badge className="bg-yellow-500 hover:bg-yellow-600 transition-all">
+            Mild
+          </Badge>
+        );
+      if (severity === "moderate")
+        return (
+          <Badge className="bg-orange-500 hover:bg-orange-600 transition-all">
+            Moderate
+          </Badge>
+        );
+      if (severity === "severe")
+        return (
+          <Badge className="bg-red-500 hover:bg-red-600 transition-all">
+            Severe
+          </Badge>
+        );
     },
   },
   {
@@ -169,6 +222,21 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
+    accessorKey: "addedBy",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Added By
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       // const { id } = row.original;
@@ -185,10 +253,10 @@ export const columns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {(userRole === "admin" || userRole === "receptionist") && (
-              <Link href={`/dashboard/profile/edit/${patientId}`}>
+              <Link href={`/dashboard/manage/patients/create/${patientId}`}>
                 <DropdownMenuItem>
-                  <Settings className="h-4 w-4 mr-2" />
-                  Manage
+                  <Pencil className="h-4 w-4 mr-2" />
+                  Edit
                 </DropdownMenuItem>
               </Link>
             )}

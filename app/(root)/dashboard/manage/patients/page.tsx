@@ -15,7 +15,7 @@ const ManagePatientsPage = async () => {
     <div>
       <DataTable
         columns={columns}
-        data={patientList?.data}
+        data={patientList?.data?.length > 0 ? patientList?.data : []}
         query1="fullname"
         showCreate={
           user?.data?.role === "admin" || user?.data?.role === "receptionist"

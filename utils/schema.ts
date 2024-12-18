@@ -31,36 +31,36 @@ export const Patient = pgTable("patient", {
   doctorId: varchar("doctorId"), // doctor who prescribed medicine to the patient
   pharmacistId: varchar("pharmacistId"), // pharmacist who sold medicine to the patient
   addedBy: varchar("addedBy"), // receptionist or admin who added this patient - ok
+  updatedBy: varchar("updatedBy"),
 
   firstname: varchar("firstname"), //ok
   lastname: varchar("lastname"), //ok
   fullname: varchar("fullname"), //ok
   email: varchar("email"), //ok
-  imageUrl: varchar("imageUrl"),
+  imageUrl: varchar("imageUrl"), //ok
   gender: varchar("gender"), //ok
   age: integer("age"), //ok
-  address: varchar("address"),
-  contact: varchar("contact"),
-  occupation: varchar("occupation"),
-  emergencyContactName: varchar("emergencyContactName"),
-  emergencyContactNumber: varchar("emergencyContactNumber"),
-  insuranceProvider: varchar("insuranceProvider"),
-  insurancePolicyNumber: varchar("insurancePolicyNumber"),
-  identificationCardType: varchar("identificationCardType"),
-  identificationCardNumber: varchar("identificationCardNumber"),
-  identificationImageUrl: varchar("identificationImageUrl"),
+  address: varchar("address"), //ok
+  contact: varchar("contact"), //ok
+  occupation: varchar("occupation"), //ok
+  emergencyContactName: varchar("emergencyContactName"), //ok
+  emergencyContactNumber: varchar("emergencyContactNumber"), //ok
+  insuranceProvider: varchar("insuranceProvider"), //ok
+  insurancePolicyNumber: varchar("insurancePolicyNumber"), //ok
+  identificationCardType: varchar("identificationCardType"), //ok
+  identificationCardNumber: varchar("identificationCardNumber"), //ok
 
   conditionName: varchar("conditionName"), //ok
-  conditionDescription: varchar("conditionDescription"),
-  conditionSeverity: varchar("conditionSeverity"),
-  allergies: varchar("allergies"),
-  familyMedicalHistory: varchar("familyMedicalHistory"),
+  conditionDescription: varchar("conditionDescription"), //ok
+  conditionSeverity: varchar("conditionSeverity"), //ok
+  allergies: varchar("allergies"), //ok
+  familyMedicalHistory: varchar("familyMedicalHistory"), //ok
 
   medicines: text("medicines")
     .array()
     .default(sql`'{}'::text[]`), // list of medicine ids bought by this patient
   totalSales: numeric("totalSales"), // total sales generated from the bought medicines
 
-  createdAt: varchar("createdAt"),
+  createdAt: varchar("createdAt"), //ok
   updatedAt: varchar("updatedAt"),
 });

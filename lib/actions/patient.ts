@@ -86,6 +86,71 @@ export const updatePatientAvatar = async (
   }
 };
 
+export const updatePatientInfoByReceptionistOrAdmin = async (
+  state: unknown,
+  patientId: string,
+  form: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    gender: string;
+    age: string;
+    address: string;
+    contact: string;
+    occupation: string;
+    emergencyContactName: string;
+    emergencyContactNumber: string;
+    insuranceProvider: string;
+    insurancePolicyNumber: string;
+    identificationCardType: string;
+    identificationCardNumber: string;
+    conditionName: string;
+    conditionDescription: string;
+    conditionSeverity: string;
+    allergies: string;
+    familyMedicalHistory: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+) => {
+  try {
+    const data = await db
+      .update(Patient)
+      .set({
+        firstname: form.firstname,
+        lastname: form.lastname,
+        fullname: form.firstname + " " + form.lastname,
+        email: form.email,
+        gender: form.gender,
+        age: Number(form.age),
+        address: form.address,
+        contact: form.contact,
+        occupation: form.occupation,
+        emergencyContactName: form.emergencyContactName,
+        emergencyContactNumber: form.emergencyContactNumber,
+        insuranceProvider: form.insuranceProvider,
+        insurancePolicyNumber: form.insurancePolicyNumber,
+        identificationCardType: form.identificationCardType,
+        identificationCardNumber: form.identificationCardNumber,
+        conditionName: form.conditionName,
+        conditionDescription: form.conditionDescription,
+        conditionSeverity: form.conditionSeverity,
+        allergies: form.allergies,
+        familyMedicalHistory: form.familyMedicalHistory,
+        createdAt: form.createdAt,
+        updatedAt: form.updatedAt,
+      })
+      .where(eq(Patient.patientId, patientId));
+
+    if (data) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 const handleError = (error: unknown) => {
   console.log("Internal error: ", error);
   return parseStringify({ data: null });

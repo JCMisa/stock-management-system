@@ -22,7 +22,7 @@ const CreatePatientPage = async ({
       </Link>
       <div className="flex h-screen max-h-screen">
         <section className="remove-scrollbar relative flex-1 overflow-y-auto">
-          <div className="flex size-full flex-col py-10 max-w-[860px] flex-1">
+          <div className="flex size-full flex-col py-10 max-w-[98%] flex-1">
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
