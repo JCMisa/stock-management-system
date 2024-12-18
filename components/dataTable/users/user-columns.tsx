@@ -18,7 +18,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
 import { getUserByEmail } from "@/lib/actions/user";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";

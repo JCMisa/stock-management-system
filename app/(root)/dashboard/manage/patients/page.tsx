@@ -1,5 +1,5 @@
-import { columns } from "@/components/dataTable/patient-columns";
-import { DataTable } from "@/components/dataTable/patient-data-table";
+import { columns } from "@/components/dataTable/patients/patient-columns";
+import { DataTable } from "@/components/dataTable/patients/patient-data-table";
 import { getAllPatients } from "@/lib/actions/patient";
 import { getCurrentUser } from "@/lib/actions/user";
 import { redirect } from "next/navigation";

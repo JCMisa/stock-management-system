@@ -1,5 +1,5 @@
-import { DataTable } from "@/components/dataTable/data-table";
-import { columns } from "@/components/dataTable/user-columns";
+import { DataTable } from "@/components/dataTable/users/user-data-table";
+import { columns } from "@/components/dataTable/users/user-columns";
 import { getAllUser, getCurrentUser } from "@/lib/actions/user";
 import { redirect } from "next/navigation";
 import React from "react";

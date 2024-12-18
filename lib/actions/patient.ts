@@ -49,6 +49,7 @@ export const createPatientLayout = async (
       addedBy: addedBy,
       firstname: form.firstname,
       lastname: form.lastname,
+      fullname: form.firstname + " " + form.lastname,
       email: form.email,
       conditionName: form.conditionName,
       age: Number(form.age),
