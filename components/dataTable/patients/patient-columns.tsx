@@ -21,6 +21,7 @@ import { getUserByEmail } from "@/lib/actions/user";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
+import DeletePatient from "@/app/(root)/dashboard/manage/patients/_components/DeletePatient";
 
 const CurrentUserRole = () => {
   const { user } = useUser();
@@ -253,12 +254,15 @@ export const columns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {(userRole === "admin" || userRole === "receptionist") && (
-              <Link href={`/dashboard/manage/patients/create/${patientId}`}>
-                <DropdownMenuItem>
-                  <Pencil className="h-4 w-4 mr-2" />
-                  Edit
-                </DropdownMenuItem>
-              </Link>
+              <>
+                <Link href={`/dashboard/manage/patients/create/${patientId}`}>
+                  <DropdownMenuItem>
+                    <Pencil className="h-4 w-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                </Link>
+                <DeletePatient patientId={patientId as string} />
+              </>
             )}
             <Link href={`/dashboard/profile/${patientId}`}>
               <DropdownMenuItem>

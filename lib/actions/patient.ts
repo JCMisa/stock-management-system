@@ -2,7 +2,7 @@
 
 import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
-import { Patient } from "@/utils/schema";
+import { Appointment, Patient } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 
 export const getAllPatients = async () => {
@@ -148,6 +148,26 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
 
     if (data) {
       return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const deletePatient = async (patientId: string) => {
+  try {
+    const data = await db
+      .delete(Patient)
+      .where(eq(Patient.patientId, patientId));
+    if (data) {
+      const deleteAppointment = await db //delete also the appointment when patient was deleted
+        .delete(Appointment)
+        .where(eq(Appointment.patientId, patientId));
+
+      if (deleteAppointment) {
+        return parseStringify({ data: data });
+      }
     }
     return parseStringify({ data: null });
   } catch (error) {
