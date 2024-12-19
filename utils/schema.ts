@@ -28,7 +28,7 @@ export const User = pgTable("user", {
 export const Patient = pgTable("patient", {
   id: serial("id").primaryKey(),
   patientId: varchar("patientId").notNull(), //ok
-  doctorId: varchar("doctorId"), // doctor who prescribed medicine to the patient
+  doctorId: varchar("doctorId"), // doctor who prescribed medicine to the patient - ok
   pharmacistId: varchar("pharmacistId"), // pharmacist who sold medicine to the patient
   addedBy: varchar("addedBy"), // receptionist or admin who added this patient - ok
   updatedBy: varchar("updatedBy"),
@@ -56,6 +56,8 @@ export const Patient = pgTable("patient", {
   allergies: varchar("allergies"), //ok
   familyMedicalHistory: varchar("familyMedicalHistory"), //ok
 
+  prescription: text("prescription"), //ok
+
   medicines: text("medicines")
     .array()
     .default(sql`'{}'::text[]`), // list of medicine ids bought by this patient
@@ -63,4 +65,18 @@ export const Patient = pgTable("patient", {
 
   createdAt: varchar("createdAt"), //ok
   updatedAt: varchar("updatedAt"),
+});
+
+export const Appointment = pgTable("appointment", {
+  id: serial("id").primaryKey(),
+  appointmentId: varchar("appointmentId"),
+  patientId: varchar("patientId"),
+  doctorId: varchar("doctorId"),
+  patientName: varchar("patientName"),
+  doctorName: varchar("doctorName"),
+  reason: varchar("reason"),
+  status: varchar("status").default("pending"),
+  timeStart: varchar("timeStart"),
+  timeEnd: varchar("timeEnd"),
+  createdAt: varchar("createdAt"),
 });

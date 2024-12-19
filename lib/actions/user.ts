@@ -67,6 +67,16 @@ export const getUserByEmail = async (userEmail: string) => {
   }
 };
 
+export const getAllDoctors = async () => {
+  try {
+    const data = await db.select().from(User).where(eq(User.role, "doctor"));
+    if (data?.length > 0) return parseStringify({ data: data });
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const createUser = async (
   userId: string,
   email: string,

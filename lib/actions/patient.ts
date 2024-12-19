@@ -90,6 +90,7 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
   state: unknown,
   patientId: string,
   form: {
+    doctorId: string;
     firstname: string;
     lastname: string;
     email: string;
@@ -109,6 +110,7 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
     conditionSeverity: string;
     allergies: string;
     familyMedicalHistory: string;
+    prescription: string;
     createdAt: string;
     updatedAt: string;
   }
@@ -117,6 +119,7 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
     const data = await db
       .update(Patient)
       .set({
+        doctorId: form.doctorId,
         firstname: form.firstname,
         lastname: form.lastname,
         fullname: form.firstname + " " + form.lastname,
@@ -137,6 +140,7 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
         conditionSeverity: form.conditionSeverity,
         allergies: form.allergies,
         familyMedicalHistory: form.familyMedicalHistory,
+        prescription: form.prescription,
         createdAt: form.createdAt,
         updatedAt: form.updatedAt,
       })

@@ -43,6 +43,7 @@ declare interface PatientType {
   conditionSeverity: string;
   allergies: string;
   familyMedicalHistory: string;
+  prescription: string;
   medicines: string[];
   totalSales: number;
   createdAt: string;

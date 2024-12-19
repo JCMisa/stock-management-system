@@ -25,11 +25,16 @@ import { IdentificationTypes } from "@/constants";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { getAllDoctors } from "@/lib/actions/user";
+import Image from "next/image";
+import { addAppointment } from "@/lib/actions/appointment";
+import { v4 as uuidv4 } from "uuid";
 
 const CreatePatientForm = ({ patientId }: { patientId: string }) => {
   const router = useRouter();
 
   const [patientLayout, setPatientLayout] = useState<any>();
+  const [doctorsList, setDoctorsList] = useState<UserType[]>([]);
   const [gender, setGender] = useState<string>(patientLayout?.gender);
   const [severity, setSeverity] = useState<string>(
     patientLayout?.conditionSeverity
@@ -37,6 +42,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
   const [identificationCardType, setIdentificationCardType] = useState<string>(
     patientLayout?.identificationCardType
   );
+  const [doctorId, setDoctorId] = useState<string>(patientLayout?.doctorId);
 
   // for input with multiple values
   const [allergiesInputValue, setAllergiesInputValue] = useState<string>("");
@@ -59,6 +65,27 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
     setAllergiesArray((prevArray) => prevArray.filter((_, i) => i !== index));
   };
   // for input with multiple values
+
+  // to get all doctors in database
+  const getDoctorsList = async () => {
+    try {
+      const result = await getAllDoctors();
+      if (result?.data !== null) {
+        setDoctorsList(result?.data);
+      }
+    } catch {
+      toast(
+        <p className="font-bold text-sm text-red-500">
+          Internal error occured while fetching all doctors
+        </p>
+      );
+    }
+  };
+
+  useEffect(() => {
+    getDoctorsList();
+  }, []);
+  // to get all doctors in database
 
   const getPatient = async () => {
     try {
@@ -86,8 +113,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
         identificationCardType || patientLayout?.identificationCardType;
       const finalConditionSeverity =
         severity || patientLayout?.conditionSeverity;
+      const finalDoctorId = doctorId || patientLayout?.doctorId;
 
       const formField = {
+        doctorId: finalDoctorId as string,
         firstname: formData.get("firstname") as string,
         lastname: formData.get("lastname") as string,
         email: formData.get("email") as string,
@@ -111,10 +140,12 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
         conditionSeverity: finalConditionSeverity as string,
         allergies: allergiesArray.join(", "),
         familyMedicalHistory: formData.get("familyMedicalHistory") as string,
+        prescription: formData.get("prescription") as string,
         createdAt: moment().format("MM-DD-YYYY") as string,
         updatedAt: moment().format("MM-DD-YYYY") as string,
       };
 
+      // add patient information
       const result = await updatePatientInfoByReceptionistOrAdmin(
         prevState,
         patientId,
@@ -128,6 +159,26 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
           </p>
         );
         router.push("/dashboard/manage/patients");
+      }
+
+      // add patient to appointment table with their doctor
+      const appointmentId = uuidv4();
+      const result2 = await addAppointment(
+        appointmentId,
+        patientId,
+        doctorId || patientLayout?.doctorId,
+        formData.get("firstname") + " " + formData.get("lastname"),
+        formData.get("conditionName") as string,
+        "pending",
+        moment().format("MM-DD-YYYY")
+      );
+
+      if (result2?.data !== null) {
+        toast(
+          <p className="font-bold text-sm text-green-500">
+            Patient appointment scheduled successfully
+          </p>
+        );
       }
     } catch (error) {
       toast(
@@ -496,6 +547,73 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               />
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* assign to doctor */}
+      <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary">
+        <h1 className="text-center text-2xl font-bold py-3">Doctor</h1>
+        <Separator className="border border-dark-200" />
+        <div className="flex flex-col gap-1 w-full">
+          <label htmlFor="prescription" className="text-xs text-gray-400">
+            Assign a Doctor for the patient
+          </label>
+          <Select
+            onValueChange={(value) => setDoctorId(value)}
+            defaultValue={patientLayout?.doctorId}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a Doctor" />
+            </SelectTrigger>
+            <SelectContent>
+              {doctorsList?.length > 0 &&
+                doctorsList?.map((doctor: UserType) => (
+                  <SelectItem key={doctor?.id} value={doctor?.userId}>
+                    <div className="flex items-center gap-2">
+                      {doctor?.imageUrl ? (
+                        <Image
+                          src={doctor?.imageUrl}
+                          alt="avatar"
+                          width={1000}
+                          height={1000}
+                          className="w-10 h-10 rounded-full"
+                        />
+                      ) : (
+                        <Image
+                          src={"/empty-img.png"}
+                          alt="avatar"
+                          width={1000}
+                          height={1000}
+                          className="w-10 h-10 rounded-full"
+                        />
+                      )}
+
+                      <p>
+                        {doctor?.firstname} {doctor?.lastname}
+                      </p>
+                    </div>
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* prescription */}
+      <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary">
+        <h1 className="text-center text-2xl font-bold py-3">Prescription</h1>
+        <Separator className="border border-dark-200" />
+        <div className="flex flex-col gap-1 w-full">
+          <label htmlFor="prescription" className="text-xs text-gray-400">
+            Provide Prescriptions
+          </label>
+          <Textarea
+            rows={5}
+            id="prescription"
+            name="prescription"
+            defaultValue={patientLayout?.prescription}
+            placeholder="Enter prescriptions here..."
+          />
         </div>
       </div>
 
