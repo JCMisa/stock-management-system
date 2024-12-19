@@ -5,6 +5,7 @@
 import {
   ChartBarIncreasing,
   Cross,
+  FileHeart,
   LayoutGrid,
   Newspaper,
   Pill,
@@ -79,6 +80,12 @@ const DashboardSidebar = () => {
           label: "Medicines",
           href: "/dashboard/manage/medicines",
           visible: ["admin", "doctor", "receptionist", "pharmacist"],
+        },
+        {
+          icon: FileHeart,
+          label: "Appointments",
+          href: "/dashboard/manage/appointments",
+          visible: ["admin", "doctor"],
         },
       ],
     },

@@ -29,6 +29,7 @@ import { getAllDoctors } from "@/lib/actions/user";
 import Image from "next/image";
 import { addAppointment } from "@/lib/actions/appointment";
 import { v4 as uuidv4 } from "uuid";
+import "react-quill-new/dist/quill.snow.css";
 
 const CreatePatientForm = ({ patientId }: { patientId: string }) => {
   const router = useRouter();
@@ -140,7 +141,6 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
         conditionSeverity: finalConditionSeverity as string,
         allergies: allergiesArray.join(", "),
         familyMedicalHistory: formData.get("familyMedicalHistory") as string,
-        prescription: formData.get("prescription") as string,
         createdAt: moment().format("MM-DD-YYYY") as string,
         updatedAt: moment().format("MM-DD-YYYY") as string,
       };
@@ -596,24 +596,6 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 ))}
             </SelectContent>
           </Select>
-        </div>
-      </div>
-
-      {/* prescription */}
-      <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary">
-        <h1 className="text-center text-2xl font-bold py-3">Prescription</h1>
-        <Separator className="border border-dark-200" />
-        <div className="flex flex-col gap-1 w-full">
-          <label htmlFor="prescription" className="text-xs text-gray-400">
-            Provide Prescriptions
-          </label>
-          <Textarea
-            rows={5}
-            id="prescription"
-            name="prescription"
-            defaultValue={patientLayout?.prescription}
-            placeholder="Enter prescriptions here..."
-          />
         </div>
       </div>
 

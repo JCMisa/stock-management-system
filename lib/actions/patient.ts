@@ -110,7 +110,6 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
     conditionSeverity: string;
     allergies: string;
     familyMedicalHistory: string;
-    prescription: string;
     createdAt: string;
     updatedAt: string;
   }
@@ -140,9 +139,29 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
         conditionSeverity: form.conditionSeverity,
         allergies: form.allergies,
         familyMedicalHistory: form.familyMedicalHistory,
-        prescription: form.prescription,
         createdAt: form.createdAt,
         updatedAt: form.updatedAt,
+      })
+      .where(eq(Patient.patientId, patientId));
+
+    if (data) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const updatePrescription = async (
+  patientId: string,
+  prescription: string
+) => {
+  try {
+    const data = await db
+      .update(Patient)
+      .set({
+        prescription: prescription,
       })
       .where(eq(Patient.patientId, patientId));
 

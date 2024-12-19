@@ -49,3 +49,17 @@ declare interface PatientType {
   createdAt: string;
   updatedAt: string;
 }
+
+declare interface AppointmentType {
+  id: number;
+  appointmentId: string;
+  patientId: string;
+  doctorId: string;
+  patientName: string;
+  doctorName: string;
+  reason: string;
+  status: string;
+  timeStart: string;
+  timeEnd: string;
+  createdAt: string;
+}
