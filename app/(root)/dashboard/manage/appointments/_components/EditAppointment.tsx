@@ -33,7 +33,9 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
   const [appointment, setAppointment] = useState<AppointmentType>();
   const [patient, setPatient] = useState<PatientType>();
   const [status, setStatus] = useState<string>(appointment?.status as string);
-  const [prescription, setPrescription] = useState<string>("");
+  const [prescription, setPrescription] = useState<string>(
+    patient?.prescription as string
+  );
 
   const handleQuillChange = (value: string) => {
     setPrescription(value);

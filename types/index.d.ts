@@ -63,3 +63,33 @@ declare interface AppointmentType {
   timeEnd: string;
   createdAt: string;
 }
+
+declare interface MedicineType {
+  id: number;
+  addedBy: string;
+  createdAt: string;
+  medicineId: string;
+  name: string;
+  brand: string;
+  category: string;
+  activeIngredients: string[];
+  dosage: string;
+  form: string;
+  unitsPerPackage: string;
+  storageCondition: string;
+  expiryDate: string;
+  stockQuantity: string;
+  reorderLevel: string;
+  supplier: string;
+  batchNumber: string;
+  costPrice: number;
+  sellingPrice: number;
+  discount: number;
+  prescriptionRequired: boolean;
+  fdaApproved: boolean;
+  usageWarnings: string;
+  sideEffects: string;
+  usageInstructions: string;
+  imageUrl?: string;
+  notes?: string;
+}

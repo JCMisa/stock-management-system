@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   integer,
   numeric,
   pgTable,
@@ -79,4 +80,50 @@ export const Appointment = pgTable("appointment", {
   timeStart: varchar("timeStart"),
   timeEnd: varchar("timeEnd"),
   createdAt: varchar("createdAt"),
+});
+
+export const Medicine = pgTable("medicine", {
+  id: serial("id").primaryKey(),
+  addedBy: varchar("addedBy"), //ok
+  createdAt: varchar("createdAt"), //ok
+
+  // basic information
+  medicineId: varchar("medicineId"), //ok
+  name: varchar("name"), //ok
+  brand: varchar("brand"), //ok
+  category: varchar("category"), // antibiotic or what - ok
+
+  // composition and dosage
+  activeIngredients: text("activeIngredients").array(), //ok
+  dosage: varchar("dosage"), // in ml - ok
+  form: varchar("form"), // tablet | capsule | syrup - ok
+
+  // packaging and storage
+  unitsPerPackage: varchar("unitsPerPackage"), // how many units per package, ml if syrup - ok
+  storageCondition: varchar("storageCondition"), // room temperature | refrigeration - ok
+  expiryDate: varchar("expiryDate"), //ok
+
+  // inventory management
+  stockQuantity: integer("stockQuantity"), // how many in total are there in the inventory - ok
+  reorderLevel: integer("reorderLevel"), // quantity level of medicine inventory where you need to re order again - ok
+  supplier: varchar("supplier"), // name of supplier - ok
+  batchNumber: varchar("batchNumber"), //ok
+
+  // financial information
+  costPrice: integer("costPrice"), //ok
+  sellingPrice: integer("sellingPrice"), //ok
+  discount: integer("discount"), //ok
+
+  // regulatory information
+  prescriptionRequired: boolean("prescriptionRequired").default(true), //ok
+  fdaApproved: boolean("fdaApproved").default(true), //ok
+  usageWarnings: text("usageWarnings"), //ok
+
+  // addtional information
+  sideEffects: text("sideEffects"), //ok
+  usageInstructions: text("usageInstructions"), //ok
+
+  // optional
+  imageUrl: varchar("imageUrl"),
+  notes: text("notes"), //ok
 });

@@ -25,7 +25,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import AddPatientLayout from "@/app/(root)/dashboard/manage/patients/_components/AddPatientLayout";
+import Link from "next/link";
+import { PlusCircle } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -76,7 +77,14 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        {showCreate && "Appointments List"}
+        {showCreate && (
+          <Link
+            href={"/dashboard/manage/medicines/create"}
+            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-100 transition-all cursor-pointer p-3 px-5 min-w-40 max-w-40 rounded-lg"
+          >
+            <PlusCircle className="w-5 h-5" /> Create
+          </Link>
+        )}
       </div>
       <div className="rounded-md bg-dark-100">
         <Table>
