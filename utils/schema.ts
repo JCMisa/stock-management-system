@@ -1,6 +1,5 @@
 import { sql } from "drizzle-orm";
 import {
-  boolean,
   integer,
   numeric,
   pgTable,
@@ -115,8 +114,8 @@ export const Medicine = pgTable("medicine", {
   discount: integer("discount"), //ok
 
   // regulatory information
-  prescriptionRequired: boolean("prescriptionRequired").default(true), //ok
-  fdaApproved: boolean("fdaApproved").default(true), //ok
+  prescriptionRequired: varchar("prescriptionRequired"), //ok
+  fdaApproved: varchar("fdaApproved"), //ok
   usageWarnings: text("usageWarnings"), //ok
 
   // addtional information
@@ -124,6 +123,6 @@ export const Medicine = pgTable("medicine", {
   usageInstructions: text("usageInstructions"), //ok
 
   // optional
-  imageUrl: varchar("imageUrl"),
+  imageUrl: varchar("imageUrl"), //ok
   notes: text("notes"), //ok
 });

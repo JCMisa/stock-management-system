@@ -12,23 +12,27 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { deletePatient } from "@/lib/actions/patient";
+import { deleteMedicine } from "@/lib/actions/medicine";
+import { useRouter } from "next/navigation";
 
-const DeletePatient = ({ patientId }: { patientId: string }) => {
+const DeleteMedicine = ({ medicineId }: { medicineId: string }) => {
+  const router = useRouter();
+
   const handleDelete = async () => {
     try {
-      const result = await deletePatient(patientId);
+      const result = await deleteMedicine(medicineId);
       if (result?.data !== null) {
         toast(
           <p className="font-bold text-sm text-green-500">
-            Patient deleted successfully
+            Medicine deleted successfully
           </p>
         );
+        router.push("/dashboard/manage/medicines");
       }
     } catch {
       toast(
         <p className="font-bold text-sm text-red-500">
-          Internal error occured while deleting the patient
+          Internal error occured while deleting the medicine
         </p>
       );
     }
@@ -46,7 +50,7 @@ const DeletePatient = ({ patientId }: { patientId: string }) => {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete this
-            patient and remove related data from our servers.
+            medicine and remove related data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -63,4 +67,4 @@ const DeletePatient = ({ patientId }: { patientId: string }) => {
   );
 };
 
-export default DeletePatient;
+export default DeleteMedicine;

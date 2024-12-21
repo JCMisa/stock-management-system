@@ -300,11 +300,13 @@ export const columns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row }) => {
-      const isFdaApproved = row.getValue("fdaApproved") as boolean;
+      const isFdaApproved = row.getValue("fdaApproved");
 
       return (
-        <Badge className={cn("bg-dark-100", isFdaApproved && "bg-primary")}>
-          {isFdaApproved === true ? "FDA Approved" : "Not FDA Approved"}
+        <Badge
+          className={cn("bg-red-500", isFdaApproved === "true" && "bg-primary")}
+        >
+          {isFdaApproved === "true" ? "FDA Approved" : "Not FDA Approved"}
         </Badge>
       );
     },
@@ -326,7 +328,7 @@ export const columns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {(userRole === "admin" || userRole === "pharmacist") && (
-              <Link href={`/dashboard/profile/edit/${medicineId}`}>
+              <Link href={`/dashboard/manage/medicines/edit/${medicineId}`}>
                 <DropdownMenuItem>
                   <Settings className="h-4 w-4 mr-2" />
                   Manage

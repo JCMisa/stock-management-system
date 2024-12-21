@@ -12,29 +12,41 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { medicineCategories } from "@/constants";
-import { createMedicine } from "@/lib/actions/medicine";
-import { getCurrentUser } from "@/lib/actions/user";
-import { LoaderCircle, Send, X } from "lucide-react";
-import moment from "moment";
-import { useRouter } from "next/navigation";
+import {
+  getMedicineByMedicineId,
+  updateMedicine,
+} from "@/lib/actions/medicine";
+import { LoaderCircle, Pencil, X } from "lucide-react";
 import React, { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { v4 as uuidv4 } from "uuid";
+import UploadMedicineImage from "./UploadMedicineImage";
+import { useRouter } from "next/navigation";
+import DeleteMedicine from "./DeleteMedicine";
 
-const CreateMedicineForm = () => {
+const UpdateMedicineForm = ({ medicineId }: { medicineId: string }) => {
   const router = useRouter();
 
-  const [currentUser, setCurrentUser] = useState<UserType>();
+  const [medicine, setMedicine] = useState<MedicineType>();
 
-  const [category, setCategory] = useState<string>("");
-  const [form, setForm] = useState<string>("");
-  const [storageCondition, setStorageCondition] = useState<string>("");
-  const [prescriptionRequired, setPrescriptionRequired] = useState<string>(""); // convert to boolean before passing to db
-  const [fdaApproved, setFdaApproved] = useState<string>(""); // convert to boolean before passing to db
+  const [category, setCategory] = useState<string>(
+    medicine?.category as string
+  );
+  const [form, setForm] = useState<string>(medicine?.form as string);
+  const [storageCondition, setStorageCondition] = useState<string>(
+    medicine?.storageCondition as string
+  );
+  const [prescriptionRequired, setPrescriptionRequired] = useState<string>(
+    medicine?.prescriptionRequired as string
+  );
+  const [fdaApproved, setFdaApproved] = useState<string>(
+    medicine?.fdaApproved as string
+  );
 
   // for input with multiple values
   const [ingredients, setIngredients] = useState<string>("");
-  const [ingredientsArray, setIngredientsArray] = useState<string[]>([]); // stringify or join this first before assigning in the database
+  const [ingredientsArray, setIngredientsArray] = useState<string[]>(
+    (medicine?.activeIngredients as string[]) || []
+  ); // concat this to the medicine?.activeIngredients
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const lastChar = value.charAt(value.length - 1);
@@ -42,6 +54,7 @@ const CreateMedicineForm = () => {
       const trimmedValue = value.slice(0, -1).trim();
       if (trimmedValue) {
         setIngredientsArray((prevArray) => [...prevArray, trimmedValue]);
+        console.log(medicine?.activeIngredients.concat(ingredientsArray));
         console.log(ingredientsArray);
       }
       setIngredients("");
@@ -54,36 +67,45 @@ const CreateMedicineForm = () => {
   };
   // for input with multiple values
 
-  // get the current user
-  const getUser = async () => {
+  // for getting medicine record to update based on medicineId
+  const getMedicine = async () => {
     try {
-      const result = await getCurrentUser();
+      const result = await getMedicineByMedicineId(medicineId as string);
       if (result?.data !== null) {
-        setCurrentUser(result?.data);
+        setMedicine(result?.data);
       }
     } catch {
       toast(
         <p className="font-bold text-sm text-red-500">
-          Internal error occured whil fetching user
+          Error fetching medicine record. Please try again later.
         </p>
       );
     }
   };
 
   useEffect(() => {
-    getUser();
-  }, []);
-  // get the current user
+    getMedicine();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [medicineId]);
+  // for getting medicine record to update based on medicineId
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
     try {
-      const medicineId = uuidv4();
+      //   const finalCategory = category || medicine?.category;
+      //   const finalForm = form || medicine?.form;
+      //   const finalStorageCondition =
+      //     storageCondition || medicine?.storageCondition;
+      //   const finalPrescriptionRequired =
+      //     prescriptionRequired || medicine?.prescriptionRequired;
+      //   const finalFdaApproved = fdaApproved || medicine?.fdaApproved;
 
       const formField = {
         name: formData.get("name") as string,
         brand: formData.get("brand") as string,
         category: category as string,
-        activeIngredients: ingredientsArray as string[],
+        activeIngredients: medicine?.activeIngredients.concat(
+          ingredientsArray
+        ) as string[],
         dosage: formData.get("dosage") as string,
         form: form as string,
         unitsPerPackage: formData.get("unitsPerPackage") as string,
@@ -104,18 +126,12 @@ const CreateMedicineForm = () => {
         notes: formData.get("notes") as string,
       };
 
-      const result = await createMedicine(
-        prevState,
-        currentUser?.email as string,
-        moment().format("MM-DD-YYYY"),
-        medicineId,
-        formField
-      );
+      const result = await updateMedicine(prevState, medicineId, formField);
 
       if (result?.data !== null) {
         toast(
           <p className="font-bold text-sm text-green-500">
-            Medicine created successfully
+            Medicine updated successfully
           </p>
         );
 
@@ -124,7 +140,7 @@ const CreateMedicineForm = () => {
     } catch (error) {
       toast(
         <p className="font-bold text-sm text-red-500">
-          Internal error occured while creating the medicine.
+          Internal error occured while updating the medicine.
         </p>
       );
       console.log("create medicine error: ", error);
@@ -143,6 +159,15 @@ const CreateMedicineForm = () => {
       <div className="flex flex-col gap-2">
         <h1 className="text-center text-2xl font-bold">Basic Information</h1>
         <Separator className="border border-dark-200" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <UploadMedicineImage medicine={medicine} />
+            <span className="text-xs text-gray-400">
+              Click the image to update medicine image.
+            </span>
+          </div>
+          <DeleteMedicine medicineId={medicineId} />
+        </div>
         <div className="flex flex-col gap-4 mt-3">
           <div className="flex items-center justify-center gap-4 w-full mt-5">
             <div className="flex flex-col gap-1 w-full">
@@ -154,6 +179,7 @@ const CreateMedicineForm = () => {
                 id="name"
                 name="name"
                 placeholder="Enter medicine name"
+                defaultValue={medicine?.name}
               />
             </div>
             <div className="flex flex-col gap-1 w-full">
@@ -165,6 +191,7 @@ const CreateMedicineForm = () => {
                 id="brand"
                 name="brand"
                 placeholder="Enter medicine brand"
+                defaultValue={medicine?.brand}
               />
             </div>
           </div>
@@ -174,8 +201,9 @@ const CreateMedicineForm = () => {
             </label>
             <Select
               onValueChange={(value) =>
-                setCategory(value ? value : "Antibiotic")
+                setCategory(value ? value : (medicine?.category as string))
               }
+              defaultValue={medicine?.category}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Category" />
@@ -228,6 +256,15 @@ const CreateMedicineForm = () => {
                 className="bg-dark-100 mt-3"
                 placeholder="Add more ingredients"
               />
+              <div className="flex items-center gap-2 mt-1 w-full overflow-auto card-scroll">
+                {medicine?.activeIngredients?.map(
+                  (item: string, index: number) => (
+                    <p className="text-xs text-gray-400" key={index}>
+                      {item},
+                    </p>
+                  )
+                )}
+              </div>
               <div className="flex items-end justify-end mt-2">
                 <Button
                   className="bg-red-500 hover:bg-red-600 transition-all"
@@ -248,6 +285,7 @@ const CreateMedicineForm = () => {
                 id="dosage"
                 name="dosage"
                 placeholder="Enter medicine dosage"
+                defaultValue={medicine?.dosage}
               />
             </div>
             <div className="flex flex-col gap-1 w-full">
@@ -255,7 +293,10 @@ const CreateMedicineForm = () => {
                 Medicine Form
               </label>
               <Select
-                onValueChange={(value) => setForm(value ? value : "tablet")}
+                onValueChange={(value) =>
+                  setForm(value ? value : (medicine?.form as string))
+                }
+                defaultValue={medicine?.form}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Form" />
@@ -283,7 +324,12 @@ const CreateMedicineForm = () => {
               <label htmlFor="" className="text-xs text-gray-400">
                 How many units per package?
               </label>
-              <Input type="text" id="unitsPerPackage" name="unitsPerPackage" />
+              <Input
+                type="text"
+                id="unitsPerPackage"
+                name="unitsPerPackage"
+                defaultValue={medicine?.unitsPerPackage}
+              />
             </div>
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="" className="text-xs text-gray-400">
@@ -291,8 +337,11 @@ const CreateMedicineForm = () => {
               </label>
               <Select
                 onValueChange={(value) =>
-                  setStorageCondition(value ? value : "room temperature")
+                  setStorageCondition(
+                    value ? value : (medicine?.storageCondition as string)
+                  )
                 }
+                defaultValue={medicine?.storageCondition}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Temperature" />
@@ -310,7 +359,15 @@ const CreateMedicineForm = () => {
             <label htmlFor="" className="text-xs text-gray-400">
               Expiration Date
             </label>
-            <Input type="date" id="expiryDate" name="expiryDate" />
+            <Input
+              type="date"
+              id="expiryDate"
+              name="expiryDate"
+              defaultValue={medicine?.expiryDate}
+            />
+            <span className="text-xs text-gray-400">
+              {medicine?.expiryDate}
+            </span>
           </div>
         </div>
       </div>
@@ -325,13 +382,23 @@ const CreateMedicineForm = () => {
               <label htmlFor="" className="text-xs text-gray-400">
                 Total stocks quantity
               </label>
-              <Input type="text" id="stockQuantity" name="stockQuantity" />
+              <Input
+                type="text"
+                id="stockQuantity"
+                name="stockQuantity"
+                defaultValue={medicine?.stockQuantity}
+              />
             </div>
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="" className="text-xs text-gray-400">
                 Stock quantity level before re-stocking
               </label>
-              <Input type="text" id="reorderLevel" name="reorderLevel" />
+              <Input
+                type="text"
+                id="reorderLevel"
+                name="reorderLevel"
+                defaultValue={medicine?.reorderLevel}
+              />
             </div>
           </div>
         </div>
@@ -342,13 +409,23 @@ const CreateMedicineForm = () => {
               <label htmlFor="" className="text-xs text-gray-400">
                 Supplier Name
               </label>
-              <Input type="text" id="supplier" name="supplier" />
+              <Input
+                type="text"
+                id="supplier"
+                name="supplier"
+                defaultValue={medicine?.supplier}
+              />
             </div>
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="" className="text-xs text-gray-400">
                 Batch No.
               </label>
-              <Input type="text" id="batchNumber" name="batchNumber" />
+              <Input
+                type="text"
+                id="batchNumber"
+                name="batchNumber"
+                defaultValue={medicine?.batchNumber}
+              />
             </div>
           </div>
         </div>
@@ -366,13 +443,23 @@ const CreateMedicineForm = () => {
               <label htmlFor="" className="text-xs text-gray-400">
                 Cost Price
               </label>
-              <Input type="text" id="costPrice" name="costPrice" />
+              <Input
+                type="text"
+                id="costPrice"
+                name="costPrice"
+                defaultValue={medicine?.costPrice}
+              />
             </div>
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="" className="text-xs text-gray-400">
                 Selling Price
               </label>
-              <Input type="text" id="sellingPrice" name="sellingPrice" />
+              <Input
+                type="text"
+                id="sellingPrice"
+                name="sellingPrice"
+                defaultValue={medicine?.sellingPrice}
+              />
             </div>
           </div>
         </div>
@@ -380,7 +467,12 @@ const CreateMedicineForm = () => {
           <label htmlFor="" className="text-xs text-gray-400">
             Discount (if any)
           </label>
-          <Input type="text" id="discount" name="discount" />
+          <Input
+            type="text"
+            id="discount"
+            name="discount"
+            defaultValue={medicine?.discount}
+          />
         </div>
       </div>
 
@@ -398,11 +490,14 @@ const CreateMedicineForm = () => {
               </label>
               <Select
                 onValueChange={(value) =>
-                  setPrescriptionRequired(value ? value : "true")
+                  setPrescriptionRequired(
+                    value ? value : (medicine?.prescriptionRequired as string)
+                  )
                 }
+                defaultValue={medicine?.prescriptionRequired}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Needs prescription" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={"true"}>Needs prescription</SelectItem>
@@ -418,11 +513,14 @@ const CreateMedicineForm = () => {
               </label>
               <Select
                 onValueChange={(value) =>
-                  setFdaApproved(value ? value : "true")
+                  setFdaApproved(
+                    value ? value : (medicine?.fdaApproved as string)
+                  )
                 }
+                defaultValue={medicine?.fdaApproved}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="FDA Approved" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={"true"}>FDA Approved</SelectItem>
@@ -441,6 +539,7 @@ const CreateMedicineForm = () => {
             id="usageWarnings"
             name="usageWarnings"
             placeholder="Enter usage warnings..."
+            defaultValue={medicine?.usageWarnings}
           />
         </div>
       </div>
@@ -461,6 +560,7 @@ const CreateMedicineForm = () => {
               id="sideEffects"
               name="sideEffects"
               placeholder="Enter side effects if any..."
+              defaultValue={medicine?.sideEffects}
             />
           </div>
           <div className="flex flex-col gap-1 w-full">
@@ -472,6 +572,7 @@ const CreateMedicineForm = () => {
               id="usageInstructions"
               name="usageInstructions"
               placeholder="Enter instructions here..."
+              defaultValue={medicine?.usageInstructions}
             />
           </div>
           <div className="flex flex-col gap-1 w-full">
@@ -483,6 +584,7 @@ const CreateMedicineForm = () => {
               id="notes"
               name="notes"
               placeholder="Enter additional notes..."
+              defaultValue={medicine?.notes}
             />
           </div>
         </div>
@@ -498,7 +600,7 @@ const CreateMedicineForm = () => {
             <LoaderCircle className="w-5 h-5 animate-spin" />
           ) : (
             <>
-              <Send className="w-5 h-5" /> Submit
+              <Pencil className="w-5 h-5" /> Save
             </>
           )}
         </Button>
@@ -507,4 +609,4 @@ const CreateMedicineForm = () => {
   );
 };
 
-export default CreateMedicineForm;
+export default UpdateMedicineForm;

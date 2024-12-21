@@ -85,8 +85,8 @@ declare interface MedicineType {
   costPrice: number;
   sellingPrice: number;
   discount: number;
-  prescriptionRequired: boolean;
-  fdaApproved: boolean;
+  prescriptionRequired: string;
+  fdaApproved: string;
   usageWarnings: string;
   sideEffects: string;
   usageInstructions: string;

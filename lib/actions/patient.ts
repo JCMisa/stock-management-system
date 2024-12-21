@@ -52,7 +52,7 @@ export const createPatientLayout = async (
       fullname: form.firstname + " " + form.lastname,
       email: form.email,
       conditionName: form.conditionName,
-      age: Number(form.age),
+      age: Number(form.age) || 0,
       gender: form.gender,
     });
 
@@ -124,7 +124,7 @@ export const updatePatientInfoByReceptionistOrAdmin = async (
         fullname: form.firstname + " " + form.lastname,
         email: form.email,
         gender: form.gender,
-        age: Number(form.age),
+        age: Number(form.age) || 0,
         address: form.address,
         contact: form.contact,
         occupation: form.occupation,
