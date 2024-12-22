@@ -101,17 +101,19 @@ export const Medicine = pgTable("medicine", {
   unitsPerPackage: varchar("unitsPerPackage"), // how many units per package, ml if syrup - ok
   storageCondition: varchar("storageCondition"), // room temperature | refrigeration - ok
   expiryDate: varchar("expiryDate"), //ok
+  expired: varchar("expired"), // tells if expired or not [value is either expired or not expired] - ok
 
   // inventory management
   stockQuantity: integer("stockQuantity"), // how many in total are there in the inventory - ok
   reorderLevel: integer("reorderLevel"), // quantity level of medicine inventory where you need to re order again - ok
   supplier: varchar("supplier"), // name of supplier - ok
   batchNumber: varchar("batchNumber"), //ok
+  // restock: varchar("restock"), // value is either [needed or not needed] - ok
 
   // financial information
-  costPrice: integer("costPrice"), //ok
-  sellingPrice: integer("sellingPrice"), //ok
-  discount: integer("discount"), //ok
+  costPrice: numeric({ precision: 100, scale: 2 }), //ok
+  sellingPrice: numeric({ precision: 100, scale: 2 }), //ok
+  discount: numeric({ precision: 100, scale: 2 }), //ok
 
   // regulatory information
   prescriptionRequired: varchar("prescriptionRequired"), //ok

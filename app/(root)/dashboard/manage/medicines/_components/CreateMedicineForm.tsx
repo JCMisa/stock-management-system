@@ -241,7 +241,7 @@ const CreateMedicineForm = () => {
           <div className="flex items-center justify-center gap-4 w-full">
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="" className="text-xs text-gray-400">
-                Dosage (in mL)
+                Dosage
               </label>
               <Input
                 type="text"
@@ -366,13 +366,23 @@ const CreateMedicineForm = () => {
               <label htmlFor="" className="text-xs text-gray-400">
                 Cost Price
               </label>
-              <Input type="text" id="costPrice" name="costPrice" />
+              <Input
+                type="number"
+                step="0.01"
+                id="costPrice"
+                name="costPrice"
+              />
             </div>
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="" className="text-xs text-gray-400">
                 Selling Price
               </label>
-              <Input type="text" id="sellingPrice" name="sellingPrice" />
+              <Input
+                type="number"
+                step="0.01"
+                id="sellingPrice"
+                name="sellingPrice"
+              />
             </div>
           </div>
         </div>
@@ -380,7 +390,7 @@ const CreateMedicineForm = () => {
           <label htmlFor="" className="text-xs text-gray-400">
             Discount (if any)
           </label>
-          <Input type="text" id="discount" name="discount" />
+          <Input type="number" step="0.01" id="discount" name="discount" />
         </div>
       </div>
 
@@ -402,7 +412,7 @@ const CreateMedicineForm = () => {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Needs prescription" />
+                  <SelectValue placeholder="Regulation" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={"true"}>Needs prescription</SelectItem>
@@ -422,7 +432,7 @@ const CreateMedicineForm = () => {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="FDA Approved" />
+                  <SelectValue placeholder="Regulation" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={"true"}>FDA Approved</SelectItem>

@@ -95,13 +95,13 @@ const DashboardSidebar = () => {
         {
           icon: ChartBarIncreasing,
           label: "Status",
-          href: "/inventory/status",
+          href: "/dashboard/inventory/status",
           visible: ["admin", "doctor", "receptionist", "pharmacist"],
         },
         {
           icon: SquareActivity,
           label: "Manage",
-          href: "/inventory/manage",
+          href: "/dashboard/inventory/manage",
           visible: ["admin", "pharmacist"],
         },
       ],

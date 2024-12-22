@@ -22,7 +22,6 @@ import { Badge } from "../../ui/badge";
 import { getUserByEmail } from "@/lib/actions/user";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import moment from "moment";
 
 const CurrentUserRole = () => {
   const { user } = useUser();
@@ -179,7 +178,7 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "expiryDate",
+    accessorKey: "expired",
     header: ({ column }) => {
       return (
         <Button
@@ -193,13 +192,9 @@ export const columns: ColumnDef<any>[] = [
       );
     },
     cell: ({ row }) => {
-      const expiration = row.getValue("expiryDate") as string;
-      const currentDate = moment().format("MM-DD-YYYY");
-      const formattedExpiration = moment(expiration).format("MM-DD-YYYY");
+      const expiration = row.getValue("expired") as string;
 
-      if (
-        moment(formattedExpiration, "MM-DD-YYYY").isBefore(currentDate, "day")
-      ) {
+      if (expiration === "expired") {
         return (
           <Badge className="bg-red-500 hover:bg-red-600 transition-all">
             Expired

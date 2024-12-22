@@ -444,7 +444,8 @@ const UpdateMedicineForm = ({ medicineId }: { medicineId: string }) => {
                 Cost Price
               </label>
               <Input
-                type="text"
+                type="number"
+                step="0.01"
                 id="costPrice"
                 name="costPrice"
                 defaultValue={medicine?.costPrice}
@@ -455,7 +456,8 @@ const UpdateMedicineForm = ({ medicineId }: { medicineId: string }) => {
                 Selling Price
               </label>
               <Input
-                type="text"
+                type="number"
+                step="0.01"
                 id="sellingPrice"
                 name="sellingPrice"
                 defaultValue={medicine?.sellingPrice}
@@ -468,7 +470,8 @@ const UpdateMedicineForm = ({ medicineId }: { medicineId: string }) => {
             Discount (if any)
           </label>
           <Input
-            type="text"
+            type="number"
+            step="0.01"
             id="discount"
             name="discount"
             defaultValue={medicine?.discount}

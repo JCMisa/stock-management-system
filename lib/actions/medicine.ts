@@ -63,6 +63,21 @@ export const createMedicine = async (
   }
 ) => {
   try {
+    const costPrice =
+      form.costPrice.trim() === ""
+        ? "0"
+        : parseFloat(form.costPrice).toFixed(2).toString();
+    const sellingPrice =
+      form.sellingPrice.trim() === ""
+        ? "0"
+        : parseFloat(form.sellingPrice).toFixed(2).toString();
+    const discount =
+      form.discount.trim() === ""
+        ? "0"
+        : parseFloat(form.discount).toFixed(2).toString();
+
+    const formattedExpiration = moment(form.expiryDate).format("MM-DD-YYYY");
+
     const data = await db.insert(Medicine).values({
       addedBy: addedBy,
       createdAt: createdAt,
@@ -76,13 +91,25 @@ export const createMedicine = async (
       unitsPerPackage: form.unitsPerPackage,
       storageCondition: form.storageCondition,
       expiryDate: moment(form.expiryDate).format("MM-DD-YYYY"),
+      expired: moment(formattedExpiration, "MM-DD-YYYY").isBefore(
+        //only if the user input date is before the date right now, then expired
+        moment().format("MM-DD-YYYY"),
+        "day"
+      )
+        ? "expired"
+        : "not expired",
       stockQuantity: parseInt(form.stockQuantity) || 0,
       reorderLevel: parseInt(form.reorderLevel) || 0,
       supplier: form.supplier,
       batchNumber: form.batchNumber,
-      costPrice: parseInt(form.costPrice) || 0,
-      sellingPrice: parseInt(form.sellingPrice) || 0,
-      discount: parseInt(form.discount) || 0,
+      // if the set stockQuantity is greater than the reorder level, then no needed, else needed
+      // restock:
+      //   Number(form.stockQuantity) > Number(form.reorderLevel)
+      //     ? "not needed"
+      //     : "needed",
+      costPrice: costPrice,
+      sellingPrice: sellingPrice,
+      discount: discount,
       prescriptionRequired: form.prescriptionRequired,
       fdaApproved: form.fdaApproved,
       usageWarnings: form.usageWarnings,
@@ -132,7 +159,28 @@ export const updateMedicine = async (
     const existingMedicine = await getMedicineByMedicineId(medicineId);
     const expiryDate = form.expiryDate
       ? moment(form.expiryDate).format("MM-DD-YYYY")
-      : existingMedicine.expiryDate;
+      : existingMedicine?.data?.expiryDate;
+
+    const costPrice =
+      form.costPrice.trim() === ""
+        ? "0"
+        : parseFloat(form.costPrice).toFixed(2).toString();
+    const sellingPrice =
+      form.sellingPrice.trim() === ""
+        ? "0"
+        : parseFloat(form.sellingPrice).toFixed(2).toString();
+    const discount =
+      form.discount.trim() === ""
+        ? "0"
+        : parseFloat(form.discount).toFixed(2).toString();
+
+    // const stockQuantity = form.stockQuantity
+    //   ? form.stockQuantity
+    //   : existingMedicine?.data?.stockQuantity;
+
+    //   const reorderLevel = form.reorderLevel
+    //     ? form.reorderLevel
+    //     : existingMedicine?.data?.reorderLevel;
 
     const data = await db
       .update(Medicine)
@@ -146,13 +194,37 @@ export const updateMedicine = async (
         unitsPerPackage: form.unitsPerPackage,
         storageCondition: form.storageCondition,
         expiryDate: expiryDate,
+        expired:
+          (form.expiryDate &&
+            moment(form.expiryDate).format("MM-DD-YYYY") !=
+              existingMedicine?.data?.expiryDate) ||
+          (!form.expiryDate &&
+            moment(existingMedicine?.data?.expiryDate, "MM-DD-YYYY").isAfter(
+              moment().format("MM-DD-YYYY")
+            )) ||
+          (form.expiryDate &&
+            moment(
+              moment(form.expiryDate).format("MM-DD-YYYY"),
+              "MM-DD-YYYY"
+            ).isAfter(moment().format("MM-DD-YYYY")))
+            ? moment(expiryDate, "MM-DD-YYYY").isBefore(
+                existingMedicine?.data?.expiryDate,
+                "day"
+              )
+              ? "expired"
+              : "not expired"
+            : "expired",
         stockQuantity: parseInt(form.stockQuantity) || 0,
         reorderLevel: parseInt(form.reorderLevel) || 0,
         supplier: form.supplier,
         batchNumber: form.batchNumber,
-        costPrice: parseInt(form.costPrice) || 0,
-        sellingPrice: parseInt(form.sellingPrice) || 0,
-        discount: parseInt(form.discount) || 0,
+        // restock:
+        //   Number(stockQuantity) > Number(reorderLevel)
+        //     ? "not needed"
+        //     : "needed",
+        costPrice: costPrice,
+        sellingPrice: sellingPrice,
+        discount: discount,
         prescriptionRequired: form.prescriptionRequired,
         fdaApproved: form.fdaApproved,
         usageWarnings: form.usageWarnings,
