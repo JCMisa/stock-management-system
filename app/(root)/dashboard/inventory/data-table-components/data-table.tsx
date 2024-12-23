@@ -121,6 +121,20 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 overflow-hidden">
+        <div className="p-3 flex gap-2 items-center">
+          <div className="min-h-5 max-h-5 rounded-lg min-w-5 max-w-5 bg-green-500" />
+          <p className="text-xs text-gray-400">Sufficient Stock</p>
+        </div>
+        <div className="p-3 flex gap-2 items-center">
+          <div className="min-h-5 max-h-5 rounded-lg min-w-5 max-w-5 bg-orange-500" />
+          <p className="text-xs text-gray-400">Warning Level</p>
+        </div>
+        <div className="p-3 flex gap-2 items-center">
+          <div className="min-h-5 max-h-5 rounded-lg min-w-5 max-w-5 bg-red-500" />
+          <p className="text-xs text-gray-400">Critical Level</p>
+        </div>
+      </div>
       <DataTablePagination table={table} />
     </div>
   );

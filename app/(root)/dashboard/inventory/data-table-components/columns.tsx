@@ -5,34 +5,58 @@ import { ColumnDef } from "@tanstack/react-table";
 // import { Medicine } from "./schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { formatCurrency } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { getUserByEmail } from "@/lib/actions/user";
+
+const CurrentUserRole = () => {
+  const { user } = useUser();
+  const [userRole, setUserRole] = useState("");
+
+  const getUserFromDb = async () => {
+    if (!user) return null;
+    const currentUser = await getUserByEmail(
+      user?.primaryEmailAddress?.emailAddress as string
+    );
+    setUserRole(currentUser?.data?.role);
+  };
+
+  useEffect(() => {
+    getUserFromDb();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  return userRole;
+};
 
 export const columns: ColumnDef<any>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-0.5"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-0.5"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //       className="translate-y-0.5"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //       className="translate-y-0.5"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "medicineId",
     header: ({ column }) => (
@@ -85,12 +109,16 @@ export const columns: ColumnDef<any>[] = [
 
       if (type === "expired") {
         return (
-          <Badge className="bg-red-500 hover:bg-red-600 transition-all">
+          <Badge className="bg-transparent text-red-500 hover:text-red-600 transition-all">
             Expired
           </Badge>
         );
       } else {
-        return <Badge>Not Expired</Badge>;
+        return (
+          <Badge className="bg-transparent text-green-500 hover:text-green-600 transition-all">
+            Not Expired
+          </Badge>
+        );
       }
     },
     filterFn: (row, id, value) => {
@@ -139,7 +167,31 @@ export const columns: ColumnDef<any>[] = [
     ),
   },
   {
+    accessorKey: "sellingPrice",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Price" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex w-[100px] items-center">
+        <span className="capitalize">
+          {" "}
+          {formatCurrency(Number(row.getValue("sellingPrice")))}
+        </span>
+      </div>
+    ),
+  },
+  {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => {
+      const userRole = CurrentUserRole();
+      const medicineId = row.getValue("medicineId");
+      return (
+        <DataTableRowActions
+          medicineId={medicineId as string}
+          userRole={userRole}
+          row={row}
+        />
+      );
+    },
   },
 ];

@@ -135,7 +135,7 @@ const UpdateMedicineForm = ({ medicineId }: { medicineId: string }) => {
           </p>
         );
 
-        router.push("/dashboard/manage/medicines");
+        router.back();
       }
     } catch (error) {
       toast(

@@ -10,7 +10,7 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 // import { CalendarDatePicker } from "@/components/calendar-date-picker";
 // import { useState } from "react";
 import { DataTableViewOptions } from "./data-table-view-options";
-import { LoaderCircle, TrashIcon } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -76,12 +76,12 @@ export function DataTableToolbar<TData>({
       </div>
 
       <div className="flex items-center gap-2">
-        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+        {/* {table.getFilteredSelectedRowModel().rows.length > 0 ? (
           <Button variant="outline" size="sm">
             <TrashIcon className="mr-2 size-4" aria-hidden="true" />
             Delete ({table.getFilteredSelectedRowModel().rows.length})
           </Button>
-        ) : null}
+        ) : null} */}
         <DataTableViewOptions table={table} />
       </div>
     </div>

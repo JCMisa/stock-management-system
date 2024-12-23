@@ -264,6 +264,27 @@ export const updateMedicineImage = async (
   }
 };
 
+export const updateStockQuantity = async (
+  medicineId: string,
+  stockCount: number
+) => {
+  try {
+    const data = await db
+      .update(Medicine)
+      .set({
+        stockQuantity: stockCount,
+      })
+      .where(eq(Medicine.medicineId, medicineId));
+
+    if (data) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const deleteMedicine = async (medicineId: string) => {
   try {
     const data = await db

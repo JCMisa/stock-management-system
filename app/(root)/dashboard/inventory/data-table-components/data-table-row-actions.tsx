@@ -8,16 +8,22 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import DeleteMedicine from "./delete-medicine";
+import Link from "next/link";
+import EditStocks from "./edit-stocks";
 
 interface DataTableRowActionsProps<TData> {
+  medicineId: string;
+  userRole: string;
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({
+  medicineId,
+  userRole,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   row,
 }: DataTableRowActionsProps<TData>) {
@@ -35,14 +41,20 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        {(userRole === "admin" || userRole === "pharmacist") && (
+          <Link href={`/dashboard/manage/medicines/edit/${medicineId}`}>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+          </Link>
+        )}
+        {(userRole === "admin" || userRole === "pharmacist") && (
+          <EditStocks medicineId={medicineId} />
+        )}
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
+        <DropdownMenuItem>View</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        {(userRole === "admin" || userRole === "pharmacist") && (
+          <DeleteMedicine medicineId={medicineId} />
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
