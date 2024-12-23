@@ -4,7 +4,7 @@ import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
 import { Medicine } from "@/utils/schema";
 import moment from "moment";
-import { eq } from "drizzle-orm";
+import { eq, sum } from "drizzle-orm";
 
 export const getAllMedicines = async () => {
   try {
@@ -25,6 +25,36 @@ export const getMedicineByMedicineId = async (medicineId: string) => {
 
     if (data?.length > 0) {
       return parseStringify({ data: data[0] });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getTotalStocks = async () => {
+  try {
+    const data = await db
+      .select({
+        stockQuantity: sum(Medicine.stockQuantity),
+      })
+      .from(Medicine);
+
+    if (data?.length > 0) {
+      return parseStringify({ data: data[0]?.stockQuantity });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getExpiredMedicinesCount = async () => {
+  try {
+    const data = await db.$count(Medicine, eq(Medicine.expired, "expired"));
+
+    if (data) {
+      return parseStringify({ data: data });
     }
     return parseStringify({ data: null });
   } catch (error) {
