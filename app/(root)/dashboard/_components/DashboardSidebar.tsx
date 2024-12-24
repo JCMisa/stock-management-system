@@ -4,12 +4,12 @@
 
 import {
   ChartBarIncreasing,
+  CoinsIcon,
   Cross,
   FileHeart,
   LayoutGrid,
   Newspaper,
   Pill,
-  SquareActivity,
   User,
   UserCircle,
 } from "lucide-react";
@@ -99,9 +99,9 @@ const DashboardSidebar = () => {
           visible: ["admin", "doctor", "receptionist", "pharmacist"],
         },
         {
-          icon: SquareActivity,
-          label: "Manage",
-          href: "/dashboard/inventory/manage",
+          icon: CoinsIcon,
+          label: "Transactions",
+          href: "/dashboard/inventory/transactions",
           visible: ["admin", "pharmacist"],
         },
       ],

@@ -12,8 +12,13 @@ import { Activity, ChevronsDown, DollarSign } from "lucide-react";
 const InventoryStatusPage = async () => {
   const medicinesList = await getAllMedicines();
 
-  const totalStocks = await getTotalStocks();
-  const expiredMedicinesCount = await getExpiredMedicinesCount();
+  // const totalStocks = await getTotalStocks();
+  // const expiredMedicinesCount = await getExpiredMedicinesCount();
+
+  const [totalStocks, expiredMedicinesCount] = await Promise.all([
+    getTotalStocks(),
+    getExpiredMedicinesCount(),
+  ]);
 
   return (
     <div className="h-full flex-1 flex-col space-y-2 p-8 md:flex">

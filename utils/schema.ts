@@ -128,3 +128,16 @@ export const Medicine = pgTable("medicine", {
   imageUrl: varchar("imageUrl"), //ok
   notes: text("notes"), //ok
 });
+
+export const Transaction = pgTable("transaction", {
+  id: serial("id").primaryKey(),
+  transactionId: varchar("transactionId").notNull(),
+  patientId: varchar("patientId").notNull(),
+  patientName: varchar("patientName"),
+  sellerEmail: varchar("sellerEmail"),
+  medicines: text("medicines")
+    .array()
+    .default(sql`'{}'::text[]`),
+  totalSales: numeric("totalSales"),
+  transactionDate: varchar("transactionDate"),
+});

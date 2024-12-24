@@ -93,3 +93,14 @@ declare interface MedicineType {
   imageUrl?: string;
   notes?: string;
 }
+
+declare interface TransactionType {
+  id: number;
+  transactionId: string;
+  patientId: string;
+  patientName: string;
+  sellerEmail: string;
+  medicines: string[];
+  totalSales: number;
+  transactionDate: string;
+}

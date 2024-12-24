@@ -15,12 +15,12 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import {
   ChartBarIncreasing,
+  CoinsIcon,
   Cross,
   FileHeart,
   LayoutGrid,
   Newspaper,
   Pill,
-  SquareActivity,
   User,
   UserCircle,
 } from "lucide-react";
@@ -104,13 +104,13 @@ const DashboardMobileNavigation = () => {
         {
           icon: ChartBarIncreasing,
           label: "Status",
-          href: "/inventory/status",
+          href: "/dashboard/inventory/status",
           visible: ["admin", "doctor", "receptionist", "pharmacist"],
         },
         {
-          icon: SquareActivity,
-          label: "Manage",
-          href: "/inventory/manage",
+          icon: CoinsIcon,
+          label: "Transactions",
+          href: "/dashboard/inventory/transactions",
           visible: ["admin", "pharmacist"],
         },
       ],
