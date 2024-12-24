@@ -113,7 +113,6 @@ export const Medicine = pgTable("medicine", {
   // financial information
   costPrice: numeric({ precision: 100, scale: 2 }), //ok
   sellingPrice: numeric({ precision: 100, scale: 2 }), //ok
-  discount: numeric({ precision: 100, scale: 2 }), //ok
 
   // regulatory information
   prescriptionRequired: varchar("prescriptionRequired"), //ok

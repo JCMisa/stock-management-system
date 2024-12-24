@@ -95,7 +95,6 @@ const CreateMedicineForm = () => {
         batchNumber: formData.get("batchNumber") as string,
         costPrice: formData.get("costPrice") as string,
         sellingPrice: formData.get("sellingPrice") as string,
-        discount: formData.get("discount") as string,
         prescriptionRequired: prescriptionRequired as string,
         fdaApproved: fdaApproved as string,
         usageWarnings: formData.get("usageWarnings") as string,
@@ -354,7 +353,7 @@ const CreateMedicineForm = () => {
         </div>
       </div>
 
-      {/* costPrice - sellingPrice - discount */}
+      {/* costPrice - sellingPrice */}
       <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary py-3">
         <h1 className="text-center text-2xl font-bold">
           Financial Information
@@ -385,12 +384,6 @@ const CreateMedicineForm = () => {
               />
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-1 w-full">
-          <label htmlFor="" className="text-xs text-gray-400">
-            Discount (if any)
-          </label>
-          <Input type="number" step="0.01" id="discount" name="discount" />
         </div>
       </div>
 

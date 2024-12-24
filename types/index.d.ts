@@ -84,7 +84,6 @@ declare interface MedicineType {
   batchNumber: string;
   costPrice: number;
   sellingPrice: number;
-  discount: number;
   prescriptionRequired: string;
   fdaApproved: string;
   usageWarnings: string;

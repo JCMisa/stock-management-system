@@ -261,26 +261,6 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "discount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="hover:bg-transparent hover:text-white"
-        >
-          Discount
-          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const discount = row.getValue("discount") as number;
-
-      return formatCurrency(discount);
-    },
-  },
-  {
     accessorKey: "fdaApproved",
     header: ({ column }) => {
       return (

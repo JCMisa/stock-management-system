@@ -83,7 +83,6 @@ export const createMedicine = async (
     batchNumber: string;
     costPrice: string;
     sellingPrice: string;
-    discount: string;
     prescriptionRequired: string;
     fdaApproved: string;
     usageWarnings: string;
@@ -101,10 +100,6 @@ export const createMedicine = async (
       form.sellingPrice.trim() === ""
         ? "0"
         : parseFloat(form.sellingPrice).toFixed(2).toString();
-    const discount =
-      form.discount.trim() === ""
-        ? "0"
-        : parseFloat(form.discount).toFixed(2).toString();
 
     const formattedExpiration = moment(form.expiryDate).format("MM-DD-YYYY");
 
@@ -139,7 +134,6 @@ export const createMedicine = async (
       //     : "needed",
       costPrice: costPrice,
       sellingPrice: sellingPrice,
-      discount: discount,
       prescriptionRequired: form.prescriptionRequired,
       fdaApproved: form.fdaApproved,
       usageWarnings: form.usageWarnings,
@@ -176,7 +170,6 @@ export const updateMedicine = async (
     batchNumber: string;
     costPrice: string;
     sellingPrice: string;
-    discount: string;
     prescriptionRequired: string;
     fdaApproved: string;
     usageWarnings: string;
@@ -199,10 +192,6 @@ export const updateMedicine = async (
       form.sellingPrice.trim() === ""
         ? "0"
         : parseFloat(form.sellingPrice).toFixed(2).toString();
-    const discount =
-      form.discount.trim() === ""
-        ? "0"
-        : parseFloat(form.discount).toFixed(2).toString();
 
     // const stockQuantity = form.stockQuantity
     //   ? form.stockQuantity
@@ -254,7 +243,6 @@ export const updateMedicine = async (
         //     : "needed",
         costPrice: costPrice,
         sellingPrice: sellingPrice,
-        discount: discount,
         prescriptionRequired: form.prescriptionRequired,
         fdaApproved: form.fdaApproved,
         usageWarnings: form.usageWarnings,
