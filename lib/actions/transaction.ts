@@ -3,7 +3,7 @@
 import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
 import { Transaction } from "@/utils/schema";
-import { eq } from "drizzle-orm";
+import { eq, sum } from "drizzle-orm";
 import { getMedicineByMedicineId, updateStockQuantity } from "./medicine";
 
 export const getAllTransactions = async () => {
@@ -25,6 +25,23 @@ export const getTransaction = async (transactionId: string) => {
 
     if (data?.length > 0) {
       return parseStringify({ data: data[0] });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getTotalSales = async () => {
+  try {
+    const data = await db
+      .select({
+        totalSales: sum(Transaction.totalSales),
+      })
+      .from(Transaction);
+
+    if (data?.length > 0) {
+      return parseStringify({ data: data[0]?.totalSales });
     }
     return parseStringify({ data: null });
   } catch (error) {
@@ -90,14 +107,39 @@ export const createTransaction = async (
 
 export const deleteTransaction = async (transactionId: string) => {
   try {
-    const data = await db
-      .delete(Transaction)
-      .where(eq(Transaction.transactionId, transactionId));
+    const transactionRecord = await getTransaction(transactionId);
+    if (transactionRecord?.data !== null) {
+      const medicines = transactionRecord?.data?.medicines;
+      if (medicines?.length > 0) {
+        for (const medicineId of medicines) {
+          const medicineRecord = await getMedicineByMedicineId(medicineId);
+          if (medicineRecord?.data !== null) {
+            const stockQuantity = medicineRecord?.data?.stockQuantity;
+            const incrementedStockQuantity = Number(stockQuantity) + 1;
+            const updateStock = await updateStockQuantity(
+              medicineId,
+              incrementedStockQuantity
+            );
+            if (updateStock?.data !== null) {
+              console.log(
+                medicineId,
+                "'s stock incremented value: ",
+                stockQuantity
+              );
+            }
+          }
+        }
+      }
 
-    if (data) {
-      return parseStringify({ data: data });
+      const data = await db
+        .delete(Transaction)
+        .where(eq(Transaction.transactionId, transactionId));
+
+      if (data) {
+        return parseStringify({ data: data });
+      }
+      return parseStringify({ data: null });
     }
-    return parseStringify({ data: null });
   } catch (error) {
     handleError(error);
   }

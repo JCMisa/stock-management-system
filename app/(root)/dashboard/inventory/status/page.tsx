@@ -8,6 +8,8 @@ import { DataTable } from "../data-table-components/data-table";
 import { columns } from "../data-table-components/columns";
 import DataCard from "./_components/DataCard";
 import { Activity, ChevronsDown, DollarSign } from "lucide-react";
+import { getTotalSales } from "@/lib/actions/transaction";
+import { formatCurrency } from "@/lib/utils";
 
 const InventoryStatusPage = async () => {
   const medicinesList = await getAllMedicines();
@@ -15,7 +17,8 @@ const InventoryStatusPage = async () => {
   // const totalStocks = await getTotalStocks();
   // const expiredMedicinesCount = await getExpiredMedicinesCount();
 
-  const [totalStocks, expiredMedicinesCount] = await Promise.all([
+  const [totalSales, totalStocks, expiredMedicinesCount] = await Promise.all([
+    getTotalSales(),
     getTotalStocks(),
     getExpiredMedicinesCount(),
   ]);
@@ -25,7 +28,7 @@ const InventoryStatusPage = async () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         <DataCard
           label="Total Revenue"
-          value="Php 45,231.89"
+          value={formatCurrency(totalSales?.data ? totalSales?.data : 0)}
           icon={<DollarSign className="w-4 h-4 text-green-500" />}
         />
         <DataCard

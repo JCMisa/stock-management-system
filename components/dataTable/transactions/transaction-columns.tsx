@@ -3,12 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  ListCollapse,
-  MoreHorizontal,
-  Settings,
-} from "lucide-react";
+import { ArrowUpDown, ListCollapse, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +15,7 @@ import { getUserByEmail } from "@/lib/actions/user";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { formatCurrency } from "@/lib/utils";
+import DeleteTransaction from "@/app/(root)/dashboard/inventory/transactions/_components/DeleteTransaction";
 
 const CurrentUserRole = () => {
   const { user } = useUser();
@@ -185,12 +181,7 @@ export const columns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {(userRole === "admin" || userRole === "pharmacist") && (
-              <Link href={`/dashboard/manage/medicines/edit/${transactionId}`}>
-                <DropdownMenuItem>
-                  <Settings className="h-4 w-4 mr-2" />
-                  Manage
-                </DropdownMenuItem>
-              </Link>
+              <DeleteTransaction transactionId={transactionId as string} />
             )}
             <Link href={`/dashboard/profile/${transactionId}`}>
               <DropdownMenuItem>
