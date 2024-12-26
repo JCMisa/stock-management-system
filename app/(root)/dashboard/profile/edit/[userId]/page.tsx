@@ -35,6 +35,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import LoaderDialog from "@/components/custom/LoaderDialog";
 
 const EditProfilePage = ({
   params,
@@ -53,6 +54,7 @@ const EditProfilePage = ({
   const getUserInfoById = async () => {
     const userId = (await params)?.userId;
     try {
+      setLoading(true);
       const result = await getUserById(userId);
       if (result?.data !== null) {
         setCurrentUser(result?.data);
@@ -61,6 +63,8 @@ const EditProfilePage = ({
       toast(
         <p className="font-bold text-sm text-red-500">Failed to fetch user.</p>
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,6 +74,7 @@ const EditProfilePage = ({
 
   const getCurrentUserRole = async () => {
     try {
+      setLoading(true);
       const result = await getUserByEmail(
         user?.primaryEmailAddress?.emailAddress as string
       );
@@ -82,6 +87,8 @@ const EditProfilePage = ({
           Failed to fetch user role.
         </p>
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -493,6 +500,8 @@ const EditProfilePage = ({
           </div>
         </div>
       </form>
+
+      <LoaderDialog loading={loading || uploading} />
     </section>
   );
 };

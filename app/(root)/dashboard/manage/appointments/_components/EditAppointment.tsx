@@ -28,6 +28,7 @@ import {
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { getPatientLayout } from "@/lib/actions/patient";
+import LoaderDialog from "@/components/custom/LoaderDialog";
 
 const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
   const [appointment, setAppointment] = useState<AppointmentType>();
@@ -36,6 +37,7 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
   const [prescription, setPrescription] = useState<string>(
     patient?.prescription as string
   );
+  const [loading, setLoading] = useState(false);
 
   const handleQuillChange = (value: string) => {
     setPrescription(value);
@@ -43,6 +45,8 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
 
   const getAppointment = async () => {
     try {
+      setLoading(true);
+
       const result = await getAppointmentByAppointmentId(appointmentId);
 
       if (result?.data !== null) {
@@ -54,6 +58,8 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
           Internal error occured while fetching the appointment
         </p>
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,6 +70,8 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
 
   const getPatientInfo = async () => {
     try {
+      setLoading(true);
+
       const result = await getPatientLayout(appointment?.patientId as string);
       if (result?.data !== null) {
         setPatient(result.data);
@@ -74,6 +82,8 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
           Internal error occured while fetching the patient
         </p>
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,125 +130,135 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, formAction, loading] = useActionState(handleSubmit, undefined);
+  const [state, formAction, uploading] = useActionState(
+    handleSubmit,
+    undefined
+  );
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        <div className="flex items-center gap-1 px-2">
-          <Pencil className="h-4 w-4 mr-2" />
-          Edit
-        </div>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Manage Appointment</AlertDialogTitle>
-          <AlertDialogDescription>
-            Edit necessary details for your patient and your patient&apos;s
-            appointment
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <form
-          action={formAction}
-          className="min-h-[30rem] max-h-[30rem] overflow-auto card-scroll"
-        >
-          <div className="mt-5 flex flex-col gap-5">
-            <div className="flex flex-row items-center justify-center gap-3 w-full">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">Patient Name</label>
-                <Input
-                  type="text"
-                  id="patientName"
-                  name="patientName"
-                  defaultValue={appointment?.patientName}
-                />
-              </div>
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">Doctor Name</label>
-                <Input
-                  type="text"
-                  id="doctorName"
-                  name="doctorName"
-                  defaultValue={appointment?.doctorName}
-                />
-              </div>
-            </div>
-            <div className="flex flex-row items-center justify-center gap-3 w-full">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">
-                  Appointment Reason
-                </label>
-                <Textarea
-                  rows={5}
-                  id="reason"
-                  name="reason"
-                  defaultValue={appointment?.reason}
-                />
-              </div>
-            </div>
-            <div className="flex flex-row items-center justify-center gap-3 w-full">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">
-                  Appointment Status
-                </label>
-                <Select
-                  onValueChange={(value) =>
-                    setStatus(value ? value : "pending")
-                  }
-                  defaultValue={appointment?.status}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={"pending"}>Pending</SelectItem>
-                    <SelectItem value={"completed"}>Completed</SelectItem>
-                    <SelectItem value={"canceled"}>Canceled</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="flex flex-row items-center justify-center gap-3 w-full">
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">Time Start</label>
-                <Input
-                  type="time"
-                  id="timeStart"
-                  name="timeStart"
-                  defaultValue={appointment?.timeStart}
-                />
-              </div>
-              <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">Time End</label>
-                <Input
-                  type="time"
-                  id="timeEnd"
-                  name="timeEnd"
-                  defaultValue={appointment?.timeEnd}
-                />
-              </div>
-            </div>
-            <ReactQuill
-              theme="snow"
-              className="bg-dark-100"
-              defaultValue={patient?.prescription}
-              value={prescription}
-              onChange={handleQuillChange}
-            />
+    <>
+      <AlertDialog>
+        <AlertDialogTrigger className="w-full">
+          <div className="flex items-center gap-2 p-2 hover:bg-light hover:text-dark transition-all w-full rounded-sm">
+            <Pencil className="h-4 w-4 mr-2" />
+            <p className="text-sm">Edit</p>
           </div>
-          <AlertDialogFooter className="mt-5">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button type="submit" disabled={loading}>
-              {loading ? (
-                <LoaderCircle className="h-5 w-5 animate-spin" />
-              ) : (
-                "Save"
-              )}
-            </Button>
-          </AlertDialogFooter>
-        </form>
-      </AlertDialogContent>
-    </AlertDialog>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Manage Appointment</AlertDialogTitle>
+            <AlertDialogDescription>
+              Edit necessary details for your patient and your patient&apos;s
+              appointment
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <form
+            action={formAction}
+            className="min-h-[30rem] max-h-[30rem] overflow-auto card-scroll"
+          >
+            <div className="mt-5 flex flex-col gap-5">
+              <div className="flex flex-row items-center justify-center gap-3 w-full">
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-400">Patient Name</label>
+                  <Input
+                    type="text"
+                    id="patientName"
+                    name="patientName"
+                    defaultValue={appointment?.patientName}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-400">Doctor Name</label>
+                  <Input
+                    type="text"
+                    id="doctorName"
+                    name="doctorName"
+                    defaultValue={appointment?.doctorName}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-row items-center justify-center gap-3 w-full">
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-400">
+                    Appointment Reason
+                  </label>
+                  <Textarea
+                    rows={5}
+                    id="reason"
+                    name="reason"
+                    defaultValue={appointment?.reason}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-row items-center justify-center gap-3 w-full">
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-400">
+                    Appointment Status
+                  </label>
+                  <Select
+                    onValueChange={(value) =>
+                      setStatus(value ? value : "pending")
+                    }
+                    defaultValue={appointment?.status}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={"pending"}>Pending</SelectItem>
+                      <SelectItem value={"completed"}>Completed</SelectItem>
+                      <SelectItem value={"canceled"}>Canceled</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex flex-row items-center justify-center gap-3 w-full">
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-400">Time Start</label>
+                  <Input
+                    type="time"
+                    id="timeStart"
+                    name="timeStart"
+                    defaultValue={appointment?.timeStart}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-400">Time End</label>
+                  <Input
+                    type="time"
+                    id="timeEnd"
+                    name="timeEnd"
+                    defaultValue={appointment?.timeEnd}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-400">Prescription</label>
+                <ReactQuill
+                  theme="snow"
+                  className="bg-dark"
+                  defaultValue={patient?.prescription}
+                  value={prescription}
+                  onChange={handleQuillChange}
+                />
+              </div>
+            </div>
+            <AlertDialogFooter className="mt-5">
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <Button type="submit" disabled={uploading}>
+                {uploading ? (
+                  <LoaderCircle className="h-5 w-5 animate-spin" />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+            </AlertDialogFooter>
+          </form>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <LoaderDialog loading={loading || uploading} />
+    </>
   );
 };
 

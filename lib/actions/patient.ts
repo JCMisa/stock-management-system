@@ -3,7 +3,7 @@
 import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
 import { Appointment, Patient } from "@/utils/schema";
-import { eq } from "drizzle-orm";
+import { eq, ne } from "drizzle-orm";
 
 export const getAllPatients = async () => {
   try {
@@ -25,6 +25,19 @@ export const getPatientLayout = async (patientId: string) => {
       return parseStringify({ data: data[0] });
     }
     return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getAppointedPatients = async () => {
+  try {
+    const data = await db
+      .select()
+      .from(Patient)
+      .where(ne(Appointment.doctorId, ""));
+
+    return parseStringify({ data: data });
   } catch (error) {
     handleError(error);
   }

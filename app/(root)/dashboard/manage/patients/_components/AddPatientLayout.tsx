@@ -25,6 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getCurrentUser } from "@/lib/actions/user";
 import { createPatientLayout } from "@/lib/actions/patient";
 import { useRouter } from "next/navigation";
+import LoaderDialog from "@/components/custom/LoaderDialog";
 
 const AddPatientLayout = () => {
   const router = useRouter();
@@ -88,163 +89,167 @@ const AddPatientLayout = () => {
   );
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button>
-          <PlusCircle className="h-4 w-4 mr-2" /> Add Patient
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="h-[80%] overflow-auto card-scroll">
-        <AlertDialogHeader>
-          <AlertDialogTitle>Create New Patient</AlertDialogTitle>
-          <AlertDialogDescription className="text-gray-400">
-            Add patient initial information and complete them in the next step.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <div>
-          <Separator />
-          <form action={formAction} className="flex flex-col gap-5">
-            {/* personal info */}
-            <div className="pt-8">
-              <div>
-                <h3 className="text-lg leading-6 font-medium text-white">
-                  Personal Information
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Use a permanent address where you can receive mail.
-                </p>
-              </div>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-center gap-4 w-full mt-6">
-                  <div className="w-full">
-                    <div className="sm:col-span-3">
+    <>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button>
+            <PlusCircle className="h-4 w-4 mr-2" /> Add Patient
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="h-[80%] overflow-auto card-scroll">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Create New Patient</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-400">
+              Add patient initial information and complete them in the next
+              step.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div>
+            <Separator />
+            <form action={formAction} className="flex flex-col gap-5">
+              {/* personal info */}
+              <div className="pt-8">
+                <div>
+                  <h3 className="text-lg leading-6 font-medium text-white">
+                    Personal Information
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Use a permanent address where you can receive mail.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-center gap-4 w-full mt-6">
+                    <div className="w-full">
+                      <div className="sm:col-span-3">
+                        <label
+                          htmlFor="first-name"
+                          className="block text-sm font-medium text-[#76828D]"
+                        >
+                          First name
+                        </label>
+                        <div className="mt-1">
+                          <Input
+                            type="text"
+                            name="firstname"
+                            id="firstname"
+                            placeholder="Enter your first name"
+                            className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="w-full">
                       <label
-                        htmlFor="first-name"
+                        htmlFor="last-name"
                         className="block text-sm font-medium text-[#76828D]"
                       >
-                        First name
+                        Last name
                       </label>
                       <div className="mt-1">
                         <Input
                           type="text"
-                          name="firstname"
-                          id="firstname"
-                          placeholder="Enter your first name"
+                          name="lastname"
+                          id="lastname"
+                          placeholder="Enter your last name"
                           className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <label
-                      htmlFor="last-name"
-                      className="block text-sm font-medium text-[#76828D]"
-                    >
-                      Last name
-                    </label>
-                    <div className="mt-1">
+                  <div className="flex items-center justify-center gap-4 w-full mt-6">
+                    <div className="w-full">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-[#76828D]"
+                      >
+                        Email address
+                      </label>
+                      <div className="mt-1">
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="Enter your email address"
+                          className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w-full">
+                      <label className="block text-sm font-medium text-[#76828D] mb-2">
+                        Condition
+                      </label>
                       <Input
                         type="text"
-                        name="lastname"
-                        id="lastname"
-                        placeholder="Enter your last name"
-                        className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-center gap-4 w-full mt-6">
-                  <div className="w-full">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-[#76828D]"
-                    >
-                      Email address
-                    </label>
-                    <div className="mt-1">
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="Enter your email address"
+                        id="conditionName"
+                        name="conditionName"
+                        placeholder="e.g. Stomach pain"
                         className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <label className="block text-sm font-medium text-[#76828D] mb-2">
-                      Condition
-                    </label>
-                    <Input
-                      type="text"
-                      id="conditionName"
-                      name="conditionName"
-                      placeholder="e.g. Stomach pain"
-                      className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-center gap-4 w-full mt-6">
-                  <div className="w-full">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-[#76828D]"
-                    >
-                      Age
-                    </label>
-                    <div className="mt-1">
-                      <Input
-                        id="age"
-                        name="age"
-                        type="number"
-                        placeholder="Enter age here"
-                        className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
-                      />
+                  <div className="flex items-center justify-center gap-4 w-full mt-6">
+                    <div className="w-full">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-[#76828D]"
+                      >
+                        Age
+                      </label>
+                      <div className="mt-1">
+                        <Input
+                          id="age"
+                          name="age"
+                          type="number"
+                          placeholder="Enter age here"
+                          className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="w-full">
-                    <label className="block text-sm font-medium text-[#76828D] mb-2">
-                      Gender
-                    </label>
-                    <Select
-                      onValueChange={(value) =>
-                        setGender(value ? value : "male")
-                      }
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={"male"}>Male</SelectItem>
-                        <SelectItem value={"female"}>Female</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="w-full">
+                      <label className="block text-sm font-medium text-[#76828D] mb-2">
+                        Gender
+                      </label>
+                      <Select
+                        onValueChange={(value) =>
+                          setGender(value ? value : "male")
+                        }
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={"male"}>Male</SelectItem>
+                          <SelectItem value={"female"}>Female</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <Separator />
+              <Separator />
 
-            <AlertDialogFooter className="mt-5">
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <Button type="submit">
-                {uploading ? (
-                  <LoaderCircle className="w-5 h-5 animate-spin" />
-                ) : (
-                  "Continue"
-                )}
-              </Button>
-            </AlertDialogFooter>
-          </form>
-        </div>
-      </AlertDialogContent>
-    </AlertDialog>
+              <AlertDialogFooter className="mt-5">
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button type="submit">
+                  {uploading ? (
+                    <LoaderCircle className="w-5 h-5 animate-spin" />
+                  ) : (
+                    "Continue"
+                  )}
+                </Button>
+              </AlertDialogFooter>
+            </form>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+      <LoaderDialog loading={uploading} />
+    </>
   );
 };
 
