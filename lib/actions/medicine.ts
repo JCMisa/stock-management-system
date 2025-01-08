@@ -127,11 +127,6 @@ export const createMedicine = async (
       reorderLevel: parseInt(form.reorderLevel) || 0,
       supplier: form.supplier,
       batchNumber: form.batchNumber,
-      // if the set stockQuantity is greater than the reorder level, then no needed, else needed
-      // restock:
-      //   Number(form.stockQuantity) > Number(form.reorderLevel)
-      //     ? "not needed"
-      //     : "needed",
       costPrice: costPrice,
       sellingPrice: sellingPrice,
       prescriptionRequired: form.prescriptionRequired,
@@ -193,14 +188,6 @@ export const updateMedicine = async (
         ? "0"
         : parseFloat(form.sellingPrice).toFixed(2).toString();
 
-    // const stockQuantity = form.stockQuantity
-    //   ? form.stockQuantity
-    //   : existingMedicine?.data?.stockQuantity;
-
-    //   const reorderLevel = form.reorderLevel
-    //     ? form.reorderLevel
-    //     : existingMedicine?.data?.reorderLevel;
-
     const data = await db
       .update(Medicine)
       .set({
@@ -237,10 +224,6 @@ export const updateMedicine = async (
         reorderLevel: parseInt(form.reorderLevel) || 0,
         supplier: form.supplier,
         batchNumber: form.batchNumber,
-        // restock:
-        //   Number(stockQuantity) > Number(reorderLevel)
-        //     ? "not needed"
-        //     : "needed",
         costPrice: costPrice,
         sellingPrice: sellingPrice,
         prescriptionRequired: form.prescriptionRequired,

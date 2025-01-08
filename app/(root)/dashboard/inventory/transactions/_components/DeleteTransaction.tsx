@@ -14,8 +14,11 @@ import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { deleteTransaction } from "@/lib/actions/transaction";
 import LoaderDialog from "@/components/custom/LoaderDialog";
+import { useRouter } from "next/navigation";
 
 const DeleteTransaction = ({ transactionId }: { transactionId: string }) => {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -29,6 +32,7 @@ const DeleteTransaction = ({ transactionId }: { transactionId: string }) => {
             Transaction deleted successfully
           </p>
         );
+        router.push("/dashboard/inventory/transactions");
       }
     } catch {
       toast(

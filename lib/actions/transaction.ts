@@ -105,24 +105,90 @@ export const createTransaction = async (
   }
 };
 
+export const addTransaction = async (
+  state: unknown,
+  form: {
+    transactionId: string;
+    patientId: string;
+    patientName: string;
+    sellerEmail: string;
+    medicines: [{ medicineId: string; quantity: string }];
+    totalSales: string;
+    transactionDate: string;
+  }
+) => {
+  const medicineIds = form.medicines.map((item) => item.medicineId);
+  const quantities = form.medicines.map((item) => item.quantity);
+  try {
+    const totalSales =
+      form.totalSales.trim() === ""
+        ? "0"
+        : parseFloat(form.totalSales).toFixed(2).toString();
+
+    const data = await db.insert(Transaction).values({
+      transactionId: form.transactionId as string,
+      patientId: form.patientId,
+      patientName: form.patientName,
+      sellerEmail: form.sellerEmail,
+      medicineData: form.medicines,
+      medicines: medicineIds,
+      quantities: quantities,
+      totalSales: totalSales,
+      transactionDate: form.transactionDate,
+    });
+
+    if (data) {
+      for (const medicine of form.medicines) {
+        console.log("medicine ids in server: ", medicine.medicineId);
+        const medicineRecord = await getMedicineByMedicineId(
+          medicine?.medicineId
+        );
+        if (medicineRecord?.data !== null) {
+          const stockQuantity = medicineRecord?.data?.stockQuantity;
+          const decrementedStockQuantity =
+            Number(stockQuantity) - Number(medicine.quantity);
+          const updateStock = await updateStockQuantity(
+            medicine.medicineId,
+            decrementedStockQuantity
+          );
+          if (updateStock?.data !== null) {
+            console.log(
+              medicine.medicineId,
+              "'s stock decremented value: ",
+              stockQuantity
+            );
+          }
+        }
+      }
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const deleteTransaction = async (transactionId: string) => {
   try {
     const transactionRecord = await getTransaction(transactionId);
     if (transactionRecord?.data !== null) {
-      const medicines = transactionRecord?.data?.medicines;
+      const medicines = transactionRecord?.data?.medicineData;
       if (medicines?.length > 0) {
-        for (const medicineId of medicines) {
-          const medicineRecord = await getMedicineByMedicineId(medicineId);
+        for (const medicine of medicines) {
+          const medicineRecord = await getMedicineByMedicineId(
+            medicine.medicineId
+          );
           if (medicineRecord?.data !== null) {
             const stockQuantity = medicineRecord?.data?.stockQuantity;
-            const incrementedStockQuantity = Number(stockQuantity) + 1;
+            const incrementedStockQuantity =
+              Number(stockQuantity) + Number(medicine.quantity);
             const updateStock = await updateStockQuantity(
-              medicineId,
+              medicine.medicineId,
               incrementedStockQuantity
             );
             if (updateStock?.data !== null) {
               console.log(
-                medicineId,
+                medicine.medicineId,
                 "'s stock incremented value: ",
                 stockQuantity
               );

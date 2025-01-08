@@ -17,12 +17,14 @@ import {
   getMedicineByMedicineId,
   updateStockQuantity,
 } from "@/lib/actions/medicine";
+import { useRouter } from "next/navigation";
 
 const EditStocks = ({ medicineId }: { medicineId: string }) => {
   const [medicine, setMedicine] = useState<MedicineType>();
   const [stockCount, setStockCount] = useState<number>(
     Number(medicine?.stockQuantity)
   );
+  const router = useRouter();
 
   const getMedicine = async () => {
     try {
@@ -62,6 +64,7 @@ const EditStocks = ({ medicineId }: { medicineId: string }) => {
             Stock quantity updated successfully.
           </p>
         );
+        router.push("/dashboard/inventory/status");
       }
     } catch {
       toast(

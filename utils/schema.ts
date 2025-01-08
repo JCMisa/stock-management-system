@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   integer,
+  jsonb,
   numeric,
   pgTable,
   serial,
@@ -134,7 +135,11 @@ export const Transaction = pgTable("transaction", {
   patientId: varchar("patientId").notNull(),
   patientName: varchar("patientName"),
   sellerEmail: varchar("sellerEmail"),
+  medicineData: jsonb("medicineData"),
   medicines: text("medicines")
+    .array()
+    .default(sql`'{}'::text[]`),
+  quantities: text("quantities")
     .array()
     .default(sql`'{}'::text[]`),
   totalSales: numeric("totalSales"),

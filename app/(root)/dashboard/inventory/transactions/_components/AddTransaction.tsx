@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { getAllPatients } from "@/lib/actions/patient";
+import { getAllPatients, getPatientLayout } from "@/lib/actions/patient";
 import Image from "next/image";
 import { getAllMedicines } from "@/lib/actions/medicine";
 import { v4 as uuidv4 } from "uuid";
@@ -41,6 +41,7 @@ const AddTransaction = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPatients, setFilteredPatients] = useState(patientsList);
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [patientPrescription, setPatientPrescription] = useState<string>("");
 
   useEffect(() => {
     setFilteredPatients(patientsList);
@@ -199,6 +200,26 @@ const AddTransaction = () => {
     undefined
   );
 
+  const getPatientPrescription = async () => {
+    try {
+      const result = await getPatientLayout(patientId);
+      if (result?.data !== null) {
+        setPatientPrescription(result?.data?.prescription);
+      }
+    } catch {
+      toast(
+        <p className="text-sm font-bold text-red-500">
+          Internal error occured while fetching patient prescription
+        </p>
+      );
+    }
+  };
+
+  useEffect(() => {
+    getPatientPrescription();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patientId]);
+
   return (
     <>
       <AlertDialog>
@@ -296,6 +317,7 @@ const AddTransaction = () => {
                   />
                 </div>
               </div>
+
               <div className="flex flex-col gap-1 mt-3">
                 <p className="text-xs text-gray-400">Please select medicines</p>
                 <ul className="flex items-center w-[27rem] gap-2 overflow-auto card-scroll mb-3">
@@ -355,6 +377,17 @@ const AddTransaction = () => {
                     Remove All
                   </div>
                 </div>
+              </div>
+
+              {/* prescription data */}
+              <div>
+                {patientId ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: patientPrescription }}
+                  />
+                ) : (
+                  "wala"
+                )}
               </div>
             </div>
 
