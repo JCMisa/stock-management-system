@@ -59,13 +59,8 @@ export const Patient = pgTable("patient", {
 
   prescription: text("prescription"), //ok
 
-  medicines: text("medicines")
-    .array()
-    .default(sql`'{}'::text[]`), // list of medicine ids bought by this patient
-  totalSales: numeric("totalSales"), // total sales generated from the bought medicines
-
   createdAt: varchar("createdAt"), //ok
-  updatedAt: varchar("updatedAt"),
+  updatedAt: varchar("updatedAt"), //ok
 });
 
 export const Appointment = pgTable("appointment", {
@@ -77,6 +72,7 @@ export const Appointment = pgTable("appointment", {
   doctorName: varchar("doctorName"),
   reason: varchar("reason"),
   status: varchar("status").default("pending"),
+  date: varchar("date"),
   timeStart: varchar("timeStart"),
   timeEnd: varchar("timeEnd"),
   createdAt: varchar("createdAt"),

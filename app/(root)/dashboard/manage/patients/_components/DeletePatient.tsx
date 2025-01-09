@@ -42,8 +42,8 @@ const DeletePatient = ({ patientId }: { patientId: string }) => {
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger>
-          <div className="flex items-center gap-1 px-2 text-red-500 hover:text-red-600 transition-all">
+        <AlertDialogTrigger className="w-full">
+          <div className="flex items-center gap-2 p-2 w-full text-sm hover:bg-white hover:text-black hover:rounded-sm">
             <Trash className="h-4 w-4 mr-2" />
             Delete
           </div>

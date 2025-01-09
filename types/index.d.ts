@@ -59,6 +59,7 @@ declare interface AppointmentType {
   doctorName: string;
   reason: string;
   status: string;
+  date: string;
   timeStart: string;
   timeEnd: string;
   createdAt: string;

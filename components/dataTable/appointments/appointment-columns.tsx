@@ -151,6 +151,21 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
+    accessorKey: "date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Date
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorKey: "timeStart",
     header: ({ column }) => {
       return (

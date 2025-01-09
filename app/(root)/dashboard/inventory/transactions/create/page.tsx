@@ -40,6 +40,7 @@ const CreateTransaction = () => {
   ]);
   const [loading, setLoading] = useState(false);
 
+  // fetching the patients from Patient table
   const getPatientsList = async () => {
     try {
       setLoading(true);
@@ -64,24 +65,28 @@ const CreateTransaction = () => {
     getPatientsList();
   }, []);
 
+  // whenever the patientsList change, set the filteredPatient state to the value of patientList state
   useEffect(() => {
     setFilteredPatients(patientsList);
   }, [patientsList]);
 
+  // whenever the date and patientList states change, set the filteredPatient state to the value of filtered variable
   useEffect(() => {
     if (date) {
       const formatedDate = moment(date).format("MM-DD-YYYY");
       if (formatedDate === "") {
         setFilteredPatients(patientsList);
       } else {
-        const filtered = patientsList.filter((patient) =>
-          patient?.createdAt.toLowerCase().includes(formatedDate)
+        const filtered = patientsList.filter(
+          // filter all patient records where createdAt is equal to the formatted date of the selected date in the calendar
+          (patient) => patient?.createdAt.toLowerCase().includes(formatedDate)
         );
         setFilteredPatients(filtered);
       }
     }
   }, [date, patientsList]);
 
+  // filter all patient based on the inputted name
   const handleSearch = () => {
     if (searchTerm !== "") {
       const formattedSearchTerm = searchTerm.toLowerCase();
@@ -89,6 +94,7 @@ const CreateTransaction = () => {
         setFilteredPatients(patientsList);
       } else {
         const filtered = patientsList.filter((patient) =>
+          // filter all patient records where fullname includes the formatted searchTerm
           patient?.fullname.toLowerCase().includes(formattedSearchTerm)
         );
         setFilteredPatients(filtered);
@@ -96,12 +102,14 @@ const CreateTransaction = () => {
     }
   };
 
+  // this method enables to trigger filtering patients by fullname by pressing enter key instead of clicking the search icon
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSearch();
     }
   };
 
+  // get the currently logged in user and set it to the currentUser useState
   const getUser = async () => {
     try {
       setLoading(true);
@@ -124,6 +132,7 @@ const CreateTransaction = () => {
     getUser();
   }, []);
 
+  // get all the medicines and store it in the medicineList useState
   const getMedicinesList = async () => {
     try {
       setLoading(true);
@@ -146,11 +155,12 @@ const CreateTransaction = () => {
     getMedicinesList();
   }, []);
 
+  // get the prescription of the selected patient in the select field
   const getPatientPrescription = async () => {
     try {
       const result = await getPatientLayout(patientId);
       if (result?.data !== null) {
-        setPatientPrescription(result?.data?.prescription);
+        setPatientPrescription(result?.data?.prescription); // set it to patientPrescription useState
       }
     } catch {
       toast(
@@ -162,18 +172,22 @@ const CreateTransaction = () => {
   };
   useEffect(() => {
     getPatientPrescription();
-  }, [patientId]);
+  }, [patientId]); // trigger it everytime the selected patient changees
 
+  // handling the addition of group field to add more medicine with it's respective quantity
   const handleAddMedicine = () => {
     setMedicineData([...medicineData, { medicineId: "", quantity: "" }]);
   };
 
+  // handling the removal of group field to remove medicine with it's respective quantity
   const handleRemove = (i: number) => {
     const deleteVal = [...medicineData];
     deleteVal.splice(i, 1);
     setMedicineData(deleteVal);
   };
 
+  // handle the input change on the quantity value of medicine, sets the respective quantity assigned to the selected medicine
+  // note: considering the previous selected medicines with their own quantities
   const handleQuantityChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number
@@ -184,12 +198,15 @@ const CreateTransaction = () => {
     setMedicineData(onChangeVal);
   };
 
+  // handle the input change on the selected medicine
+  // note: considering the previous selected medicines with their own quantities
   const handleMedicineChange = (val: string, i: number) => {
     const onChangeVal = [...medicineData];
     onChangeVal[i] = { ...onChangeVal[i], medicineId: val };
     setMedicineData(onChangeVal);
   };
 
+  // calculate the total price of the sold medicines considering the quantity of each medicine sold by accessing the medicine selling price
   const calculateTotalPrice = () => {
     let totalPrice = 0;
     medicineData.forEach(({ medicineId, quantity }) => {
@@ -202,13 +219,6 @@ const CreateTransaction = () => {
     });
     return totalPrice;
   };
-
-  // const saveMedicineData = () => {
-  //   console.log(medicineData);
-
-  //   const totalPrice = calculateTotalPrice();
-  //   console.log("Total Price:", totalPrice, "pesos");
-  // };
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
     try {
@@ -328,7 +338,8 @@ const CreateTransaction = () => {
                         </div>
 
                         <p className="text-xs text-gray-400 flex items-center gap-2">
-                          Appointment date: {patient?.createdAt}
+                          Appointment date:{" "}
+                          {moment(patient?.createdAt).format("MMM-DD-YYYY")}
                         </p>
                       </div>
                     </SelectItem>

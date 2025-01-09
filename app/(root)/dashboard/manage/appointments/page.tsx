@@ -22,8 +22,12 @@ const AppointmentsPage = async () => {
         columns={columns}
         data={
           user?.data?.role === "admin"
-            ? allAppointmentsList?.data
-            : doctorAppointmentsList?.data
+            ? allAppointmentsList?.data?.length > 0
+              ? allAppointmentsList?.data
+              : []
+            : doctorAppointmentsList?.data?.length > 0
+            ? doctorAppointmentsList?.data
+            : []
         }
         query1="patientName"
         showCreate={

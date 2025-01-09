@@ -167,23 +167,25 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
       }
 
       // add patient to appointment table with their doctor
-      const appointmentId = uuidv4();
-      const result2 = await addAppointment(
-        appointmentId,
-        patientId,
-        doctorId || patientLayout?.doctorId,
-        formData.get("firstname") + " " + formData.get("lastname"),
-        formData.get("conditionName") as string,
-        "pending",
-        moment().format("MM-DD-YYYY")
-      );
-
-      if (result2?.data !== null) {
-        toast(
-          <p className="font-bold text-sm text-green-500">
-            Patient appointment scheduled successfully
-          </p>
+      if (doctorId || patientLayout?.doctorId) {
+        const appointmentId = uuidv4();
+        const result2 = await addAppointment(
+          appointmentId,
+          patientId,
+          doctorId || patientLayout?.doctorId,
+          formData.get("firstname") + " " + formData.get("lastname"),
+          formData.get("conditionName") as string,
+          "pending",
+          moment().format("MM-DD-YYYY")
         );
+
+        if (result2?.data !== null) {
+          toast(
+            <p className="font-bold text-sm text-green-500">
+              Patient appointment scheduled successfully
+            </p>
+          );
+        }
       }
     } catch (error) {
       toast(

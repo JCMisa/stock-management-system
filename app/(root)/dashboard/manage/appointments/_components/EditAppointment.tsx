@@ -29,8 +29,12 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { getPatientLayout } from "@/lib/actions/patient";
 import LoaderDialog from "@/components/custom/LoaderDialog";
+import { useRouter } from "next/navigation";
+import moment from "moment";
 
 const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
+  const router = useRouter();
+
   const [appointment, setAppointment] = useState<AppointmentType>();
   const [patient, setPatient] = useState<PatientType>();
   const [status, setStatus] = useState<string>(appointment?.status as string);
@@ -102,6 +106,7 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
         doctorName: formData.get("doctorName") as string,
         reason: formData.get("reason") as string,
         status: finalStatus as string,
+        date: moment(formData.get("date") as string).format("MM-DD-YYYY"),
         timeStart: formData.get("timeStart") as string,
         timeEnd: formData.get("timeEnd") as string,
         prescription: finalPrescription as string,
@@ -119,6 +124,7 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
             Patient updated successfully
           </p>
         );
+        router.push("/dashboard/manage/appointments");
       }
     } catch {
       toast(
@@ -211,6 +217,15 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                <label className="text-xs text-gray-400">Date</label>
+                <Input
+                  type="date"
+                  id="date"
+                  name="date"
+                  defaultValue={appointment?.date}
+                />
               </div>
               <div className="flex flex-row items-center justify-center gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">

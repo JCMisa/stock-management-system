@@ -126,6 +126,34 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
+    accessorKey: "doctorId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Is Appointed
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const isAppointed = row.getValue("doctorId") as string;
+
+      if (isAppointed !== null) {
+        return <Badge>Appointed</Badge>;
+      } else {
+        return (
+          <Badge className="bg-red-500 hover:bg-red-600 transition-all">
+            Not Appointed
+          </Badge>
+        );
+      }
+    },
+  },
+  {
     accessorKey: "age",
     header: ({ column }) => {
       return (

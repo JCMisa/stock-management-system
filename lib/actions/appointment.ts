@@ -78,6 +78,7 @@ export const updateAppointment = async (
     doctorName: string;
     reason: string;
     status: string;
+    date: string;
     timeStart: string;
     timeEnd: string;
     prescription: string;
@@ -91,6 +92,7 @@ export const updateAppointment = async (
         doctorName: form.doctorName,
         reason: form.reason,
         status: form.status,
+        date: form.date,
         timeStart: form.timeStart,
         timeEnd: form.timeEnd,
       })
