@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useActionState, useEffect, useState } from "react";
@@ -32,14 +31,38 @@ const CreateTransaction = () => {
   const [currentUser, setCurrentUser] = useState<UserType>();
   const [medicinesList, setMedicinesList] = useState<MedicineType[]>([]);
   const [patientId, setPatientId] = useState<string>("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [searchTerm, setSearchTerm] = useState("");
   const [filteredPatients, setFilteredPatients] = useState(patientsList);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [patientPrescription, setPatientPrescription] = useState<string>("");
   const [medicineData, setMedicineData] = useState([
     { medicineId: "", quantity: "" },
   ]);
   const [loading, setLoading] = useState(false);
+
+  const getPatientsList = async () => {
+    try {
+      setLoading(true);
+
+      const result = await getAllPatients();
+      if (result?.data !== null) {
+        setPatientsList(result.data);
+      } else {
+        setPatientsList([]);
+      }
+    } catch {
+      toast(
+        <p className="text-sm font-bold text-red-500">
+          Internal error occured while fetching all patients
+        </p>
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getPatientsList();
+  }, []);
 
   useEffect(() => {
     setFilteredPatients(patientsList);
@@ -59,27 +82,25 @@ const CreateTransaction = () => {
     }
   }, [date, patientsList]);
 
-  const getPatientsList = async () => {
-    try {
-      setLoading(true);
-
-      const result = await getAllPatients();
-      if (result?.data !== null) {
-        setPatientsList(result?.data);
+  const handleSearch = () => {
+    if (searchTerm !== "") {
+      const formattedSearchTerm = searchTerm.toLowerCase();
+      if (formattedSearchTerm.trim() === "") {
+        setFilteredPatients(patientsList);
+      } else {
+        const filtered = patientsList.filter((patient) =>
+          patient?.fullname.toLowerCase().includes(formattedSearchTerm)
+        );
+        setFilteredPatients(filtered);
       }
-    } catch {
-      toast(
-        <p className="text-sm font-bold text-red-500">
-          Internal error occured while fetching all patients
-        </p>
-      );
-    } finally {
-      setLoading(false);
     }
   };
-  useEffect(() => {
-    getPatientsList();
-  }, []);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   const getUser = async () => {
     try {
@@ -143,19 +164,6 @@ const CreateTransaction = () => {
     getPatientPrescription();
   }, [patientId]);
 
-  const handleSearch = (event: any) => {
-    const value = event.target.value.toLowerCase();
-    setSearchTerm(value);
-    if (value.trim() === "") {
-      setFilteredPatients(patientsList);
-    } else {
-      const filtered = patientsList.filter((patient) =>
-        patient?.fullname.toLowerCase().includes(value)
-      );
-      setFilteredPatients(filtered);
-    }
-  };
-
   const handleAddMedicine = () => {
     setMedicineData([...medicineData, { medicineId: "", quantity: "" }]);
   };
@@ -195,12 +203,12 @@ const CreateTransaction = () => {
     return totalPrice;
   };
 
-  const saveMedicineData = () => {
-    console.log(medicineData);
+  // const saveMedicineData = () => {
+  //   console.log(medicineData);
 
-    const totalPrice = calculateTotalPrice();
-    console.log("Total Price:", totalPrice, "pesos");
-  };
+  //   const totalPrice = calculateTotalPrice();
+  //   console.log("Total Price:", totalPrice, "pesos");
+  // };
 
   const handleSubmit = async (prevState: unknown, formData: FormData) => {
     try {
@@ -266,14 +274,18 @@ const CreateTransaction = () => {
                 <SelectValue placeholder="Patient" />
               </SelectTrigger>
               <SelectContent>
-                <div className="mb-3 flex items-start justify-between w-full gap-3">
+                <div className="mb-3 flex items-start justify-between w-full gap-3 bg-dark-100">
                   <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full">
-                    <Search />
+                    <Search
+                      onClick={handleSearch}
+                      className="cursor-pointer hover:scale-95"
+                    />
                     <Input
                       type="text"
-                      className="border-none"
+                      className="border-none bg-dark-100"
                       value={searchTerm}
-                      onChange={handleSearch}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onKeyDown={handleKeyDown}
                       placeholder="Search patients"
                     />
                   </div>
@@ -284,8 +296,11 @@ const CreateTransaction = () => {
                     className="rounded-md border"
                   />
                 </div>
-                {filteredPatients?.length > 0 &&
-                  filteredPatients?.map((patient) => (
+                <div className="min-h-52 max-h-52 overflow-auto card-scroll">
+                  {(filteredPatients?.length > 0
+                    ? filteredPatients
+                    : patientsList
+                  )?.map((patient) => (
                     <SelectItem
                       key={patient?.patientId}
                       value={patient?.patientId}
@@ -318,6 +333,7 @@ const CreateTransaction = () => {
                       </div>
                     </SelectItem>
                   ))}
+                </div>
               </SelectContent>
             </Select>
           </div>
@@ -402,9 +418,9 @@ const CreateTransaction = () => {
               </div>
             ))}
             {/* <p>{JSON.stringify(medicineData)}</p> */}
-            <Button type="button" onClick={saveMedicineData}>
+            {/* <Button type="button" onClick={saveMedicineData}>
               Save
-            </Button>
+            </Button> */}
           </div>
 
           <Button type="submit" disabled={pending}>

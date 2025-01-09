@@ -9,7 +9,10 @@ export const getAllPatients = async () => {
   try {
     const data = await db.select().from(Patient);
 
-    return parseStringify({ data: data });
+    if (data.length > 0) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
   } catch (error) {
     handleError(error);
   }
