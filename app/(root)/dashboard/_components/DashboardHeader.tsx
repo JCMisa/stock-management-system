@@ -1,5 +1,6 @@
+import { UserButton } from "@clerk/nextjs";
 import { Search } from "lucide-react";
-import Image from "next/image";
+// import Image from "next/image";
 import React from "react";
 
 const DashboardHeader = ({ user }: { user: UserType }) => {
@@ -21,8 +22,8 @@ const DashboardHeader = ({ user }: { user: UserType }) => {
 
         <div className="relative flex flex-col">
           <div className="sm:flex gap-1 hidden">
-            <div className="flex items-center gap-1">
-              {user ? (
+            <div className="flex items-center gap-2">
+              {/* {user ? (
                 <Image
                   src={user?.imageUrl}
                   alt="avatar"
@@ -38,7 +39,8 @@ const DashboardHeader = ({ user }: { user: UserType }) => {
                   height={1000}
                   className="w-8 h-8"
                 />
-              )}
+              )} */}
+              <UserButton />
               <div className="lg:flex flex-col items-start hidden">
                 <p className="tesm-sm capitalize">
                   {user?.firstname} {user?.lastname}

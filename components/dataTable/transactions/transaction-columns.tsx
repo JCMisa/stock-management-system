@@ -3,7 +3,12 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, ListCollapse, MoreHorizontal } from "lucide-react";
+import {
+  ArrowUpDown,
+  ListCollapse,
+  MoreHorizontal,
+  Pencil,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,6 +71,11 @@ export const columns: ColumnDef<any>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const patientId = row.getValue("patientId") as string[];
+
+      return <div>{patientId ? patientId : "walk in client"}</div>;
     },
   },
   {
@@ -180,6 +190,16 @@ export const columns: ColumnDef<any>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            {(userRole === "admin" || userRole === "pharmacist") && (
+              <Link
+                href={`/dashboard/inventory/transactions/edit/${transactionId}`}
+              >
+                <DropdownMenuItem>
+                  <Pencil className="h-4 w-4 mr-2" />
+                  Edit
+                </DropdownMenuItem>
+              </Link>
+            )}
             {(userRole === "admin" || userRole === "pharmacist") && (
               <DeleteTransaction transactionId={transactionId as string} />
             )}

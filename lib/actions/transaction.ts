@@ -168,6 +168,123 @@ export const addTransaction = async (
   }
 };
 
+export const updateTransaction = async (
+  state: unknown,
+  form: {
+    transactionId: string;
+    patientId: string;
+    patientName: string;
+    sellerEmail: string;
+    medicines: [{ medicineId: string; quantity: string }];
+    totalSales: string;
+    transactionDate: string;
+  }
+) => {
+  try {
+    // First get the existing transaction to compare quantities
+    const existingTransaction = await db.query.Transaction.findFirst({
+      where: eq(Transaction.transactionId, form.transactionId),
+    });
+
+    if (!existingTransaction) {
+      throw new Error("Transaction not found");
+    }
+
+    const existingMedicineData = existingTransaction.medicineData as {
+      medicineId: string;
+      quantity: string;
+    }[];
+
+    // Create a map of existing quantities for easy lookup
+    // gumawa ng new array na yung quantity property ay naka number format
+    const existingQuantities = new Map(
+      existingMedicineData.map((med) => [med.medicineId, Number(med.quantity)])
+    );
+
+    const medicineIds = form.medicines.map((item) => item.medicineId); // array na ang laman ay mga medicineId lang
+    const quantities = form.medicines.map((item) => item.quantity); // array na ang laman ay mga quantity lang
+
+    // Update the transaction record
+    const totalSales =
+      form.totalSales.trim() === ""
+        ? "0"
+        : parseFloat(form.totalSales).toFixed(2).toString();
+
+    const data = await db
+      .update(Transaction)
+      .set({
+        patientId: form.patientId,
+        patientName: form.patientName,
+        sellerEmail: form.sellerEmail,
+        medicineData: form.medicines,
+        medicines: medicineIds,
+        quantities: quantities,
+        totalSales: totalSales,
+        transactionDate: form.transactionDate,
+      })
+      .where(eq(Transaction.transactionId, form.transactionId));
+
+    if (data) {
+      // Handle stock updates for each medicine
+      for (const medicine of form.medicines) {
+        const medicineRecord = await getMedicineByMedicineId(
+          medicine.medicineId
+        );
+        if (!medicineRecord?.data) continue;
+
+        const currentStock = medicineRecord.data.stockQuantity;
+        const newQuantity = Number(medicine.quantity);
+        const oldQuantity = existingQuantities.get(medicine.medicineId) || 0;
+
+        // Calculate the stock adjustment
+        let stockAdjustment = 0;
+
+        if (newQuantity > oldQuantity) {
+          // More medicines were added, decrease stock
+          stockAdjustment = -(newQuantity - oldQuantity);
+        } else if (newQuantity < oldQuantity) {
+          // Medicines were returned, increase stock
+          stockAdjustment = oldQuantity - newQuantity;
+        }
+
+        if (stockAdjustment !== 0) {
+          const newStock = Number(currentStock) + stockAdjustment;
+          await updateStockQuantity(medicine.medicineId, newStock);
+          console.log(
+            `Updated stock for medicine ${medicine.medicineId}: ${currentStock} -> ${newStock} (adjustment: ${stockAdjustment})`
+          );
+        }
+      }
+
+      // Handle medicines that were completely removed
+      for (const oldMedicine of existingMedicineData) {
+        if (
+          !form.medicines.find((m) => m.medicineId === oldMedicine.medicineId)
+        ) {
+          // This medicine was removed, return its quantity to stock
+          const medicineRecord = await getMedicineByMedicineId(
+            oldMedicine.medicineId
+          );
+          if (medicineRecord?.data) {
+            const currentStock = medicineRecord.data.stockQuantity;
+            const returnedQuantity = Number(oldMedicine.quantity);
+            const newStock = Number(currentStock) + returnedQuantity;
+            await updateStockQuantity(oldMedicine.medicineId, newStock);
+            console.log(
+              `Returned stock for removed medicine ${oldMedicine.medicineId}: ${currentStock} -> ${newStock} (returned: ${returnedQuantity})`
+            );
+          }
+        }
+      }
+
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const deleteTransaction = async (transactionId: string) => {
   try {
     const transactionRecord = await getTransaction(transactionId);
