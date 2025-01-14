@@ -99,7 +99,7 @@ const AddPatientLayout = () => {
         <AlertDialogContent className="h-[80%] overflow-auto card-scroll">
           <AlertDialogHeader>
             <AlertDialogTitle>Create New Patient</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-400">
+            <AlertDialogDescription className="text-gray-500 dark:text-gray-400">
               Add patient initial information and complete them in the next
               step.
             </AlertDialogDescription>
@@ -110,7 +110,7 @@ const AddPatientLayout = () => {
               {/* personal info */}
               <div className="pt-8">
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-white">
+                  <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                     Personal Information
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
@@ -123,7 +123,7 @@ const AddPatientLayout = () => {
                       <div className="sm:col-span-3">
                         <label
                           htmlFor="first-name"
-                          className="block text-sm font-medium text-[#76828D]"
+                          className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                         >
                           First name
                         </label>
@@ -142,7 +142,7 @@ const AddPatientLayout = () => {
                     <div className="w-full">
                       <label
                         htmlFor="last-name"
-                        className="block text-sm font-medium text-[#76828D]"
+                        className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                       >
                         Last name
                       </label>
@@ -162,7 +162,7 @@ const AddPatientLayout = () => {
                     <div className="w-full">
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-[#76828D]"
+                        className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                       >
                         Email address
                       </label>
@@ -178,7 +178,7 @@ const AddPatientLayout = () => {
                     </div>
 
                     <div className="w-full">
-                      <label className="block text-sm font-medium text-[#76828D] mb-2">
+                      <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
                         Condition
                       </label>
                       <Input
@@ -195,7 +195,7 @@ const AddPatientLayout = () => {
                     <div className="w-full">
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-[#76828D]"
+                        className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                       >
                         Age
                       </label>
@@ -211,7 +211,7 @@ const AddPatientLayout = () => {
                     </div>
 
                     <div className="w-full">
-                      <label className="block text-sm font-medium text-[#76828D] mb-2">
+                      <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
                         Gender
                       </label>
                       <Select

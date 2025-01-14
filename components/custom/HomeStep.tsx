@@ -7,10 +7,10 @@ const HomeStep = () => {
     <section id="works" className="relative py-32 sm:py-60">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-4xl text-[#E8E9E9] font-extrabold mx-auto md:text-6xl lg:text-5xl">
+          <h2 className="text-4xl text-dark dark:text-light font-extrabold mx-auto md:text-6xl lg:text-5xl">
             How does it work?
           </h2>
-          <p className="max-w-2xl mx-auto mt-4 text-base text-[#76828D] leading-relaxed md:text-2xl">
+          <p className="max-w-2xl mx-auto mt-4 text-base text-gray-500 dark:text-gray-400 leading-relaxed md:text-2xl">
             Our AI solution will help you from start to finish
           </p>
         </div>
@@ -27,41 +27,41 @@ const HomeStep = () => {
           </div>
           <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
             <div>
-              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto dark:bg-white bg-dark border-2 dark:border-gray-200 border-gray-900 rounded-full shadow">
                 <span className="text-xl font-semibold text-primary">
                   <LockIcon />
                 </span>
               </div>
-              <h3 className="mt-6 text-xl  text-[#E8E9E9] font-semibold leading-tight md:mt-10">
+              <h3 className="mt-6 text-xl text-dark dark:text-light font-semibold leading-tight md:mt-10">
                 Select template
               </h3>
-              <p className="mt-4 text-base text-[#76828D] md:text-lg">
+              <p className="mt-4 text-base text-gray-500 dark:text-gray-400 md:text-lg">
                 Select template accourding to your requirement
               </p>
             </div>
             <div>
-              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto dark:bg-white bg-dark border-2 dark:border-gray-200 border-gray-900 rounded-full shadow">
                 <span className="text-xl font-semibold text-primary">
                   <HeartHandshake />
                 </span>
               </div>
-              <h3 className="mt-6 text-xl text-white font-semibold leading-tight md:mt-10">
+              <h3 className="mt-6 text-xl text-dark dark:text-light font-semibold leading-tight md:mt-10">
                 Enter Your Details
               </h3>
-              <p className="mt-4 text-base text-[#76828D] md:text-lg">
+              <p className="mt-4 text-base text-gray-500 dark:text-gray-400 md:text-lg">
                 Put in your personalized details and let the AI do the rest.
               </p>
             </div>
             <div>
-              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto dark:bg-white bg-dark border-2 dark:border-gray-200 border-gray-900 rounded-full shadow">
                 <span className="text-xl font-semibold text-primary">
                   <Activity />
                 </span>
               </div>
-              <h3 className="mt-6 text-xl text-[#E8E9E9] font-semibold leading-tight md:mt-10">
+              <h3 className="mt-6 text-xl text-dark dark:text-light font-semibold leading-tight md:mt-10">
                 Publish it
               </h3>
-              <p className="mt-4 text-base text-[#76828D] md:text-lg">
+              <p className="mt-4 text-base text-gray-500 dark:text-gray-400 md:text-lg">
                 Use output as you like
               </p>
             </div>

@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
-      <div className="overflow-y-auto rounded-md border bg-dark-100">
+      <div className="overflow-y-auto rounded-md border bg-light-100 dark:bg-dark-100">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -124,15 +124,21 @@ export function DataTable<TData, TValue>({
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 overflow-hidden">
         <div className="p-3 flex gap-2 items-center">
           <div className="min-h-5 max-h-5 rounded-lg min-w-5 max-w-5 bg-green-500" />
-          <p className="text-xs text-gray-400">Sufficient Stock</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Sufficient Stock
+          </p>
         </div>
         <div className="p-3 flex gap-2 items-center">
           <div className="min-h-5 max-h-5 rounded-lg min-w-5 max-w-5 bg-orange-500" />
-          <p className="text-xs text-gray-400">Warning Level</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Warning Level
+          </p>
         </div>
         <div className="p-3 flex gap-2 items-center">
           <div className="min-h-5 max-h-5 rounded-lg min-w-5 max-w-5 bg-red-500" />
-          <p className="text-xs text-gray-400">Critical Level</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Critical Level
+          </p>
         </div>
       </div>
       <DataTablePagination table={table} />

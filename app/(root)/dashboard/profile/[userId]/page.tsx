@@ -21,8 +21,8 @@ const ProfilePage = async ({
   const currentUser = await getCurrentUser();
 
   return (
-    <div className="bg-gradient-to-r from-dark to-dark-100 min-h-screen flex items-center justify-center p-4 rounded-lg">
-      <div className="bg-gradient-to-r from-dark to-primary-100 rounded-xl shadow-2xl max-w-4xl w-full p-8 transition-all duration-300 animate-fade-in">
+    <div className="bg-gradient-to-r from-light to-light-100 dark:from-dark dark:to-dark-100 min-h-screen flex items-center justify-center p-4 rounded-lg">
+      <div className="bg-gradient-to-r from-light dark:from-dark to-primary-100 rounded-xl shadow-2xl max-w-4xl w-full p-8 transition-all duration-300 animate-fade-in">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/3 text-center mb-8 md:mb-0">
             {userFromProps ? (
@@ -47,7 +47,7 @@ const ProfilePage = async ({
               {userFromProps?.data?.firstname || "unknown"}{" "}
               {userFromProps?.data?.lastname || "unknown"}
             </h1>
-            <p className="text-gray-300 capitalize mb-4">
+            <p className="text-gray-500 dark:text-gray-300 capitalize mb-4">
               {userFromProps?.data?.role || ""}
             </p>
             {(currentUser?.data?.userId === userId ||
@@ -68,31 +68,37 @@ const ProfilePage = async ({
             )}
           </div>
           <div className="md:w-2/3 md:pl-8">
-            <h2 className="text-xl font-semibold text-white mb-4">
+            <h2 className="text-xl font-semibold text-dark dark:text-white mb-4">
               <p className="text-primary text-xs">About Me</p>
               {userFromProps?.data?.bio ? (
                 <p className="mb-6 text-xs text-gray-400">
                   {userFromProps?.data?.bio}
                 </p>
               ) : (
-                <p className="text-xs text-white mb-6">No bio provided.</p>
+                <p className="text-xs text-dark dark:text-white mb-6">
+                  No bio provided.
+                </p>
               )}
             </h2>
 
-            <h2 className="text-xl font-semibold text-white mb-4">
+            <h2 className="text-xl font-semibold text-dark dark:text-white mb-4">
               Additonal Information
             </h2>
             <div className="flex flex-wrap gap-2 mb-6">
               <div className="flex items-center justify-start w-full gap-4">
                 <div className="flex flex-col items-start gap-1">
-                  <p className="text-gray-300 text-xs">Age</p>
-                  <span className="bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs">
+                    Age
+                  </p>
+                  <span className="bg-light dark:bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden">
                     {userFromProps?.data?.age || "0"}
                   </span>
                 </div>
                 <div className="flex flex-col items-start gap-1">
-                  <p className="text-gray-300 text-xs">Birth Date</p>
-                  <span className="bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs">
+                    Birth Date
+                  </p>
+                  <span className="bg-light dark:bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden">
                     {userFromProps?.data?.dateOfBirth || "unknown"}
                   </span>
                 </div>
@@ -100,23 +106,27 @@ const ProfilePage = async ({
 
               <div className="flex items-center justify-start w-full gap-4">
                 <div className="flex flex-col items-start gap-1">
-                  <p className="text-gray-300 text-xs">Gender</p>
-                  <span className="bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden capitalize">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs">
+                    Gender
+                  </p>
+                  <span className="bg-light dark:bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden capitalize">
                     {userFromProps?.data?.gender || "neutral"}
                   </span>
                 </div>
                 <div className="flex flex-col items-start gap-1">
-                  <p className="text-gray-300 text-xs">Joined At</p>
-                  <span className="bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs">
+                    Joined At
+                  </p>
+                  <span className="bg-light dark:bg-dark text-primary px-3 py-1 rounded-full text-sm line-clamp-1 md:line-clamp-none overflow-hidden">
                     {userFromProps?.data?.createdAt || "unknown"}
                   </span>
                 </div>
               </div>
             </div>
-            <h2 className="text-xl font-semibold text-white mb-4">
+            <h2 className="text-xl font-semibold text-dark dark:text-white mb-4">
               Contact Information
             </h2>
-            <ul className="space-y-2 text-gray-300">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
               <li className="flex items-center line-clamp-1 md:line-clamp-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

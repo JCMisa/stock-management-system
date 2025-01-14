@@ -80,13 +80,13 @@ export function DataTable<TData, TValue>({
         {showCreate && (
           <Link
             href={"/dashboard/manage/medicines/create"}
-            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-100 transition-all cursor-pointer p-3 px-5 min-w-40 max-w-40 rounded-lg"
+            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-100 transition-all cursor-pointer p-3 px-5 min-w-40 max-w-40 rounded-lg text-white"
           >
             <PlusCircle className="w-5 h-5" /> Create
           </Link>
         )}
       </div>
-      <div className="rounded-md bg-dark-100">
+      <div className="rounded-md bg-light-100 dark:bg-dark-100">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -4,6 +4,7 @@ import DashboardMobileNavigation from "./_components/DashboardMobileNavigation";
 import DashboardHeader from "./_components/DashboardHeader";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/actions/user";
+import ModeToggle from "@/components/ModeToggle";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getCurrentUser();
@@ -17,6 +18,9 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
         <DashboardHeader user={user?.data} />
         <div className="p-5 md:ml-32 lg:ml-64">{children}</div>
       </section>
+      <div className="fixed bottom-5 right-5">
+        <ModeToggle />
+      </div>
     </main>
   );
 };

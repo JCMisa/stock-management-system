@@ -11,7 +11,7 @@ const DataCard = ({
   icon: any;
 }) => {
   return (
-    <div className="p-5 rounded-lg border bg-dark-100 shadow-lg flex flex-col items-start">
+    <div className="p-5 rounded-lg border bg-light-100 dark:bg-dark-100 shadow-lg flex flex-col items-start">
       <div className="flex items-center justify-between w-full">
         <p className="text-sm">{label}</p>
 

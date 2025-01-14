@@ -174,7 +174,7 @@ const DashboardMobileNavigation = () => {
               )}
               <div className="hidden overflow-hidden sm:flex flex-col">
                 <p className="text-md">{user?.fullName}</p>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   {user?.primaryEmailAddress?.emailAddress}
                 </p>
               </div>
@@ -191,9 +191,9 @@ const DashboardMobileNavigation = () => {
                         <Link
                           href={item.href}
                           key={index}
-                          className={`flex items-center mt-4 lg:mt-0 justify-center lg:justify-start gap-4 text-gray-400 py-2 border border-dark-100  hover:text-light transition-all ease-in-out md:px-2 ${
+                          className={`flex items-center mt-4 lg:mt-0 justify-center lg:justify-start gap-4 text-gray-500 dark:text-gray-400 py-2 border border-light-100 hover:text-dark dark:border-dark-100 dark:hover:text-light transition-all ease-in-out md:px-2 ${
                             path == item.href &&
-                            "text-light border border-l-primary bg-dark-200"
+                            "text-dark dark:text-light border border-l-primary bg-light-500 dark:bg-dark-200"
                           }`}
                         >
                           <span>{<item.icon />}</span>

@@ -18,7 +18,9 @@ const CreatePatientPage = async ({
         className="flex items-center gap-1 cursor-pointer"
       >
         <ArrowLeft className="h-5 w-5" />
-        <p className="text-sm text-gray-300">Back to Patients List</p>
+        <p className="text-sm text-gray-500 dark:text-gray-300">
+          Back to Patients List
+        </p>
       </Link>
       <div className="flex h-screen max-h-screen">
         <section className="remove-scrollbar relative flex-1 overflow-y-auto">
@@ -31,7 +33,7 @@ const CreatePatientPage = async ({
                 alt="logo"
                 className="w-20 h-20"
               />
-              <h1 className="text-3xl font-bold">Create New Patient</h1>
+              <h1 className="text-3xl font-bold">Manage Patient</h1>
             </div>
 
             <div className="my-10">

@@ -141,16 +141,19 @@ const CreateMedicineForm = () => {
     <>
       <form
         action={formAction}
-        className="bg-dark-100 border border-t-primary rounded-lg flex flex-col gap-4 p-5"
+        className="bg-light-100 dark:bg-dark-100 border border-t-primary rounded-lg flex flex-col gap-4 p-5"
       >
         {/* name - brand - category */}
         <div className="flex flex-col gap-2">
           <h1 className="text-center text-2xl font-bold">Basic Information</h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Medicine Name
                 </label>
                 <Input
@@ -161,7 +164,10 @@ const CreateMedicineForm = () => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Medicine Brand
                 </label>
                 <Input
@@ -173,7 +179,10 @@ const CreateMedicineForm = () => {
               </div>
             </div>
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="" className="text-xs text-gray-400">
+              <label
+                htmlFor=""
+                className="text-xs text-gray-500 dark:text-gray-400"
+              >
                 Medicine Category
               </label>
               <Select
@@ -201,26 +210,29 @@ const CreateMedicineForm = () => {
           <h1 className="text-center text-2xl font-bold">
             Composition and Dosage
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="" className="text-xs text-gray-400">
+              <label
+                htmlFor=""
+                className="text-xs text-gray-500 dark:text-gray-400"
+              >
                 Active Ingredients
               </label>
-              <div className="rounded-lg p-3 bg-dark">
-                <p className="text-xs text-gray-400">
+              <div className="rounded-lg p-3 bg-light dark:bg-dark">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   Please add a comma after each tag
                 </p>
                 <ul className="flex items-center gap-2 overflow-auto card-scroll mt-3">
                   {ingredientsArray.map((item: string, index: number) => (
                     <li
                       key={index}
-                      className="min-w-32 max-w-32 min-h-12 max-h-12 text-xs rounded-lg bg-dark-100 flex items-center gap-2 justify-between p-3 overflow-hidden"
+                      className="min-w-32 max-w-32 min-h-12 max-h-12 text-xs rounded-lg bg-light-100 dark:bg-dark-100 flex items-center gap-2 justify-between p-3 overflow-hidden"
                     >
                       {item}
                       <X
                         onClick={() => removeItem(index)}
-                        className="w-5 h-5 cursor-pointer text-red-500 p-1 bg-dark rounded-full"
+                        className="w-5 h-5 cursor-pointer text-red-500 p-1 bg-light dark:bg-dark rounded-full"
                       />
                     </li>
                   ))}
@@ -229,7 +241,7 @@ const CreateMedicineForm = () => {
                   type="text"
                   value={ingredients}
                   onChange={handleInputChange}
-                  className="bg-dark-100 mt-3"
+                  className="bg-light-100 dark:bg-dark-100 mt-3"
                   placeholder="Add more ingredients"
                 />
                 <div className="flex items-end justify-end mt-2">
@@ -244,7 +256,10 @@ const CreateMedicineForm = () => {
             </div>
             <div className="flex items-center justify-center gap-4 w-full">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Dosage
                 </label>
                 <Input
@@ -255,7 +270,10 @@ const CreateMedicineForm = () => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Medicine Form
                 </label>
                 <Select
@@ -280,11 +298,14 @@ const CreateMedicineForm = () => {
           <h1 className="text-center text-2xl font-bold">
             Packaging and Storage
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   How many units per package?
                 </label>
                 <Input
@@ -294,7 +315,10 @@ const CreateMedicineForm = () => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Where should the storage be?
                 </label>
                 <Select
@@ -315,7 +339,10 @@ const CreateMedicineForm = () => {
               </div>
             </div>
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="" className="text-xs text-gray-400">
+              <label
+                htmlFor=""
+                className="text-xs text-gray-500 dark:text-gray-400"
+              >
                 Expiration Date
               </label>
               <Input type="date" id="expiryDate" name="expiryDate" />
@@ -328,17 +355,23 @@ const CreateMedicineForm = () => {
           <h1 className="text-center text-2xl font-bold">
             Inventory Management
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Total stocks quantity
                 </label>
                 <Input type="text" id="stockQuantity" name="stockQuantity" />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Stock quantity level before re-stocking
                 </label>
                 <Input type="text" id="reorderLevel" name="reorderLevel" />
@@ -349,13 +382,19 @@ const CreateMedicineForm = () => {
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Supplier Name
                 </label>
                 <Input type="text" id="supplier" name="supplier" />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Batch No.
                 </label>
                 <Input type="text" id="batchNumber" name="batchNumber" />
@@ -369,11 +408,14 @@ const CreateMedicineForm = () => {
           <h1 className="text-center text-2xl font-bold">
             Financial Information
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Cost Price
                 </label>
                 <Input
@@ -384,7 +426,10 @@ const CreateMedicineForm = () => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Selling Price
                 </label>
                 <Input
@@ -403,11 +448,14 @@ const CreateMedicineForm = () => {
           <h1 className="text-center text-2xl font-bold">
             Regulatory Information
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Does this medicine needs prescription to be sold?
                 </label>
                 <Select
@@ -427,7 +475,10 @@ const CreateMedicineForm = () => {
                 </Select>
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="" className="text-xs text-gray-400">
+                <label
+                  htmlFor=""
+                  className="text-xs text-gray-500 dark:text-gray-400"
+                >
                   Is this medicine FDA approved?
                 </label>
                 <Select
@@ -447,7 +498,10 @@ const CreateMedicineForm = () => {
             </div>
           </div>
           <div className="flex flex-col gap-1 w-full">
-            <label htmlFor="" className="text-xs text-gray-400">
+            <label
+              htmlFor=""
+              className="text-xs text-gray-500 dark:text-gray-400"
+            >
               Usage Warnings
             </label>
             <Textarea
@@ -464,10 +518,13 @@ const CreateMedicineForm = () => {
           <h1 className="text-center text-2xl font-bold">
             Additional Information
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex flex-col gap-1 w-full mt-5">
-              <label htmlFor="" className="text-xs text-gray-400">
+              <label
+                htmlFor=""
+                className="text-xs text-gray-500 dark:text-gray-400"
+              >
                 Side Effects (if any)
               </label>
               <Textarea
@@ -478,7 +535,10 @@ const CreateMedicineForm = () => {
               />
             </div>
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="" className="text-xs text-gray-400">
+              <label
+                htmlFor=""
+                className="text-xs text-gray-500 dark:text-gray-400"
+              >
                 Usage Instructions
               </label>
               <Textarea
@@ -489,7 +549,10 @@ const CreateMedicineForm = () => {
               />
             </div>
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="" className="text-xs text-gray-400">
+              <label
+                htmlFor=""
+                className="text-xs text-gray-500 dark:text-gray-400"
+              >
                 Notes
               </label>
               <Textarea

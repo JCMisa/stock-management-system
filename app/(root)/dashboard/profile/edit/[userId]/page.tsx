@@ -167,21 +167,21 @@ const EditProfilePage = ({
   );
 
   return (
-    <section className="py-24 px-24 my-auto bg-gradient-to-br from-dark-100 to-dark rounded-lg">
+    <section className="py-24 px-24 my-auto bg-gradient-to-br from-light-100 to-light dark:from-dark-100 dark:to-dark rounded-lg">
       <form
         action={formAction}
-        className="space-y-8 container m-auto divide-y divide-gray-200"
+        className="space-y-8 container m-auto divide-y divide-gray-800 dark:divide-gray-800"
       >
-        <div className="space-y-8 divide-y divide-gray-200">
+        <div className="space-y-8 divide-y divide-gray-800 dark:divide-gray-200">
           {/* profile image */}
           <div>
             <div>
               <div className="flex items-center justify-between">
-                <h3 className="leading-6 font-medium text-white text-3xl">
+                <h3 className="leading-6 font-medium text-dark dark:text-white text-3xl">
                   Profile
                 </h3>
                 <AlertDialog>
-                  <AlertDialogTrigger className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 transition-all cursor-pointer p-3 px-5 min-w-32 max-w-32 rounded-lg">
+                  <AlertDialogTrigger className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 transition-all cursor-pointer p-3 px-5 min-w-32 max-w-32 rounded-lg text-white">
                     {loading ? (
                       <LoaderCircle className="w-5 h-5 animate-spin" />
                     ) : (
@@ -231,7 +231,7 @@ const EditProfilePage = ({
           {/* personal info */}
           <div className="pt-8">
             <div>
-              <h3 className="text-lg leading-6 font-medium text-white">
+              <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                 Personal Information
               </h3>
               <p className="mt-1 text-sm text-gray-500">
@@ -358,7 +358,7 @@ const EditProfilePage = ({
           {/* contact info */}
           <div className="pt-8">
             <div>
-              <h3 className="text-lg leading-6 font-medium text-white">
+              <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                 Contact Information
               </h3>
               <p className="mt-1 text-sm text-gray-500">
@@ -408,7 +408,7 @@ const EditProfilePage = ({
         {/* manage user bio */}
         <div className="pt-8">
           <div>
-            <h3 className="text-lg leading-6 font-medium text-white">
+            <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
               Manage Bio
             </h3>
             <p className="mt-1 text-sm text-gray-500">
@@ -436,7 +436,7 @@ const EditProfilePage = ({
         {currentUserRole === "admin" && (
           <div className="pt-8">
             <div>
-              <h3 className="text-lg leading-6 font-medium text-white">
+              <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                 Manage Role
               </h3>
               <p className="mt-1 text-sm text-gray-500">

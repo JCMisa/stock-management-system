@@ -262,7 +262,7 @@ const CreateTransaction = () => {
   return (
     <div>
       <h2 className="text-2xl font-bold">Add Transaction</h2>
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-gray-500 dark:text-gray-400">
         Add new transaction and provide bought medicines to calculate generated
         income.
       </p>
@@ -272,7 +272,7 @@ const CreateTransaction = () => {
         <form className="flex flex-col gap-4" action={formAction}>
           {/* select patient */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-400">
+            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Patient (optional)
             </label>
             <Select
@@ -284,15 +284,15 @@ const CreateTransaction = () => {
                 <SelectValue placeholder="Patient" />
               </SelectTrigger>
               <SelectContent>
-                <div className="mb-3 flex items-start justify-between w-full gap-3 bg-dark-100">
-                  <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full">
+                <div className="mb-3 flex items-start justify-between w-full gap-3 bg-light-100 dark:bg-dark-100">
+                  <div className="flex items-center border border-gray-500 dark:border-gray-400 rounded-lg px-3 w-full">
                     <Search
                       onClick={handleSearch}
                       className="cursor-pointer hover:scale-95"
                     />
                     <Input
                       type="text"
-                      className="border-none bg-dark-100"
+                      className="border-none bg-light-100 dark:bg-dark-100"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       onKeyDown={handleKeyDown}
@@ -337,7 +337,7 @@ const CreateTransaction = () => {
                           <p className="text-sm">{patient?.fullname}</p>
                         </div>
 
-                        <p className="text-xs text-gray-400 flex items-center gap-2">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                           Appointment date:{" "}
                           {moment(patient?.createdAt).format("MMM-DD-YYYY")}
                         </p>
@@ -351,7 +351,7 @@ const CreateTransaction = () => {
 
           {/* patient name */}
           <div className="flex flex-col gap-1 w-full">
-            <label className="text-sm font-medium text-gray-400">
+            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Patient Name
             </label>
             <Input
@@ -364,7 +364,7 @@ const CreateTransaction = () => {
           {/* multiple medicines can be picked */}
           <div className="flex flex-col gap-1 w-full my-3">
             <div className="w-full flex items-center justify-between">
-              <label className="text-sm font-medium text-gray-400">
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Medicines
               </label>
               <Button type="button" onClick={handleAddMedicine}>
@@ -447,7 +447,7 @@ const CreateTransaction = () => {
         {patientPrescription ? (
           <div dangerouslySetInnerHTML={{ __html: patientPrescription }} />
         ) : (
-          <p className="text-sm text-gray-400 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
             No prescription available.
           </p>
         )}

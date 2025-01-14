@@ -6,7 +6,7 @@ const HomeContact = () => {
       <section className="mb-32">
         <div className="flex justify-center">
           <div className="text-center md:max-w-xl lg:max-w-3xl">
-            <h2 className="mb-12 px-6 text-4xl md:text-6xl lg:text-5xl font-extrabold text-[#E8E9E9]">
+            <h2 className="mb-12 px-6 text-4xl md:text-6xl lg:text-5xl font-extrabold text-dark dark:text-light">
               Contact us
             </h2>
           </div>
@@ -16,14 +16,14 @@ const HomeContact = () => {
           <form className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
             <div className="mb-3 w-full">
               <label
-                className="block font-medium mb-[2px] text-[#E8E9E9]"
+                className="block font-medium mb-[2px] text-dark dark:text-light"
                 htmlFor="exampleInput90"
               >
                 Name
               </label>
               <input
                 type="text"
-                className="px-2 py-2 border w-full outline-none rounded-md bg-dark-200"
+                className="px-2 py-2 border w-full outline-none rounded-md bg-light-100 dark:bg-dark-200"
                 id="exampleInput90"
                 placeholder="Name"
               />
@@ -31,14 +31,14 @@ const HomeContact = () => {
 
             <div className="mb-3 w-full">
               <label
-                className="block font-medium mb-[2px] text-[#E8E9E9]"
+                className="block font-medium mb-[2px] text-dark dark:text-light"
                 htmlFor="exampleInput90"
               >
                 Email
               </label>
               <input
                 type="email"
-                className="px-2 py-2 border w-full outline-none rounded-md bg-dark-200"
+                className="px-2 py-2 border w-full outline-none rounded-md bg-light-100 dark:bg-dark-200"
                 id="exampleInput90"
                 placeholder="Enter your email address"
               />
@@ -46,13 +46,13 @@ const HomeContact = () => {
 
             <div className="mb-3 w-full">
               <label
-                className="block font-medium mb-[2px] text-[#E8E9E9]"
+                className="block font-medium mb-[2px] text-dark dark:text-light"
                 htmlFor="exampleInput90"
               >
                 Message
               </label>
               <textarea
-                className="px-2 py-2 border rounded-md w-full outline-none bg-dark-200"
+                className="px-2 py-2 border rounded-md w-full outline-none bg-light-100 dark:bg-dark-200"
                 name=""
                 id=""
               ></textarea>
@@ -60,7 +60,7 @@ const HomeContact = () => {
 
             <button
               type="button"
-              className="mb-6 inline-block w-full rounded bg-primary px-6 py-2.5 font-medium uppercase leading-normal text-white hover:shadow-md hover:bg-primary/90"
+              className="mb-6 inline-block w-full rounded bg-primary px-6 py-2.5 font-medium uppercase leading-normal hover:shadow-md hover:bg-primary/90"
             >
               Send
             </button>
@@ -71,7 +71,7 @@ const HomeContact = () => {
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="flex items-start">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-dark-100 p-4 text-primary">
+                    <div className="inline-block rounded-md bg-light-100 dark:bg-dark-100 p-4 text-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -88,16 +88,22 @@ const HomeContact = () => {
                     </div>
                   </div>
                   <div className="ml-6 grow">
-                    <p className="mb-2 text-[#E8E9E9]">Technical support</p>
-                    <p className="text-[#76828D] ">support@example.com</p>
-                    <p className="text-[#76828D] ">+1 234-567-89</p>
+                    <p className="mb-2 text-dark dark:text-light">
+                      Technical support
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 ">
+                      support@example.com
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 ">
+                      +1 234-567-89
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="flex items-start">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-dark-100 p-4 text-primary">
+                    <div className="inline-block rounded-md bg-light-100 dark:bg-dark-100 p-4 text-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -114,16 +120,22 @@ const HomeContact = () => {
                     </div>
                   </div>
                   <div className="ml-6 grow">
-                    <p className="mb-2 text-[#E8E9E9] ">Sales questions</p>
-                    <p className="text-[#76828D] ">sales@example.com</p>
-                    <p className="text-[#76828D] ">+1 234-567-89</p>
+                    <p className="mb-2 text-dark dark:text-light ">
+                      Sales questions
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 ">
+                      sales@example.com
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 ">
+                      +1 234-567-89
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="align-start flex">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-dark-100 p-4 text-primary">
+                    <div className="inline-block rounded-md bg-light-100 dark:bg-dark-100 p-4 text-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -140,16 +152,20 @@ const HomeContact = () => {
                     </div>
                   </div>
                   <div className="ml-6 grow">
-                    <p className="mb-2 text-[#E8E9E9] ">Press</p>
-                    <p className="text-[#76828D] ">press@example.com</p>
-                    <p className="text-[#76828D]">+1 234-567-89</p>
+                    <p className="mb-2 text-dark dark:text-light ">Press</p>
+                    <p className="text-gray-500 dark:text-gray-400 ">
+                      press@example.com
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      +1 234-567-89
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="mb-12 w-full shrink-0 grow-0 basis-auto md:w-6/12 md:px-3 lg:px-6">
                 <div className="align-start flex">
                   <div className="shrink-0">
-                    <div className="inline-block rounded-md bg-dark-100 p-4 text-primary">
+                    <div className="inline-block rounded-md bg-light-100 dark:bg-dark-100 p-4 text-primary">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -166,9 +182,13 @@ const HomeContact = () => {
                     </div>
                   </div>
                   <div className="ml-6 grow">
-                    <p className="mb-2 text-[#E8E9E9]">Bug report</p>
-                    <p className="text-[#76828D]">bugs@example.com</p>
-                    <p className="text-[#76828D]">+1 234-567-89</p>
+                    <p className="mb-2 text-dark dark:text-light">Bug report</p>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      bugs@example.com
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      +1 234-567-89
+                    </p>
                   </div>
                 </div>
               </div>

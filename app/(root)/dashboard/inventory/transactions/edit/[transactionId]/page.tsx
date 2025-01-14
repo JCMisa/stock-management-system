@@ -304,14 +304,14 @@ const EditTransaction = ({ params }: PageProps) => {
   return (
     <div>
       <h2 className="text-2xl font-bold">Edit Transaction</h2>
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-gray-500 dark:text-gray-400">
         Update transaction details and medicines.
       </p>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 my-5">
         <form className="flex flex-col gap-4" action={formAction}>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-400">
+            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Patient (optional)
             </label>
             <Select
@@ -325,15 +325,15 @@ const EditTransaction = ({ params }: PageProps) => {
                 <SelectValue placeholder="Patient" />
               </SelectTrigger>
               <SelectContent>
-                <div className="mb-3 flex items-start justify-between w-full gap-3 bg-dark-100">
-                  <div className="flex items-center border border-gray-400 rounded-lg px-3 w-full">
+                <div className="mb-3 flex items-start justify-between w-full gap-3 bg-light-100 dark:bg-dark-100">
+                  <div className="flex items-center border border-gray-500 dark:border-gray-400 rounded-lg px-3 w-full">
                     <Search
                       onClick={handleSearch}
                       className="cursor-pointer hover:scale-95"
                     />
                     <Input
                       type="text"
-                      className="border-none bg-dark-100"
+                      className="border-none bg-light-100 dark:bg-dark-100"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       onKeyDown={handleKeyDown}
@@ -378,7 +378,7 @@ const EditTransaction = ({ params }: PageProps) => {
                           <p className="text-sm">{patient?.fullname}</p>
                         </div>
 
-                        <p className="text-xs text-gray-400 flex items-center gap-2">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                           Appointment date:{" "}
                           {moment(patient?.createdAt).format("MMM-DD-YYYY")}
                         </p>
@@ -391,7 +391,7 @@ const EditTransaction = ({ params }: PageProps) => {
           </div>
 
           <div className="flex flex-col gap-1 w-full">
-            <label className="text-sm font-medium text-gray-400">
+            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Patient Name
             </label>
             <Input
@@ -405,7 +405,7 @@ const EditTransaction = ({ params }: PageProps) => {
 
           <div className="flex flex-col gap-1 w-full my-3">
             <div className="w-full flex items-center justify-between">
-              <label className="text-sm font-medium text-gray-400">
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Medicines
               </label>
               <Button type="button" onClick={handleAddMedicine}>
@@ -482,7 +482,7 @@ const EditTransaction = ({ params }: PageProps) => {
         {patientPrescription ? (
           <div dangerouslySetInnerHTML={{ __html: patientPrescription }} />
         ) : (
-          <p className="text-sm text-gray-400 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
             No prescription available.
           </p>
         )}

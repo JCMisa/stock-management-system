@@ -90,7 +90,7 @@ const CreateUser = () => {
         <AlertDialogContent className="h-[80%] overflow-auto card-scroll">
           <AlertDialogHeader>
             <AlertDialogTitle>Create New User</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-400">
+            <AlertDialogDescription className="text-gray-500 dark:text-gray-400">
               Create new user and assign necessary infomation.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -100,7 +100,7 @@ const CreateUser = () => {
               {/* personal info */}
               <div className="pt-8">
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-white">
+                  <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                     Personal Information
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
@@ -227,7 +227,7 @@ const CreateUser = () => {
               {/* contact info */}
               <div className="pt-8">
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-white">
+                  <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                     Contact Information
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
@@ -279,7 +279,7 @@ const CreateUser = () => {
               {/* manage user bio */}
               <div className="pt-8">
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-white">
+                  <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                     Manage Bio
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
@@ -308,7 +308,7 @@ const CreateUser = () => {
               {/* manage role for admin access only */}
               <div className="pt-8">
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-white">
+                  <h3 className="text-lg leading-6 font-medium text-dark dark:text-white">
                     Manage Role
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">

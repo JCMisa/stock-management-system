@@ -207,24 +207,27 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
     <>
       <form
         action={formAction}
-        className="bg-dark-100 border border-t-primary rounded-lg flex flex-col gap-4 p-5"
+        className="bg-light-100 dark:bg-dark-100 border border-t-primary rounded-lg flex flex-col gap-4 p-5"
       >
         {/* imageUrl- firstname - lastname - age - gender - address - occupation */}
         <div className="flex flex-col gap-2">
           <h1 className="text-center text-2xl font-bold">
             Personal Information
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex flex-col gap-1">
               <UploadPatientImage patient={patientLayout} />
-              <p className="text-xs text-gray-400 -mt-6">
+              <p className="text-xs text-gray-500  dark:text-gray-400 -mt-6">
                 Click the image to update patient profile image
               </p>
             </div>
             <div className="flex items-center justify-center gap-4 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="firstname" className="text-xs text-gray-400">
+                <label
+                  htmlFor="firstname"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   First Name
                 </label>
                 <Input
@@ -236,7 +239,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="firstname" className="text-xs text-gray-400">
+                <label
+                  htmlFor="firstname"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   Last Name
                 </label>
                 <Input
@@ -250,7 +256,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
             </div>
             <div className="flex items-center justify-center gap-4 w-full">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="age" className="text-xs text-gray-400">
+                <label
+                  htmlFor="age"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   Age
                 </label>
                 <Input
@@ -262,7 +271,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="firstname" className="text-xs text-gray-400">
+                <label
+                  htmlFor="firstname"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   Gender
                 </label>
                 <Select
@@ -281,7 +293,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
             </div>
             <div className="flex items-center justify-center gap-4 w-full">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="address" className="text-xs text-gray-400">
+                <label
+                  htmlFor="address"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   Address
                 </label>
                 <Input
@@ -294,7 +309,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               </div>
               <div className="flex flex-col gap-1 w-full">
                 <div className="flex flex-col gap-1 w-full">
-                  <label htmlFor="occupation" className="text-xs text-gray-400">
+                  <label
+                    htmlFor="occupation"
+                    className="text-xs text-gray-500  dark:text-gray-400"
+                  >
                     Occupation
                   </label>
                   <Input
@@ -315,11 +333,14 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
           <h1 className="text-center text-2xl font-bold py-3">
             Contact Information
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-2 mt-3">
             <div className="flex items-center justify-center gap-3 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="email" className="text-xs text-gray-400">
+                <label
+                  htmlFor="email"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   Email
                 </label>
                 <Input
@@ -331,7 +352,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 />
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="contact" className="text-xs text-gray-400">
+                <label
+                  htmlFor="contact"
+                  className="text-xs text-gray-500  dark:text-gray-400"
+                >
                   Contact No.
                 </label>
                 <Input
@@ -347,7 +371,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               <div className="flex flex-col gap-1 w-full">
                 <label
                   htmlFor="emergencyContactName"
-                  className="text-xs text-gray-400"
+                  className="text-xs text-gray-500  dark:text-gray-400"
                 >
                   Emergency Contact Name
                 </label>
@@ -362,7 +386,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               <div className="flex flex-col gap-1 w-full">
                 <label
                   htmlFor="emergencyContactNumber"
-                  className="text-xs text-gray-400"
+                  className="text-xs text-gray-500  dark:text-gray-400"
                 >
                   Emergency Contact Number
                 </label>
@@ -383,10 +407,13 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
           <h1 className="text-center text-2xl font-bold py-3">
             Medical Condition
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-4 mt-3">
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="conditionName" className="text-xs text-gray-400">
+              <label
+                htmlFor="conditionName"
+                className="text-xs text-gray-500  dark:text-gray-400"
+              >
                 Condition Name
               </label>
               <Input
@@ -400,7 +427,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
             <div className="flex flex-col gap-1 w-full">
               <label
                 htmlFor="conditionDescription"
-                className="text-xs text-gray-400"
+                className="text-xs text-gray-500  dark:text-gray-400"
               >
                 Condition Description
               </label>
@@ -415,7 +442,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
             <div className="flex flex-col gap-1 w-full">
               <label
                 htmlFor="familyMedicalHistory"
-                className="text-xs text-gray-400"
+                className="text-xs text-gray-500  dark:text-gray-400"
               >
                 Any family medical history?
               </label>
@@ -430,7 +457,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
             <div className="flex flex-col gap-1 w-full">
               <label
                 htmlFor="conditionSeverity"
-                className="text-xs text-gray-400"
+                className="text-xs text-gray-500  dark:text-gray-400"
               >
                 How severe is your condition?
               </label>
@@ -449,9 +476,12 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               </Select>
             </div>
             <div className="flex flex-col gap-1 w-full">
-              <label htmlFor="allergies" className="text-xs text-gray-400">
+              <label
+                htmlFor="allergies"
+                className="text-xs text-gray-500  dark:text-gray-400"
+              >
                 Allergies{" "}
-                <span className="text-[10px] text-gray-400">
+                <span className="text-[10px] text-gray-500  dark:text-gray-400">
                   (Press space to add more allergy)
                 </span>
               </label>
@@ -484,13 +514,13 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
           <h1 className="text-center text-2xl font-bold py-3">
             Identity and Insurance Information
           </h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-2 mt-3">
             <div className="flex items-center justify-center gap-3 w-full mt-5">
               <div className="flex flex-col gap-1 w-full">
                 <label
                   htmlFor="insuranceProvider"
-                  className="text-xs text-gray-400"
+                  className="text-xs text-gray-500  dark:text-gray-400"
                 >
                   Insurance Provider
                 </label>
@@ -505,7 +535,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               <div className="flex flex-col gap-1 w-full">
                 <label
                   htmlFor="insurancePolicyNumber"
-                  className="text-xs text-gray-400"
+                  className="text-xs text-gray-500  dark:text-gray-400"
                 >
                   Insurance Policy Number
                 </label>
@@ -522,7 +552,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               <div className="flex flex-col gap-1 w-full">
                 <label
                   htmlFor="identificationCardType"
-                  className="text-xs text-gray-400"
+                  className="text-xs text-gray-500  dark:text-gray-400"
                 >
                   Identification Card Type
                 </label>
@@ -547,7 +577,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               <div className="flex flex-col gap-1 w-full">
                 <label
                   htmlFor="identificationCardNumber"
-                  className="text-xs text-gray-400"
+                  className="text-xs text-gray-500  dark:text-gray-400"
                 >
                   Identification Card Number
                 </label>
@@ -566,9 +596,12 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
         {/* assign to doctor */}
         <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary">
           <h1 className="text-center text-2xl font-bold py-3">Doctor</h1>
-          <Separator className="border border-dark-200" />
+          <Separator className="border border-light-200 dark:border-dark-200" />
           <div className="flex flex-col gap-1 w-full">
-            <label htmlFor="prescription" className="text-xs text-gray-400">
+            <label
+              htmlFor="prescription"
+              className="text-xs text-gray-500  dark:text-gray-400"
+            >
               Assign a Doctor for the patient
             </label>
             <Select

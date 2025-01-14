@@ -131,9 +131,12 @@ const DashboardSidebar = () => {
   ];
 
   return (
-    <aside className="hidden fixed top-0 left-0 md:w-32 lg:w-64 bg-dark-100 md:block h-screen overflow-auto sidenav-scroll z-30">
+    <aside className="hidden fixed top-0 left-0 md:w-32 lg:w-64 bg-light-100 dark:bg-dark-100 md:block h-screen overflow-auto sidenav-scroll z-30">
       <div className="mt-3 text-2xl uppercase text-center tracking-widest">
-        <Link href="/" className="text-white flex items-center px-3">
+        <Link
+          href="/"
+          className="text-dark dark:text-white flex items-center px-3"
+        >
           <Image
             src={"/logo.svg"}
             alt="logo"
@@ -147,7 +150,7 @@ const DashboardSidebar = () => {
       <nav className="text-sm px-3">
         {menuItems.map((item, index) => (
           <div key={item.title || index} className="flex flex-col gap-2">
-            <p className="hidden lg:block text-light-100 font-light my-4">
+            <p className="hidden lg:block text-dark-100 dark:text-light-100 font-light my-4">
               {item.title}
             </p>
             {item.items.map(
@@ -156,9 +159,9 @@ const DashboardSidebar = () => {
                   <Link
                     href={item.href}
                     key={index}
-                    className={`flex items-center mt-4 lg:-mt-2 justify-center lg:justify-start gap-4 text-gray-400 py-2 border border-dark-100  hover:text-light transition-all ease-in-out md:px-2 ${
+                    className={`flex items-center mt-4 lg:-mt-2 justify-center lg:justify-start gap-4 text-gray-500 dark:text-gray-400 py-2 border border-light-100 dark:border-dark-100 hover:text-dark dark:hover:text-light transition-all ease-in-out md:px-2 ${
                       path == item.href &&
-                      "text-light border border-l-primary bg-dark-200"
+                      "text-dark dark:text-light border border-l-primary bg-light-400 dark:bg-dark-200"
                     }`}
                   >
                     <span>{<item.icon />}</span>

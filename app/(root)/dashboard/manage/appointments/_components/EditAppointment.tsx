@@ -165,7 +165,9 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
             <div className="mt-5 flex flex-col gap-5">
               <div className="flex flex-row items-center justify-center gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">
-                  <label className="text-xs text-gray-400">Patient Name</label>
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
+                    Patient Name
+                  </label>
                   <Input
                     type="text"
                     id="patientName"
@@ -174,7 +176,9 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                   />
                 </div>
                 <div className="flex flex-col gap-1 w-full">
-                  <label className="text-xs text-gray-400">Doctor Name</label>
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
+                    Doctor Name
+                  </label>
                   <Input
                     type="text"
                     id="doctorName"
@@ -185,7 +189,7 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
               </div>
               <div className="flex flex-row items-center justify-center gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">
-                  <label className="text-xs text-gray-400">
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
                     Appointment Reason
                   </label>
                   <Textarea
@@ -198,7 +202,7 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
               </div>
               <div className="flex flex-row items-center justify-center gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">
-                  <label className="text-xs text-gray-400">
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
                     Appointment Status
                   </label>
                   <Select
@@ -219,7 +223,9 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                 </div>
               </div>
               <div className="flex flex-col gap-1 w-full">
-                <label className="text-xs text-gray-400">Date</label>
+                <label className="text-xs text-gray-500 dark:text-gray-400">
+                  Date
+                </label>
                 <Input
                   type="date"
                   id="date"
@@ -229,7 +235,9 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
               </div>
               <div className="flex flex-row items-center justify-center gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">
-                  <label className="text-xs text-gray-400">Time Start</label>
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
+                    Time Start
+                  </label>
                   <Input
                     type="time"
                     id="timeStart"
@@ -238,7 +246,9 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                   />
                 </div>
                 <div className="flex flex-col gap-1 w-full">
-                  <label className="text-xs text-gray-400">Time End</label>
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
+                    Time End
+                  </label>
                   <Input
                     type="time"
                     id="timeEnd"
@@ -248,10 +258,12 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-gray-400">Prescription</label>
+                <label className="text-xs text-gray-500 dark:text-gray-400">
+                  Prescription
+                </label>
                 <ReactQuill
                   theme="snow"
-                  className="bg-dark"
+                  className="bg-light dark:bg-dark"
                   defaultValue={patient?.prescription}
                   value={prescription}
                   onChange={handleQuillChange}

@@ -8,24 +8,24 @@ const HomeHero = ({ user }: { user: UserType }) => {
       <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
         <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
           <div className="sm:max-w-lg">
-            <h1 className="font text-4xl font-bold tracking-tight text-[#E8E9E9] sm:text-6xl">
+            <h1 className="font text-4xl font-bold tracking-tight text-dark dark:text-light sm:text-6xl">
               Svelte signals are finally here
             </h1>
-            <p className="my-4 text-xl text-gray-500">
+            <p className="my-4 text-xl text-gray-500 dark:text-gray-400">
               This year, our new svelte signals will shelter you from the harsh
               elements of a world that doesn&apos;t care if you develop or die.
             </p>
             {user ? (
               <Link
                 href={"/dashboard"}
-                className="inline-block rounded-md border border-transparent bg-primary py-3 px-8 text-center font-medium text-white hover:bg-primary/90"
+                className="inline-block rounded-md border border-transparent bg-primary py-3 px-8 text-center font-medium hover:bg-primary/90"
               >
                 Get Started
               </Link>
             ) : (
               <Link
                 href={"/sign-in"}
-                className="inline-block rounded-md border border-transparent bg-primary py-3 px-8 text-center font-medium text-white hover:bg-primary/90"
+                className="inline-block rounded-md border border-transparent bg-primary py-3 px-8 text-center font-medium hover:bg-primary/90"
               >
                 Get Started
               </Link>

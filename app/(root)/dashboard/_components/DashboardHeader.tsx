@@ -5,11 +5,11 @@ import React from "react";
 
 const DashboardHeader = ({ user }: { user: UserType }) => {
   return (
-    <header className="bg-dark hidden md:block shadow-xl md:ml-32 lg:ml-64">
+    <header className="bg-light dark:bg-dark hidden md:block shadow-lg md:ml-32 lg:ml-64">
       <div className="flex flex-row items-center justify-between p-3 px-5">
         <div className="relative">
           <input
-            className="appearance-none border-2 pl-10 border-dark-100 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-[#0D0F10] focus:border-[#0D0F10] focus:shadow-outline bg-dark-100"
+            className="appearance-none border-2 pl-10 border-light-100 dark:border-dark-100 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-[#0D0F10] focus:border-[#0D0F10] focus:shadow-outline bg-light-300 dark:bg-dark-100"
             id="username"
             type="text"
             placeholder="Search..."
@@ -23,29 +23,14 @@ const DashboardHeader = ({ user }: { user: UserType }) => {
         <div className="relative flex flex-col">
           <div className="sm:flex gap-1 hidden">
             <div className="flex items-center gap-2">
-              {/* {user ? (
-                <Image
-                  src={user?.imageUrl}
-                  alt="avatar"
-                  width={1000}
-                  height={1000}
-                  className="w-8 h-8 rounded-full"
-                />
-              ) : (
-                <Image
-                  src={"/empty-img.png"}
-                  alt="avatar"
-                  width={1000}
-                  height={1000}
-                  className="w-8 h-8"
-                />
-              )} */}
               <UserButton />
               <div className="lg:flex flex-col items-start hidden">
                 <p className="tesm-sm capitalize">
                   {user?.firstname} {user?.lastname}
                 </p>
-                <span className="text-xs text-gray-400">{user?.email}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {user?.email}
+                </span>
               </div>
             </div>
           </div>

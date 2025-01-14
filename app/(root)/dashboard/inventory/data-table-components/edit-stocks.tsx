@@ -99,7 +99,9 @@ const EditStocks = ({ medicineId }: { medicineId: string }) => {
             />
             <div className="flex flex-col items-center justify-center gap-1">
               <h1 className="text-6xl font-bold">{stockCount.toString()}</h1>
-              <p className="text-sm text-gray-400">STOCK QUANTITY</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                STOCK QUANTITY
+              </p>
             </div>
             <Plus
               className="p-1 w-8 h-8 cursor-pointer rounded-full border border-dark-200"

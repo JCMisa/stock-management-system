@@ -11,18 +11,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#0D0F10",
-        foreground: "#E8E9E9",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
         popover: {
-          DEFAULT: "#0D0F10",
-          foreground: "#E8E9E9",
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         light: {
           DEFAULT: "#E8E9E9",
+          100: "#F0F1F1",
+          200: "#F7F8F8",
+          300: "#FEFEFE",
+          400: "#FFFFFF",
+          500: "#F3F4F4",
           foreground: "hsl(var(--primary-foreground))",
         },
         dark: {
@@ -62,7 +67,7 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "#0D0F10",
+        border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         chart: {

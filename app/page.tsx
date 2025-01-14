@@ -6,6 +6,7 @@ import HomeContact from "@/components/custom/HomeContact";
 import HomeFooter from "@/components/custom/HomeFooter";
 import { getCurrentUser } from "@/lib/actions/user";
 import { redirect } from "next/navigation";
+import ModeToggle from "@/components/ModeToggle";
 
 export default async function Home() {
   const user = await getCurrentUser();
@@ -20,6 +21,9 @@ export default async function Home() {
       <HomeData />
       <HomeContact />
       <HomeFooter />
+      <div className="fixed bottom-5 right-5">
+        <ModeToggle />
+      </div>
     </div>
   );
 }

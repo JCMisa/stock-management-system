@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
         />
         {showCreate && <CreateUser />}
       </div>
-      <div className="rounded-md bg-dark-100">
+      <div className="rounded-md bg-light-100 dark:bg-dark-100">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

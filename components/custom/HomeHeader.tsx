@@ -7,9 +7,9 @@ import { Menu } from "lucide-react";
 
 const HomeHeader = ({ user }: { user: UserType }) => {
   return (
-    <header className="bg-dark body-font shadow-xl">
+    <header className="dark:bg-dark bg-light body-font shadow-lg">
       <div className="container mx-auto md:flex flex-wrap p-5 flex-col md:flex-row items-center hidden">
-        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+        <a className="flex title-font font-medium items-center dark:text-white text-dark mb-4 md:mb-0">
           <Image
             src={"/logo.svg"}
             alt="logo"
@@ -32,7 +32,9 @@ const HomeHeader = ({ user }: { user: UserType }) => {
               <p className="tesm-sm capitalize">
                 {user?.firstname} {user?.lastname}
               </p>
-              <span className="text-xs text-gray-400">{user?.email}</span>
+              <span className="text-xs dark:text-gray-400 text-gray-500">
+                {user?.email}
+              </span>
             </div>
           </div>
         ) : (

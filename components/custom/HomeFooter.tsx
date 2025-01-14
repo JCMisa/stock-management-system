@@ -3,10 +3,10 @@ import React from "react";
 
 const HomeFooter = () => {
   return (
-    <div className="bg-dark-100">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6  text-[#76828D] flex flex-wrap justify-centerflex justify-between">
+    <div className="bg-light-100 dark:bg-dark-100">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6  text-dark dark:text-light flex flex-wrap justify-between">
         <div className="p-5">
-          <div className="text-xs uppercase text-[#E8E9E9] font-medium">
+          <div className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium">
             Home
           </div>
           <Link className="my-3 block" href="/">
@@ -26,7 +26,7 @@ const HomeFooter = () => {
           </Link>
         </div>
         <div className="p-5">
-          <div className="text-xs uppercase text-[#E8E9E9] font-medium">
+          <div className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium">
             Resources
           </div>
 
@@ -41,7 +41,7 @@ const HomeFooter = () => {
           </Link>
         </div>
         <div className="p-5">
-          <div className="text-xs uppercase text-[#E8E9E9] font-medium">
+          <div className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium">
             Support
           </div>
 
@@ -56,7 +56,7 @@ const HomeFooter = () => {
           </Link>
         </div>
         <div className="p-5">
-          <div className="text-xs uppercase text-[#E8E9E9] font-medium">
+          <div className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium">
             Contact us
           </div>
 
