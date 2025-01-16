@@ -141,3 +141,11 @@ export const Transaction = pgTable("transaction", {
   totalSales: numeric("totalSales"),
   transactionDate: varchar("transactionDate"),
 });
+
+// export const TransactionDeleteLogs = pgTable("transactionDeleteLogs", {
+//   id: serial("id").primaryKey(),
+//   transactionId: varchar("transactionId").notNull(),
+//   deleteReason: text("deleteReason"),
+//   deletedBy: varchar("deletedBy"),
+//   createdAt: varchar("createdAt"),
+// });

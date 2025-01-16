@@ -2,9 +2,11 @@
 
 import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
+// import { Transaction, TransactionDeleteLogs } from "@/utils/schema";
 import { Transaction } from "@/utils/schema";
 import { eq, sum } from "drizzle-orm";
 import { getMedicineByMedicineId, updateStockQuantity } from "./medicine";
+import { revalidatePath } from "next/cache";
 
 export const getAllTransactions = async () => {
   try {
@@ -285,48 +287,88 @@ export const updateTransaction = async (
   }
 };
 
+// delete transaction WITH automatic medicine replenishment
 export const deleteTransaction = async (transactionId: string) => {
   try {
-    const transactionRecord = await getTransaction(transactionId);
-    if (transactionRecord?.data !== null) {
-      const medicines = transactionRecord?.data?.medicineData;
-      if (medicines?.length > 0) {
-        for (const medicine of medicines) {
-          const medicineRecord = await getMedicineByMedicineId(
-            medicine.medicineId
-          );
-          if (medicineRecord?.data !== null) {
-            const stockQuantity = medicineRecord?.data?.stockQuantity;
-            const incrementedStockQuantity =
-              Number(stockQuantity) + Number(medicine.quantity);
-            const updateStock = await updateStockQuantity(
-              medicine.medicineId,
-              incrementedStockQuantity
-            );
-            if (updateStock?.data !== null) {
-              console.log(
-                medicine.medicineId,
-                "'s stock incremented value: ",
-                stockQuantity
-              );
-            }
-          }
-        }
-      }
+    // First get the existing transaction to process stock returns
+    const existingTransaction = await db.query.Transaction.findFirst({
+      where: eq(Transaction.transactionId, transactionId),
+    });
 
-      const data = await db
-        .delete(Transaction)
-        .where(eq(Transaction.transactionId, transactionId));
-
-      if (data) {
-        return parseStringify({ data: data });
-      }
-      return parseStringify({ data: null });
+    if (!existingTransaction) {
+      throw new Error("Transaction not found");
     }
+
+    const medicineData = existingTransaction.medicineData as {
+      medicineId: string;
+      quantity: string;
+    }[];
+
+    // Process stock returns for all medicines in the transaction
+    for (const medicine of medicineData) {
+      const medicineRecord = await getMedicineByMedicineId(medicine.medicineId);
+      if (!medicineRecord?.data) continue;
+
+      const currentStock = medicineRecord.data.stockQuantity;
+      const returnedQuantity = Number(medicine.quantity);
+
+      // Add the returned quantity back to stock
+      const newStock = Number(currentStock) + returnedQuantity;
+      await updateStockQuantity(medicine.medicineId, newStock);
+
+      console.log(
+        `Returned stock for medicine ${medicine.medicineId}: ${currentStock} -> ${newStock} (returned: ${returnedQuantity})`
+      );
+    }
+
+    // Delete the transaction record
+    const data = await db
+      .delete(Transaction)
+      .where(eq(Transaction.transactionId, transactionId));
+
+    if (data) {
+      revalidatePath("/dashboard/inventory/transactions");
+      return parseStringify({ data: data });
+    }
+
+    return parseStringify({ data: null });
   } catch (error) {
     handleError(error);
   }
 };
+
+// delete transaction WITHOUT automatic medicine replenishment
+// export const deleteTransaction = async (
+//   transactionId: string,
+//   reason: string,
+//   deletedBy: string,
+//   createdAt: string
+// ) => {
+//   try {
+//     const addToDeleteLogs = await db.insert(TransactionDeleteLogs).values({
+//       transactionId: transactionId,
+//       deleteReason: reason,
+//       deletedBy: deletedBy,
+//       createdAt: createdAt,
+//     });
+
+//     if (addToDeleteLogs) {
+//       const data = await db
+//         .delete(Transaction)
+//         .where(eq(Transaction.transactionId, transactionId));
+
+//       if (data) {
+//         revalidatePath("/dashboard/inventory/transactions");
+//         return parseStringify({ data: data });
+//       } else {
+//         return parseStringify({ data: null });
+//       }
+//     }
+//     return parseStringify({ data: null });
+//   } catch (error) {
+//     handleError(error);
+//   }
+// };
 
 const handleError = (error: unknown) => {
   console.log("Internal error: ", error);

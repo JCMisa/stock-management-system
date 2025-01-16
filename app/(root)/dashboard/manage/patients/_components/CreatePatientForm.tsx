@@ -495,7 +495,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 {allergiesArray.map((item: string, index: number) => (
                   <Badge
                     key={index}
-                    className="bg-dark hover:bg-dark-100 flex flex-row items-center gap-1"
+                    className="bg-light hover:bg-light-100 dark:bg-dark dark:hover:bg-dark-100 text-dark dark:text-white flex flex-row items-center gap-1"
                   >
                     {item}
                     <XIcon

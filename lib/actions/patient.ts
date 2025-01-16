@@ -4,6 +4,7 @@ import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
 import { Appointment, Patient } from "@/utils/schema";
 import { eq, ne } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const getAllPatients = async () => {
   try {
@@ -201,6 +202,7 @@ export const deletePatient = async (patientId: string) => {
         .where(eq(Appointment.patientId, patientId));
 
       if (deleteAppointment) {
+        revalidatePath("/dashboard/manage/patients");
         return parseStringify({ data: data });
       }
     }

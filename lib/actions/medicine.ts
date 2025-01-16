@@ -5,6 +5,7 @@ import { parseStringify } from "../utils";
 import { Medicine } from "@/utils/schema";
 import moment from "moment";
 import { eq, sum } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const getAllMedicines = async () => {
   try {
@@ -278,6 +279,7 @@ export const updateStockQuantity = async (
       .where(eq(Medicine.medicineId, medicineId));
 
     if (data) {
+      revalidatePath("/dashboard/inventory/status");
       return parseStringify({ data: data });
     }
     return parseStringify({ data: null });
