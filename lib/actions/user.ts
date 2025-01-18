@@ -5,6 +5,7 @@ import { User } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { parseStringify } from "../utils";
 import { currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export const getCurrentUser = async () => {
   try {
@@ -231,6 +232,28 @@ export const updateUserInfo = async (
 
     if (result) {
       return parseStringify({ data: result });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const updateUserRoleChangeRequestCount = async (
+  userId: string,
+  requestCount: number
+) => {
+  try {
+    const data = await db
+      .update(User)
+      .set({
+        roleChangeRequest: requestCount,
+      })
+      .where(eq(User.userId, userId));
+
+    if (data) {
+      revalidatePath("/dashboard/manage/users");
+      return parseStringify({ data: "success" });
     }
     return parseStringify({ data: null });
   } catch (error) {

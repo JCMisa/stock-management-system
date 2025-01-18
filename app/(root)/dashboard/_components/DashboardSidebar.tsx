@@ -3,6 +3,7 @@
 "use client";
 
 import {
+  ArrowLeftRight,
   ChartBarIncreasing,
   CoinsIcon,
   Cross,
@@ -86,6 +87,12 @@ const DashboardSidebar = () => {
           label: "Appointments",
           href: "/dashboard/manage/appointments",
           visible: ["admin", "doctor"],
+        },
+        {
+          icon: ArrowLeftRight,
+          label: "Role Change",
+          href: "/dashboard/manage/roleChange",
+          visible: ["admin"],
         },
       ],
     },

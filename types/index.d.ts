@@ -12,6 +12,7 @@ declare interface UserType {
   address: string;
   bio: string;
   role: string;
+  roleChangeRequest: number;
   createdAt: string;
 }
 
@@ -103,4 +104,15 @@ declare interface TransactionType {
   medicines: string[];
   totalSales: number;
   transactionDate: string;
+}
+
+declare interface RoleChangeRequestType {
+  id: string;
+  roleChangeRequestId: string;
+  requestOwner: string;
+  currentRole: string;
+  requestedRole: string;
+  reason: string;
+  imageProof: string;
+  createdAt: string;
 }

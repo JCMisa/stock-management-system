@@ -22,7 +22,7 @@ const ProfilePage = async ({
 
   return (
     <div className="bg-gradient-to-r from-light to-light-100 dark:from-dark dark:to-dark-100 min-h-screen flex items-center justify-center p-4 rounded-lg">
-      <div className="bg-gradient-to-r from-light dark:from-dark to-primary-100 rounded-xl shadow-2xl max-w-4xl w-full p-8 transition-all duration-300 animate-fade-in">
+      <div className="bg-gradient-to-r from-light dark:from-dark to-primary dark:to-primary-100 rounded-xl shadow-2xl max-w-4xl w-full p-8 transition-all duration-300 animate-fade-in">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/3 text-center mb-8 md:mb-0">
             {userFromProps ? (

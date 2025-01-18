@@ -1,6 +1,7 @@
-import { UserButton } from "@clerk/nextjs";
+import AskRoleChangeDialog from "@/components/custom/AskRoleChangeDialog";
+import { Button } from "@/components/ui/button";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { Search } from "lucide-react";
-// import Image from "next/image";
 import React from "react";
 
 const DashboardHeader = ({ user }: { user: UserType }) => {
@@ -20,17 +21,28 @@ const DashboardHeader = ({ user }: { user: UserType }) => {
           </div>
         </div>
 
-        <div className="relative flex flex-col">
-          <div className="sm:flex gap-1 hidden">
-            <div className="flex items-center gap-2">
-              <UserButton />
-              <div className="lg:flex flex-col items-start hidden">
-                <p className="tesm-sm capitalize">
-                  {user?.firstname} {user?.lastname}
-                </p>
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {user?.email}
-                </span>
+        <div className="flex items-center gap-5">
+          {Number(user?.roleChangeRequest) > 0 ? (
+            <AskRoleChangeDialog defaultRole={user?.role} />
+          ) : (
+            <Button variant={"destructive"} size={"sm"}>
+              Out of Request
+            </Button>
+          )}
+          <div className="relative flex flex-col">
+            <div className="sm:flex gap-1 hidden">
+              <div className="flex items-center gap-2">
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+                <div className="lg:flex flex-col items-start hidden">
+                  <span className="tesm-sm capitalize">
+                    {user?.firstname} {user?.lastname}
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {user?.email}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

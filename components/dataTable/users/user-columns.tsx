@@ -22,6 +22,7 @@ import { Badge } from "../../ui/badge";
 import { getUserByEmail } from "@/lib/actions/user";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import UpdateRemainingRequest from "@/app/(root)/dashboard/manage/users/_components/UpdateRemainingRequest";
 
 const CurrentUserRole = () => {
   const { user } = useUser();
@@ -199,6 +200,21 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
+    accessorKey: "roleChangeRequest",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Remaining Request
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       // const { id } = row.original;
@@ -214,6 +230,9 @@ export const columns: ColumnDef<any>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            {userRole === "admin" && (
+              <UpdateRemainingRequest userId={userId as string} />
+            )}
             {userRole === "admin" && (
               <Link href={`/dashboard/profile/edit/${userId}`}>
                 <DropdownMenuItem>

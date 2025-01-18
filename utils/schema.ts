@@ -23,6 +23,7 @@ export const User = pgTable("user", {
   address: varchar("address"),
   bio: text("bio"),
   role: varchar("role"),
+  roleChangeRequest: integer("roleChangeRequest").default(5),
   createdAt: varchar("createdAt"),
 });
 
@@ -140,6 +141,17 @@ export const Transaction = pgTable("transaction", {
     .default(sql`'{}'::text[]`),
   totalSales: numeric("totalSales"),
   transactionDate: varchar("transactionDate"),
+});
+
+export const RoleChangeRequest = pgTable("roleChangeRequest", {
+  id: serial("id").primaryKey(),
+  roleChangeRequestId: varchar("roleChangeRequestId").notNull(),
+  requestOwner: varchar("requestOwner").notNull(),
+  currentRole: varchar("currentRole"),
+  requestedRole: varchar("requestedRole"),
+  reason: text("reason"),
+  imageProof: varchar("imageProof"),
+  createdAt: varchar("createdAt"),
 });
 
 // export const TransactionDeleteLogs = pgTable("transactionDeleteLogs", {

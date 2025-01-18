@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import {
+  ArrowLeftRight,
   ChartBarIncreasing,
   CoinsIcon,
   Cross,
@@ -24,10 +25,12 @@ import {
   User,
   UserCircle,
 } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { getUserByEmail } from "@/lib/actions/user";
 import { toast } from "sonner";
 import { Menu } from "lucide-react";
+import AskRoleChangeDialog from "@/components/custom/AskRoleChangeDialog";
+import { Button } from "@/components/ui/button";
 
 const DashboardMobileNavigation = () => {
   const { user } = useUser();
@@ -96,6 +99,12 @@ const DashboardMobileNavigation = () => {
           href: "/dashboard/manage/appointments",
           visible: ["admin", "doctor"],
         },
+        {
+          icon: ArrowLeftRight,
+          label: "Role Change",
+          href: "/dashboard/manage/roleChange",
+          visible: ["admin"],
+        },
       ],
     },
     {
@@ -155,23 +164,9 @@ const DashboardMobileNavigation = () => {
         <SheetContent className="shad-sheet h-screen px-3">
           <SheetTitle>
             <div className="flex items-center gap-1">
-              {user ? (
-                <Image
-                  src={user?.imageUrl}
-                  alt="avatar"
-                  width={44}
-                  height={44}
-                  className="rounded-full"
-                />
-              ) : (
-                <Image
-                  src={"/empty-img.png"}
-                  alt="avatar"
-                  width={44}
-                  height={44}
-                  className="rounded-full"
-                />
-              )}
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
               <div className="hidden overflow-hidden sm:flex flex-col">
                 <p className="text-md">{user?.fullName}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -181,7 +176,7 @@ const DashboardMobileNavigation = () => {
             </div>
             <Separator className="my-4 bg-primary" />
           </SheetTitle>
-          <nav className="p-4">
+          <nav className="p-4 relative h-full">
             <ul className="flex flex-col gap-1">
               {menuItems.map((item, index) => (
                 <div key={item.title || index} className="flex flex-col gap-2">
@@ -203,6 +198,20 @@ const DashboardMobileNavigation = () => {
                   )}
                 </div>
               ))}
+
+              {Number(loggedInUser?.roleChangeRequest) > 0 ? (
+                <div className="absolute bottom-20 right-3">
+                  <AskRoleChangeDialog
+                    defaultRole={loggedInUser?.role as string}
+                  />
+                </div>
+              ) : (
+                <div className="absolute bottom-20 right-3">
+                  <Button variant={"destructive"} size={"sm"}>
+                    Out of Request
+                  </Button>
+                </div>
+              )}
             </ul>
           </nav>
         </SheetContent>
