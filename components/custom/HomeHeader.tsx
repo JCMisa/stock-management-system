@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 
 const HomeHeader = ({ user }: { user: UserType }) => {
@@ -27,7 +27,9 @@ const HomeHeader = ({ user }: { user: UserType }) => {
         </nav>
         {user ? (
           <div className="sm:flex gap-1 hidden">
-            <UserButton />
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
             <div className="lg:flex flex-col items-start hidden">
               <p className="tesm-sm capitalize">
                 {user?.firstname} {user?.lastname}

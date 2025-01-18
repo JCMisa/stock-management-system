@@ -127,13 +127,13 @@ const AskRoleChangeDialog = ({ defaultRole }: { defaultRole: string }) => {
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1">
                 <label className="text-xs text-gray-500 dark:text-gray-400">
-                  Select a Role
+                  Select your desired role
                 </label>
                 <Select
                   onValueChange={(value) =>
                     setRequestedRole(value ? value : defaultRole)
                   }
-                  value={defaultRole}
+                  defaultValue={defaultRole}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Role" />
@@ -150,7 +150,7 @@ const AskRoleChangeDialog = ({ defaultRole }: { defaultRole: string }) => {
 
               <div className="flex flex-col gap-1">
                 <label className="text-xs text-gray-500 dark:text-gray-400">
-                  Role Change Reason
+                  Role change reason
                 </label>
                 <Textarea
                   rows={5}

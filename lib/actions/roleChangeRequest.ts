@@ -46,6 +46,35 @@ export const askRoleChange = async (
   }
 };
 
+export const getAllRequests = async () => {
+  try {
+    const data = await db.select().from(RoleChangeRequest);
+
+    if (data.length > 0) {
+      return parseStringify({ data: data });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getRequestById = async (roleChangeRequestId: string) => {
+  try {
+    const data = await db
+      .select()
+      .from(RoleChangeRequest)
+      .where(eq(RoleChangeRequest.roleChangeRequestId, roleChangeRequestId));
+
+    if (data?.length > 0) {
+      return parseStringify({ data: data[0] });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 const handleError = (error: unknown) => {
   console.log("Internal error: ", error);
   return parseStringify({ data: null });

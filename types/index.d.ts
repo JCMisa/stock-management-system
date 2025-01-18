@@ -114,5 +114,6 @@ declare interface RoleChangeRequestType {
   requestedRole: string;
   reason: string;
   imageProof: string;
+  status: string;
   createdAt: string;
 }

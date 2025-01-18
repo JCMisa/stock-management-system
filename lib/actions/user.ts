@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/utils/db";
-import { User } from "@/utils/schema";
+import { RoleChangeRequest, User } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { parseStringify } from "../utils";
 import { currentUser } from "@clerk/nextjs/server";
@@ -254,6 +254,38 @@ export const updateUserRoleChangeRequestCount = async (
     if (data) {
       revalidatePath("/dashboard/manage/users");
       return parseStringify({ data: "success" });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const updateUserRole = async (
+  requestId: string,
+  userEmail: string,
+  updatedRole: string
+) => {
+  try {
+    const data = await db
+      .update(User)
+      .set({
+        role: updatedRole,
+      })
+      .where(eq(User.email, userEmail));
+
+    if (data) {
+      const updateRequestStatus = await db
+        .update(RoleChangeRequest)
+        .set({
+          status: "approved",
+        })
+        .where(eq(RoleChangeRequest.roleChangeRequestId, requestId));
+
+      if (updateRequestStatus) {
+        revalidatePath("/dashboard/manage/roleChange");
+        return parseStringify({ data: "success" });
+      }
     }
     return parseStringify({ data: null });
   } catch (error) {

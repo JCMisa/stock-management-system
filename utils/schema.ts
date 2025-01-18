@@ -151,6 +151,7 @@ export const RoleChangeRequest = pgTable("roleChangeRequest", {
   requestedRole: varchar("requestedRole"),
   reason: text("reason"),
   imageProof: varchar("imageProof"),
+  status: varchar("status").default("pending"), // pending | approved | rejected
   createdAt: varchar("createdAt"),
 });
 
