@@ -75,6 +75,25 @@ export const getRequestById = async (roleChangeRequestId: string) => {
   }
 };
 
+export const rejectChangeRoleReq = async (requestId: string) => {
+  try {
+    const updateRequestStatus = await db
+      .update(RoleChangeRequest)
+      .set({
+        status: "rejected",
+      })
+      .where(eq(RoleChangeRequest.roleChangeRequestId, requestId));
+
+    if (updateRequestStatus) {
+      revalidatePath("/dashboard/manage/roleChange");
+      return parseStringify({ data: "success" });
+    }
+    return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 const handleError = (error: unknown) => {
   console.log("Internal error: ", error);
   return parseStringify({ data: null });

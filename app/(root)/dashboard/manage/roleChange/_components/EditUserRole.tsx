@@ -20,7 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import LoaderDialog from "@/components/custom/LoaderDialog";
-import { getRequestById } from "@/lib/actions/roleChangeRequest";
+import {
+  getRequestById,
+  rejectChangeRoleReq,
+} from "@/lib/actions/roleChangeRequest";
 import { updateUserRole } from "@/lib/actions/user";
 
 const EditUserRole = ({ requestId }: { requestId: string }) => {
@@ -81,6 +84,30 @@ const EditUserRole = ({ requestId }: { requestId: string }) => {
     }
   };
 
+  const rejectChangeRole = async () => {
+    try {
+      setLoading(true);
+
+      const result = await rejectChangeRoleReq(requestId);
+
+      if (result?.data === "success") {
+        toast(
+          <p className="font-bold text-sm text-green-500">
+            User request rejected successfully!
+          </p>
+        );
+      }
+    } catch {
+      toast(
+        <p className="font-bold text-sm text-red-500">
+          Internal error occured while rejecting user request
+        </p>
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <AlertDialog>
@@ -92,7 +119,20 @@ const EditUserRole = ({ requestId }: { requestId: string }) => {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Manage User Role</AlertDialogTitle>
+            <div className="flex items-center justify-between">
+              <AlertDialogTitle>Manage User Role</AlertDialogTitle>
+              <Button
+                variant={"destructive"}
+                onClick={rejectChangeRole}
+                disabled={loading}
+              >
+                {loading ? (
+                  <LoaderCircle className="h-5 w-5 animate-spin" />
+                ) : (
+                  "Reject"
+                )}
+              </Button>
+            </div>
             <AlertDialogDescription>
               Grant user&apos;s request to change their role.
             </AlertDialogDescription>

@@ -116,7 +116,12 @@ const AskRoleChangeDialog = ({ defaultRole }: { defaultRole: string }) => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Ask for a Role Change</DialogTitle>
+            <div className="flex items-center gap-3">
+              <DialogTitle>Ask for a Role Change</DialogTitle>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                ({loggedInUser?.roleChangeRequest} request left)
+              </span>
+            </div>
             <DialogDescription>
               Inform admin of your role and provide credentials to help admin
               verify your claim.

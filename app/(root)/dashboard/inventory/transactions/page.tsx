@@ -6,10 +6,12 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const TransactionsPage = async () => {
-  const user = await getCurrentUser();
+  const [user, transactionsList] = await Promise.all([
+    getCurrentUser(),
+    getAllTransactions(),
+  ]);
   if (user?.data === null) redirect("/sign-in");
 
-  const transactionsList = await getAllTransactions();
   return (
     <div>
       <DataTable
