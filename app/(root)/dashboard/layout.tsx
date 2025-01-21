@@ -11,7 +11,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   if (user?.data === null) redirect("/sign-in");
 
   return (
-    <main className="flex h-screen">
+    <main className="flex h-screen bg-light dark:bg-dark">
       <DashboardSidebar />
       <section className="flex h-full flex-1 flex-col overflow-auto card-scroll">
         <DashboardMobileNavigation />

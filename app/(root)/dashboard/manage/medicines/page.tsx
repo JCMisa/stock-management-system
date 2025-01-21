@@ -6,23 +6,29 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const MedicinesPage = async () => {
-  const user = await getCurrentUser();
-  if (user?.data === null) redirect("/sign-in");
+  try {
+    const [user, medicinesList] = await Promise.all([
+      getCurrentUser(),
+      getAllMedicines(),
+    ]);
+    if (user?.data === null) redirect("/sign-in");
 
-  const medicinesList = await getAllMedicines();
-
-  return (
-    <div>
-      <DataTable
-        columns={columns}
-        data={medicinesList?.data}
-        query1="name"
-        showCreate={
-          user?.data?.role === "admin" || user?.data?.role === "pharmacist"
-        }
-      />
-    </div>
-  );
+    return (
+      <div>
+        <DataTable
+          columns={columns}
+          data={medicinesList?.data}
+          query1="name"
+          showCreate={
+            user?.data?.role === "admin" || user?.data?.role === "pharmacist"
+          }
+        />
+      </div>
+    );
+  } catch (error) {
+    console.error("Failed to load medicines data:", error);
+    return <div>Error loading data.</div>;
+  }
 };
 
 export default MedicinesPage;

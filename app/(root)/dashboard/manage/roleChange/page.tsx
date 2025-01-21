@@ -6,21 +6,27 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const RoleChangePage = async () => {
-  const user = await getCurrentUser();
-  if (user?.data === null) redirect("/sign-in");
+  try {
+    const [user, requestsList] = await Promise.all([
+      getCurrentUser(),
+      getAllRequests(),
+    ]);
+    if (user?.data === null) redirect("/sign-in");
 
-  const requestsList = await getAllRequests();
-
-  return (
-    <div>
-      <DataTable
-        columns={columns}
-        data={requestsList?.data?.length > 0 ? requestsList?.data : []}
-        query1="requestOwner"
-        showCreate={user?.data?.role === "admin"}
-      />
-    </div>
-  );
+    return (
+      <div>
+        <DataTable
+          columns={columns}
+          data={requestsList?.data?.length > 0 ? requestsList?.data : []}
+          query1="requestOwner"
+          showCreate={user?.data?.role === "admin"}
+        />
+      </div>
+    );
+  } catch (error) {
+    console.error("Failed to load roleChange data:", error);
+    return <div>Error loading data.</div>;
+  }
 };
 
 export default RoleChangePage;

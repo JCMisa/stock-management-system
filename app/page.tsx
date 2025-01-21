@@ -14,7 +14,7 @@ export default async function Home() {
   const currentUser = user?.data;
 
   return (
-    <div>
+    <div className="bg-light dark:bg-dark">
       <HomeHeader user={currentUser} />
       <HomeHero user={currentUser} />
       <HomeStep />

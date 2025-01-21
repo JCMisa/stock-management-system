@@ -5,21 +5,27 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const ManageUsersPage = async () => {
-  const user = await getCurrentUser();
-  if (user?.data === null) redirect("/sign-in");
+  try {
+    const [user, userList] = await Promise.all([
+      getCurrentUser(),
+      getAllUser(),
+    ]);
+    if (user?.data === null) redirect("/sign-in");
 
-  const userList = await getAllUser();
-
-  return (
-    <div>
-      <DataTable
-        columns={columns}
-        data={userList?.data}
-        query1="email"
-        showCreate={user?.data?.role === "admin"}
-      />
-    </div>
-  );
+    return (
+      <div>
+        <DataTable
+          columns={columns}
+          data={userList?.data}
+          query1="email"
+          showCreate={user?.data?.role === "admin"}
+        />
+      </div>
+    );
+  } catch (error) {
+    console.error("Failed to load users data:", error);
+    return <div>Error loading data.</div>;
+  }
 };
 
 export default ManageUsersPage;
