@@ -5,6 +5,9 @@ import { parseStringify } from "../utils";
 import { RoleChangeRequest, User } from "@/utils/schema";
 import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import ratelimit from "../ratelimit";
+import { redirect } from "next/navigation";
 
 export const askRoleChange = async (
   roleChangeRequestId: string,
@@ -15,6 +18,12 @@ export const askRoleChange = async (
   imageProof: string,
   createdAt: string
 ) => {
+  // rate limit the user to 1 request per 1 minute
+  const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1";
+  const { success } = await ratelimit.limit(ip);
+
+  if (!success) return redirect("/too-fast");
+
   try {
     const data = await db.insert(RoleChangeRequest).values({
       roleChangeRequestId: roleChangeRequestId,
@@ -36,7 +45,6 @@ export const askRoleChange = async (
         .where(eq(User.email, requestOwner)); // Add where clause to target specific user
 
       if (decrementUserRequestLimit) {
-        revalidatePath("/dashboard");
         return parseStringify({ data: "success" });
       }
     }

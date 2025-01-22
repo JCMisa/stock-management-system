@@ -81,6 +81,11 @@ body {
   body::-webkit-scrollbar-thumb {
     background: #24ae7c;
   }
+
+  ::selection {
+    background: rgba(0, 169, 157, 0.5);
+    color: #ffffff;
+  }
 }
 
 .card-scroll::-webkit-scrollbar {
@@ -1074,5 +1079,85 @@ body {
   }
   .screenM-404 {
     display: none;
+  }
+}
+
+/* logo loader cat */
+.loader-logo {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper-logo {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.catContainer-logo {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.catbody-logo {
+  width: 80px;
+}
+.tail-logo {
+  position: absolute;
+  width: 17px;
+  top: 50%;
+  animation: tail 0.5s ease-in infinite alternate-reverse;
+  transform-origin: top;
+}
+@keyframes tail {
+  0% {
+    transform: rotateZ(60deg);
+  }
+  50% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(-20deg);
+  }
+}
+.wall-logo {
+  width: 300px;
+}
+.text-logo {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  position: absolute;
+  margin: 0px 0px 100px 120px;
+}
+.zzz-logo {
+  color: #24ae7c;
+  font-weight: 700;
+  font-size: 15px;
+  animation: zzz 2s linear infinite;
+}
+.bigzzz-logo {
+  color: #24ae7c;
+  font-weight: 700;
+  font-size: 25px;
+  margin-left: 10px;
+  animation: zzz 2.3s linear infinite;
+}
+@keyframes zzz {
+  0% {
+    color: transparent;
+  }
+  50% {
+    color: #24ae7c;
+  }
+  100% {
+    color: transparent;
   }
 }
