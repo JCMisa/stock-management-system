@@ -4,9 +4,10 @@ import { db } from "@/utils/db";
 import { parseStringify } from "../utils";
 // import { Transaction, TransactionDeleteLogs } from "@/utils/schema";
 import { Transaction } from "@/utils/schema";
-import { eq, sum } from "drizzle-orm";
+import { eq, sql, sum } from "drizzle-orm";
 import { getMedicineByMedicineId, updateStockQuantity } from "./medicine";
 import { revalidatePath } from "next/cache";
+import moment from "moment";
 
 export const getAllTransactions = async () => {
   try {
@@ -46,6 +47,35 @@ export const getTotalSales = async () => {
       return parseStringify({ data: data[0]?.totalSales });
     }
     return parseStringify({ data: null });
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getTotalSalesForThisMonth = async () => {
+  try {
+    const currentMonth = moment().format("MM");
+    // const nextMonth = moment().add(1, "months").format("MM");
+    const currentYear = moment().format("YYYY");
+
+    const currentMonthRecords = await db
+      .select({
+        totalSales: Transaction.totalSales,
+      })
+      .from(Transaction)
+      .where(
+        sql`SUBSTRING(${Transaction.transactionDate}, 1, 2) = ${currentMonth} 
+            AND SUBSTRING(${Transaction.transactionDate}, 7, 4) = ${currentYear}`
+      );
+
+    const totalSales = currentMonthRecords.reduce(
+      (sum, record) => sum + (Number(record.totalSales) || 0),
+      0
+    );
+
+    return parseStringify({
+      data: totalSales > 0 ? totalSales : null,
+    });
   } catch (error) {
     handleError(error);
   }

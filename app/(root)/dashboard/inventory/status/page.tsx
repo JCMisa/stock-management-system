@@ -8,7 +8,10 @@ import { DataTable } from "../data-table-components/data-table";
 import { columns } from "../data-table-components/columns";
 import DataCard from "./_components/DataCard";
 import { Activity, ChevronsDown, DollarSign } from "lucide-react";
-import { getTotalSales } from "@/lib/actions/transaction";
+import {
+  getTotalSales,
+  getTotalSalesForThisMonth,
+} from "@/lib/actions/transaction";
 import { formatCurrency } from "@/lib/utils";
 
 const InventoryStatusPage = async () => {
@@ -17,26 +20,32 @@ const InventoryStatusPage = async () => {
   // const totalStocks = await getTotalStocks();
   // const expiredMedicinesCount = await getExpiredMedicinesCount();
 
-  const [totalSales, totalStocks, expiredMedicinesCount] = await Promise.all([
-    getTotalSales(),
-    getTotalStocks(),
-    getExpiredMedicinesCount(),
-  ]);
+  const [totalSales, totalSalesThisMonth, totalStocks, expiredMedicinesCount] =
+    await Promise.all([
+      getTotalSales(),
+      getTotalSalesForThisMonth(),
+      getTotalStocks(),
+      getExpiredMedicinesCount(),
+    ]);
 
   return (
     <div className="h-full flex-1 flex-col space-y-2 p-8 md:flex">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         <DataCard
+          type="sales"
           label="Generated Sales"
           value={formatCurrency(totalSales?.data ? totalSales?.data : 0)}
           icon={<DollarSign className="w-4 h-4 text-green-500" />}
+          monthlySales={totalSalesThisMonth?.data}
         />
         <DataCard
+          type="stocks"
           label="Total Stocks"
           value={totalStocks?.data ? totalStocks?.data : 0}
           icon={<Activity className="w-4 h-4 text-orange-500" />}
         />
         <DataCard
+          type="expiration"
           label="Expired Medicines"
           value={expiredMedicinesCount?.data ? expiredMedicinesCount?.data : 0}
           icon={<ChevronsDown className="w-4 h-4 text-red-500" />}
