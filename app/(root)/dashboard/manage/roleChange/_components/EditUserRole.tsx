@@ -170,7 +170,7 @@ const EditUserRole = ({ requestId }: { requestId: string }) => {
                 {loading ? (
                   <LoaderCircle className="h-5 w-5 animate-spin" />
                 ) : (
-                  "Save"
+                  "Grant"
                 )}
               </Button>
             </AlertDialogFooter>

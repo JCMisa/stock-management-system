@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -26,8 +27,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import AddTransaction from "@/app/(root)/dashboard/inventory/transactions/_components/AddTransaction";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, PrinterIcon, SheetIcon } from "lucide-react";
 import Link from "next/link";
+
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
+import { utils, writeFile } from "xlsx";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,6 +73,74 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  // handle table-to-pdf functionality
+  const tableRef = React.useRef<HTMLDivElement>(null);
+  const handleDownloadPdf = async () => {
+    const element = tableRef.current;
+    if (!element) return;
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2, // Higher scale for better resolution
+        useCORS: true, // If you have external images
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 190; // A4 page width in mm (210 - 10mm margins)
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+      pdf.save("transactions-table.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
+
+  // handle export transaction data to excel spreadsheet - this transform the data from props to excel
+  const processComplexData = (data: any[]) => {
+    return data.map((item) => {
+      const processed: Record<string, any> = {};
+
+      Object.entries(item).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          processed[key] = value
+            .map((el) => (typeof el === "object" ? JSON.stringify(el) : el))
+            .join(", ");
+        } else if (typeof value === "object") {
+          processed[key] = JSON.stringify(value);
+        } else {
+          processed[key] = value;
+        }
+      });
+
+      return processed;
+    });
+  };
+  const handleExport = () => {
+    // Clean the data to be passed, stringify data types like arrays or json
+    const processedData = processComplexData(data);
+
+    // Create worksheet
+    const ws = utils.json_to_sheet(processedData);
+
+    // Create workbook
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, "Transactions");
+
+    // Export to Excel
+    writeFile(wb, "transaction-table.xlsx");
+  };
+
+  // handle export transaction data to excel spreadsheet - this transform the table itself to excel
+  // const handleExportFromHTML = () => {
+  //   const table = document.getElementById("transactions-table");
+  //   const ws = utils.table_to_sheet(table);
+  //   const wb = utils.book_new();
+  //   utils.book_append_sheet(wb, ws, "Transactions");
+  //   writeFile(wb, "transaction-table.xlsx");
+  // };
+
   return (
     <div>
       <div className="flex items-center py-4 justify-between gap-2">
@@ -83,18 +157,38 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        {/* {showCreate && <AddTransaction />} */}
-        {showCreate && (
-          <Link
-            href={"/dashboard/inventory/transactions/create"}
-            className="flex items-center justify-center gap-1 p-3 px-5 min-w-52 max-w-52 bg-primary hover:bg-primary-100 transition-all cursor-pointer rounded-lg text-white"
+
+        <div className="flex items-center gap-3">
+          {showCreate && (
+            <Link
+              href={"/dashboard/inventory/transactions/create"}
+              className="flex items-center justify-center gap-1 p-3 px-5 min-w-52 max-w-52 bg-primary hover:bg-primary-100 transition-all cursor-pointer rounded-lg text-white"
+            >
+              <PlusCircle className="w-5 h-5" />
+              <p className="text-sm">Add Transaction</p>
+            </Link>
+          )}
+
+          <div
+            onClick={handleDownloadPdf}
+            className="w-10 h-10 rounded-lg p-2 bg-light-100 dark:bg-dark-100 cursor-pointer flex items-center justify-center shadow-lg"
           >
-            <PlusCircle className="w-5 h-5" />
-            <p className="text-sm">Add Transaction</p>
-          </Link>
-        )}
+            <PrinterIcon className="w-5 h-5" />
+          </div>
+
+          <div
+            onClick={handleExport}
+            className="w-10 h-10 rounded-lg p-2 bg-light-100 dark:bg-dark-100 cursor-pointer flex items-center justify-center shadow-lg"
+          >
+            <SheetIcon className="w-5 h-5" />
+          </div>
+        </div>
       </div>
-      <div className="rounded-md bg-light-100 dark:bg-dark-100">
+      <div
+        className="rounded-md bg-light-100 dark:bg-dark-100"
+        ref={tableRef}
+        id="transactions-table"
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -17,11 +17,12 @@ import {
   getMedicineByMedicineId,
   updateStockQuantity,
 } from "@/lib/actions/medicine";
+import { Input } from "@/components/ui/input";
 
 const EditStocks = ({ medicineId }: { medicineId: string }) => {
   const [medicine, setMedicine] = useState<MedicineType>();
-  const [stockCount, setStockCount] = useState<number>(
-    Number(medicine?.stockQuantity)
+  const [stockCount, setStockCount] = useState<number | null>(
+    Number(medicine?.stockQuantity) || null
   );
 
   const getMedicine = async () => {
@@ -45,11 +46,11 @@ const EditStocks = ({ medicineId }: { medicineId: string }) => {
   }, [medicineId]);
 
   const decrementStock = async () => {
-    setStockCount((prev) => prev - 1);
+    setStockCount((prev) => (prev || 0) - 1);
   };
 
   const incrementStock = async () => {
-    setStockCount((prev) => prev + 1);
+    setStockCount((prev) => (prev || 0) + 1);
   };
 
   const updateStocks = async () => {
@@ -95,7 +96,13 @@ const EditStocks = ({ medicineId }: { medicineId: string }) => {
               onClick={decrementStock}
             />
             <div className="flex flex-col items-center justify-center gap-1">
-              <h1 className="text-6xl font-bold">{stockCount.toString()}</h1>
+              {/* <h1 className="text-6xl font-bold">{stockCount.toString()}</h1> */}
+              <Input
+                type="number"
+                value={stockCount || "0"}
+                onChange={(e) => setStockCount(Number(e.target.value))}
+                className="font-bold text-center"
+              />
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 STOCK QUANTITY
               </p>

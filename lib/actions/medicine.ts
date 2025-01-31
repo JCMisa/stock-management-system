@@ -268,7 +268,7 @@ export const updateMedicineImage = async (
 
 export const updateStockQuantity = async (
   medicineId: string,
-  stockCount: number
+  stockCount: number | null
 ) => {
   try {
     const data = await db
