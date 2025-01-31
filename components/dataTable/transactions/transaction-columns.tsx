@@ -102,7 +102,7 @@ export const columns: ColumnDef<any>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="hover:bg-transparent hover:text-white"
         >
-          Medicines
+          Medicine IDs
           <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
         </Button>
       );
@@ -114,6 +114,33 @@ export const columns: ColumnDef<any>[] = [
         <div className="flex items-center gap-1 overflow-auto card-scroll w-52">
           {medicinesArray?.length > 0 &&
             medicinesArray?.map((medicine, index) => (
+              <p key={index}>{medicine},</p>
+            ))}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "medicineNames",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent hover:text-white"
+        >
+          Medicine Names
+          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const medicineNames = row.getValue("medicineNames") as string[];
+
+      return (
+        <div className="flex items-center gap-1 overflow-auto card-scroll w-52">
+          {medicineNames?.length > 0 &&
+            medicineNames?.map((medicine, index) => (
               <p key={index}>{medicine},</p>
             ))}
         </div>

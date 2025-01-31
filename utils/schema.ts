@@ -139,6 +139,9 @@ export const Transaction = pgTable("transaction", {
   quantities: text("quantities")
     .array()
     .default(sql`'{}'::text[]`),
+  medicineNames: text("medicineNames")
+    .array()
+    .default(sql`'{}'::text[]`),
   totalSales: numeric("totalSales"),
   transactionDate: varchar("transactionDate"),
 });

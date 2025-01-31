@@ -21,6 +21,7 @@ import { getCurrentUser } from "@/lib/actions/user";
 import { getAllMedicines } from "@/lib/actions/medicine";
 import { getTransaction, updateTransaction } from "@/lib/actions/transaction";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 interface PageProps {
   params: Promise<{
@@ -41,7 +42,7 @@ const EditTransaction = ({ params }: PageProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [patientPrescription, setPatientPrescription] = useState<string>("");
   const [medicineData, setMedicineData] = useState([
-    { medicineId: "", quantity: "" },
+    { medicineId: "", quantity: "", medicineName: "" },
   ]);
   const [patientName, setPatientName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -224,7 +225,10 @@ const EditTransaction = ({ params }: PageProps) => {
   }, [patientId]);
 
   const handleAddMedicine = () => {
-    setMedicineData([...medicineData, { medicineId: "", quantity: "" }]);
+    setMedicineData([
+      ...medicineData,
+      { medicineId: "", quantity: "", medicineName: "" },
+    ]);
   };
 
   const handleRemove = (i: number) => {
@@ -233,7 +237,7 @@ const EditTransaction = ({ params }: PageProps) => {
     setMedicineData(deleteVal);
   };
 
-  const handleQuantityChange = (
+  const handleQuantityAndNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number
   ) => {
@@ -271,7 +275,9 @@ const EditTransaction = ({ params }: PageProps) => {
         patientId: patientId as string,
         patientName: formData.get("patientName") as string,
         sellerEmail: currentUser?.email as string,
-        medicines: medicineData as [{ medicineId: string; quantity: string }],
+        medicines: medicineData as [
+          { medicineId: string; quantity: string; medicineName: string }
+        ],
         totalSales: calculateTotalPrice().toString(),
         transactionDate: moment().format("MM-DD-YYYY"),
       };
@@ -413,59 +419,78 @@ const EditTransaction = ({ params }: PageProps) => {
               </Button>
             </div>
             {medicineData.map((val, i: number) => (
-              <div key={i} className="flex items-center gap-3">
-                <Select
-                  onValueChange={(val) => handleMedicineChange(val, i)}
-                  value={val.medicineId}
-                  disabled={medicinesList.length === 0}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select medicines" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {medicinesList?.length > 0 &&
-                      medicinesList?.map((medicine) => (
-                        <SelectItem
-                          key={medicine?.medicineId}
-                          value={medicine?.medicineId}
-                        >
-                          <div className="flex items-center gap-2">
-                            {medicine?.imageUrl ? (
-                              <Image
-                                src={medicine?.imageUrl}
-                                alt="avatar"
-                                width={1000}
-                                height={1000}
-                                className="w-7 h-7 rounded-full"
-                              />
-                            ) : (
-                              <Image
-                                src={"/empty-img.png"}
-                                alt="avatar"
-                                width={1000}
-                                height={1000}
-                                className="w-7 h-7 rounded-full"
-                              />
-                            )}
-                            <p className="text-sm">{medicine?.name}</p>
-                          </div>
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                <Input
-                  name="quantity"
-                  type="number"
-                  value={val.quantity}
-                  onChange={(e) => handleQuantityChange(e, i)}
-                />
-                <Button
-                  type="button"
-                  className="bg-red-500 hover:bg-red-600"
-                  onClick={() => handleRemove(i)}
-                >
-                  Remove
-                </Button>
+              <div key={i}>
+                <div className="flex items-start gap-3 mt-3">
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="flex items-center gap-3 w-full">
+                      <Select
+                        onValueChange={(val) => handleMedicineChange(val, i)}
+                        value={val.medicineId}
+                        disabled={medicinesList.length === 0}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select medicines" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {medicinesList?.length > 0 &&
+                            medicinesList?.map((medicine) => (
+                              <SelectItem
+                                key={medicine?.medicineId}
+                                value={medicine?.medicineId}
+                              >
+                                <div className="flex items-center gap-2">
+                                  {medicine?.imageUrl ? (
+                                    <Image
+                                      src={medicine?.imageUrl}
+                                      alt="avatar"
+                                      width={1000}
+                                      height={1000}
+                                      className="w-7 h-7 rounded-full"
+                                    />
+                                  ) : (
+                                    <Image
+                                      src={"/empty-img.png"}
+                                      alt="avatar"
+                                      width={1000}
+                                      height={1000}
+                                      className="w-7 h-7 rounded-full"
+                                    />
+                                  )}
+                                  <p className="text-sm">{medicine?.name}</p>
+                                </div>
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                      <Input
+                        name="quantity"
+                        type="number"
+                        value={val.quantity}
+                        onChange={(e) => handleQuantityAndNameChange(e, i)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500 dark:text-gray-400">
+                        Medicine Name
+                      </label>
+                      <Input
+                        name="medicineName"
+                        type="text"
+                        value={val.medicineName || "unset"}
+                        onChange={(e) => handleQuantityAndNameChange(e, i)}
+                      />
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => handleRemove(i)}
+                  >
+                    Remove
+                  </Button>
+                </div>
+
+                <Separator className="mt-4" />
               </div>
             ))}
           </div>

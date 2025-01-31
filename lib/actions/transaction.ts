@@ -144,13 +144,14 @@ export const addTransaction = async (
     patientId: string;
     patientName: string;
     sellerEmail: string;
-    medicines: [{ medicineId: string; quantity: string }];
+    medicines: [{ medicineId: string; quantity: string; medicineName: string }];
     totalSales: string;
     transactionDate: string;
   }
 ) => {
   const medicineIds = form.medicines.map((item) => item.medicineId);
   const quantities = form.medicines.map((item) => item.quantity);
+  const medicineNames = form.medicines.map((item) => item.medicineName);
   try {
     const totalSales =
       form.totalSales.trim() === ""
@@ -165,6 +166,7 @@ export const addTransaction = async (
       medicineData: form.medicines,
       medicines: medicineIds,
       quantities: quantities,
+      medicineNames: medicineNames,
       totalSales: totalSales,
       transactionDate: form.transactionDate,
     });
@@ -207,7 +209,7 @@ export const updateTransaction = async (
     patientId: string;
     patientName: string;
     sellerEmail: string;
-    medicines: [{ medicineId: string; quantity: string }];
+    medicines: [{ medicineId: string; quantity: string; medicineName: string }];
     totalSales: string;
     transactionDate: string;
   }
@@ -235,6 +237,7 @@ export const updateTransaction = async (
 
     const medicineIds = form.medicines.map((item) => item.medicineId); // array na ang laman ay mga medicineId lang
     const quantities = form.medicines.map((item) => item.quantity); // array na ang laman ay mga quantity lang
+    const medicineNames = form.medicines.map((item) => item.medicineName);
 
     // Update the transaction record
     const totalSales =
@@ -251,6 +254,7 @@ export const updateTransaction = async (
         medicineData: form.medicines,
         medicines: medicineIds,
         quantities: quantities,
+        medicineNames: medicineNames,
         totalSales: totalSales,
         transactionDate: form.transactionDate,
       })

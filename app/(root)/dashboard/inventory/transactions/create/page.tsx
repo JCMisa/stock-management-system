@@ -23,6 +23,7 @@ import { getCurrentUser } from "@/lib/actions/user";
 import { getAllMedicines } from "@/lib/actions/medicine";
 import { addTransaction } from "@/lib/actions/transaction";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 const CreateTransaction = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const CreateTransaction = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [patientPrescription, setPatientPrescription] = useState<string>("");
   const [medicineData, setMedicineData] = useState([
-    { medicineId: "", quantity: "" },
+    { medicineId: "", quantity: "", medicineName: "" },
   ]);
   const [loading, setLoading] = useState(false);
 
@@ -176,7 +177,10 @@ const CreateTransaction = () => {
 
   // handling the addition of group field to add more medicine with it's respective quantity
   const handleAddMedicine = () => {
-    setMedicineData([...medicineData, { medicineId: "", quantity: "" }]);
+    setMedicineData([
+      ...medicineData,
+      { medicineId: "", quantity: "", medicineName: "" },
+    ]);
   };
 
   // handling the removal of group field to remove medicine with it's respective quantity
@@ -188,7 +192,7 @@ const CreateTransaction = () => {
 
   // handle the input change on the quantity value of medicine, sets the respective quantity assigned to the selected medicine
   // note: considering the previous selected medicines with their own quantities
-  const handleQuantityChange = (
+  const handleQuantityAndNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number
   ) => {
@@ -229,7 +233,9 @@ const CreateTransaction = () => {
         patientId: patientId as string,
         patientName: formData.get("patientName") as string,
         sellerEmail: currentUser?.email as string,
-        medicines: medicineData as [{ medicineId: string; quantity: string }],
+        medicines: medicineData as [
+          { medicineId: string; quantity: string; medicineName: string }
+        ],
         totalSales: calculateTotalPrice().toString(),
         transactionDate: moment().format("MM-DD-YYYY"),
       };
@@ -372,66 +378,77 @@ const CreateTransaction = () => {
               </Button>
             </div>
             {medicineData.map((val, i: number) => (
-              <div key={i} className="flex items-center gap-3">
-                {/* <Input
-                  name="medicineId"
-                  value={val.medicineId}
-                  onChange={(e) => handleChange(e, i)}
-                /> */}
-                <Select onValueChange={(val) => handleMedicineChange(val, i)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select medicines" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {medicinesList?.length > 0 &&
-                      medicinesList?.map((medicine) => (
-                        <SelectItem
-                          key={medicine?.medicineId}
-                          value={medicine?.medicineId}
-                        >
-                          <div className="flex items-center gap-2">
-                            {medicine?.imageUrl ? (
-                              <Image
-                                src={medicine?.imageUrl}
-                                alt="avatar"
-                                width={1000}
-                                height={1000}
-                                className="w-7 h-7 rounded-full"
-                              />
-                            ) : (
-                              <Image
-                                src={"/empty-img.png"}
-                                alt="avatar"
-                                width={1000}
-                                height={1000}
-                                className="w-7 h-7 rounded-full"
-                              />
-                            )}
-                            <p className="text-sm">{medicine?.name}</p>
-                          </div>
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                <Input
-                  name="quantity"
-                  type="number"
-                  value={val.quantity}
-                  onChange={(e) => handleQuantityChange(e, i)}
-                />
-                <Button
-                  type="button"
-                  className="bg-red-500 hover:bg-red-600"
-                  onClick={() => handleRemove(i)}
-                >
-                  Remove
-                </Button>
+              <div key={i}>
+                <div className="flex items-start gap-3 mt-3">
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="flex items-center gap-3 w-full">
+                      <Select
+                        onValueChange={(val) => handleMedicineChange(val, i)}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select medicines" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {medicinesList?.length > 0 &&
+                            medicinesList?.map((medicine) => (
+                              <SelectItem
+                                key={medicine?.medicineId}
+                                value={medicine?.medicineId}
+                              >
+                                <div className="flex items-center gap-2">
+                                  {medicine?.imageUrl ? (
+                                    <Image
+                                      src={medicine?.imageUrl}
+                                      alt="avatar"
+                                      width={1000}
+                                      height={1000}
+                                      className="w-7 h-7 rounded-full"
+                                    />
+                                  ) : (
+                                    <Image
+                                      src={"/empty-img.png"}
+                                      alt="avatar"
+                                      width={1000}
+                                      height={1000}
+                                      className="w-7 h-7 rounded-full"
+                                    />
+                                  )}
+                                  <p className="text-sm">{medicine?.name}</p>
+                                </div>
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                      <Input
+                        name="quantity"
+                        type="number"
+                        value={val.quantity}
+                        onChange={(e) => handleQuantityAndNameChange(e, i)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500 dark:text-gray-400">
+                        Medicine Name
+                      </label>
+                      <Input
+                        name="medicineName"
+                        type="text"
+                        value={val.medicineName || "unset"}
+                        onChange={(e) => handleQuantityAndNameChange(e, i)}
+                      />
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => handleRemove(i)}
+                  >
+                    Remove
+                  </Button>
+                </div>
+                <Separator className="mt-4" />
               </div>
             ))}
-            {/* <p>{JSON.stringify(medicineData)}</p> */}
-            {/* <Button type="button" onClick={saveMedicineData}>
-              Save
-            </Button> */}
           </div>
 
           <Button type="submit" disabled={pending}>
