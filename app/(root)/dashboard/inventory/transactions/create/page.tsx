@@ -233,9 +233,11 @@ const CreateTransaction = () => {
         patientId: patientId as string,
         patientName: formData.get("patientName") as string,
         sellerEmail: currentUser?.email as string,
-        medicines: medicineData as [
-          { medicineId: string; quantity: string; medicineName: string }
-        ],
+        medicines: medicineData as {
+          medicineId: string;
+          quantity: string;
+          medicineName: string;
+        }[],
         totalSales: calculateTotalPrice().toString(),
         transactionDate: moment().format("MM-DD-YYYY"),
       };

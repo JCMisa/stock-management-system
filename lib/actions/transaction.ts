@@ -144,7 +144,7 @@ export const addTransaction = async (
     patientId: string;
     patientName: string;
     sellerEmail: string;
-    medicines: [{ medicineId: string; quantity: string; medicineName: string }];
+    medicines: { medicineId: string; quantity: string; medicineName: string }[];
     totalSales: string;
     transactionDate: string;
   }
@@ -209,7 +209,7 @@ export const updateTransaction = async (
     patientId: string;
     patientName: string;
     sellerEmail: string;
-    medicines: [{ medicineId: string; quantity: string; medicineName: string }];
+    medicines: { medicineId: string; quantity: string; medicineName: string }[];
     totalSales: string;
     transactionDate: string;
   }

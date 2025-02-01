@@ -134,13 +134,20 @@ export const columns: ColumnDef<any>[] = [
       const stockQuantity = row.getValue("stockQuantity");
       const reorderLevel = row.getValue("reorderLevel");
 
-      if (Number(stockQuantity) > Number(reorderLevel)) {
+      if (Number(stockQuantity) > Number(reorderLevel) + 5) {
         return (
           <Badge className="bg-primary hover:bg-primary-100 transition-all">
             {row.getValue("stockQuantity")}
           </Badge>
         );
-      } else if (Number(stockQuantity) === Number(reorderLevel)) {
+      } else if (
+        Number(stockQuantity) === Number(reorderLevel) + 5 ||
+        Number(stockQuantity) === Number(reorderLevel) + 4 ||
+        Number(stockQuantity) === Number(reorderLevel) + 3 ||
+        Number(stockQuantity) === Number(reorderLevel) + 2 ||
+        Number(stockQuantity) === Number(reorderLevel) + 1 ||
+        Number(stockQuantity) === Number(reorderLevel)
+      ) {
         return (
           <Badge className="bg-orange-500 hover:bg-orange-600 transition-all">
             {row.getValue("stockQuantity")}
