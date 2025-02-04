@@ -3,13 +3,34 @@ import { SignOutButton } from "@clerk/nextjs";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { cache } from "react";
 
-export const metadata: Metadata = {
-  title: "Profile",
-  description:
-    "Manage profile page to manage profile by performing CRUD operations to manipulate profile.",
-};
+const getUser = cache(async (userId: string) => {
+  const user = await getUserById(userId as string);
+  return user;
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ userId: string }>;
+}): Promise<Metadata> {
+  const userId = (await params)?.userId;
+  const userFromProps = await getUser(userId as string);
+
+  return {
+    title: userFromProps?.data?.firstname + " " + userFromProps?.data?.lastname,
+    description: userFromProps?.data?.bio,
+    openGraph: {
+      images: [
+        {
+          url: userFromProps?.data?.imageUrl,
+        },
+      ],
+    },
+  };
+}
 
 const ProfilePage = async ({
   params,
@@ -18,11 +39,9 @@ const ProfilePage = async ({
 }) => {
   const userId = (await params)?.userId;
 
-  const userFromProps = await getUserById(userId as string);
+  const userFromProps = await getUser(userId as string);
 
-  if (userFromProps?.data === null) {
-    redirect("/sign-in");
-  }
+  if (userFromProps?.data === null) notFound();
 
   const currentUser = await getCurrentUser();
 
