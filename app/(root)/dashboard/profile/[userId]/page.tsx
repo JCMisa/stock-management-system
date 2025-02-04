@@ -1,4 +1,4 @@
-import { getCurrentUser, getUserById } from "@/lib/actions/user";
+import { getAllUser, getCurrentUser, getUserById } from "@/lib/actions/user";
 import { SignOutButton } from "@clerk/nextjs";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -10,6 +10,17 @@ const getUser = cache(async (userId: string) => {
   const user = await getUserById(userId as string);
   return user;
 });
+
+// for caching a dynamic route to make page loading faster
+export async function generateStaticParams() {
+  const userList = await getAllUser();
+
+  if (!Array.isArray(userList?.data)) {
+    throw new Error("Invalid user data format");
+  }
+
+  return userList.data.map((userId: string) => userId);
+}
 
 export async function generateMetadata({
   params,

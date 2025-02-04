@@ -237,6 +237,7 @@ export const updateMedicine = async (
       .where(eq(Medicine.medicineId, medicineId));
 
     if (data) {
+      revalidatePath("/dashboard/manage/medicines");
       return parseStringify({ data: data });
     }
     return parseStringify({ data: null });
@@ -295,6 +296,7 @@ export const deleteMedicine = async (medicineId: string) => {
       .where(eq(Medicine.medicineId, medicineId));
 
     if (data) {
+      revalidatePath("/dashboard/manage/medicines");
       return parseStringify({ data: data });
     }
     return parseStringify({ data: null });

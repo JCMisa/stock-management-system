@@ -3,6 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import UpdateMedicineForm from "./_components/UpdateMedicineForm";
+import { getAllMedicines } from "@/lib/actions/medicine";
+
+// for caching a dynamic route to make page loading faster
+export async function generateStaticParams() {
+  const medicinesList = await getAllMedicines();
+
+  if (!Array.isArray(medicinesList?.data)) {
+    throw new Error("Invalid user data format");
+  }
+
+  return medicinesList.data.map((userId: string) => userId);
+}
 
 const MedicineManagePage = async ({
   params,

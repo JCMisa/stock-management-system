@@ -3,6 +3,18 @@ import React from "react";
 import CreatePatientForm from "../../_components/CreatePatientForm";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { getAllPatients } from "@/lib/actions/patient";
+
+// for caching a dynamic route to make page loading faster
+export async function generateStaticParams() {
+  const patientsList = await getAllPatients();
+
+  if (!Array.isArray(patientsList?.data)) {
+    throw new Error("Invalid user data format");
+  }
+
+  return patientsList.data.map((userId: string) => userId);
+}
 
 const CreatePatientPage = async ({
   params,
