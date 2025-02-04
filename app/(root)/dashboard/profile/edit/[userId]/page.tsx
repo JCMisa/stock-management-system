@@ -8,7 +8,7 @@ import {
   getUserById,
   updateUserInfo,
 } from "@/lib/actions/user";
-import React, { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,

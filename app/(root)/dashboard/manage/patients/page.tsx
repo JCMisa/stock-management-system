@@ -2,8 +2,14 @@ import { columns } from "@/components/dataTable/patients/patient-columns";
 import { DataTable } from "@/components/dataTable/patients/patient-data-table";
 import { getAllPatients } from "@/lib/actions/patient";
 import { getCurrentUser } from "@/lib/actions/user";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import React from "react";
+
+export const metadata: Metadata = {
+  title: "Patients",
+  description:
+    "Manage patients page to manage patients by performing CRUD operations to manipulate patients.",
+};
 
 const ManagePatientsPage = async () => {
   try {

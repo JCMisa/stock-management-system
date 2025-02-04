@@ -13,12 +13,16 @@ import {
   getTotalSalesForThisMonth,
 } from "@/lib/actions/transaction";
 import { formatCurrency } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Inventory",
+  description:
+    "Inventory status page to display inventory overview and manipulate medicine stocks and expiration dates.",
+};
 
 const InventoryStatusPage = async () => {
   const medicinesList = await getAllMedicines();
-
-  // const totalStocks = await getTotalStocks();
-  // const expiredMedicinesCount = await getExpiredMedicinesCount();
 
   const [totalSales, totalSalesThisMonth, totalStocks, expiredMedicinesCount] =
     await Promise.all([

@@ -2,8 +2,14 @@ import { columns } from "@/components/dataTable/roleChange/roleChange-columns";
 import { DataTable } from "@/components/dataTable/roleChange/roleChange-data-table";
 import { getAllRequests } from "@/lib/actions/roleChangeRequest";
 import { getCurrentUser } from "@/lib/actions/user";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import React from "react";
+
+export const metadata: Metadata = {
+  title: "Role Change",
+  description:
+    "Manage role change page to manage role change by performing CRUD operations to manipulate role change.",
+};
 
 const RoleChangePage = async () => {
   try {

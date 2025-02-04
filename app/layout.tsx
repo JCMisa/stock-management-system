@@ -18,8 +18,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RHU",
-  description: "Hospital Stock Management System for Santa Maria Laguna",
+  title: {
+    default: "RHU",
+    template: "%s - RHU",
+  },
+  description:
+    "Hospital stock management system for Santa Maria Laguna rural health unit.",
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

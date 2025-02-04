@@ -2,7 +2,13 @@ import { DataTable } from "@/components/dataTable/users/user-data-table";
 import { columns } from "@/components/dataTable/users/user-columns";
 import { getAllUser, getCurrentUser } from "@/lib/actions/user";
 import { redirect } from "next/navigation";
-import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Users",
+  description:
+    "Manage users page to manage users by performing CRUD operations to manipulate users.",
+};
 
 const ManageUsersPage = async () => {
   try {

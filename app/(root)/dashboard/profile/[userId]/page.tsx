@@ -1,9 +1,15 @@
 import { getCurrentUser, getUserById } from "@/lib/actions/user";
 import { SignOutButton } from "@clerk/nextjs";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
+
+export const metadata: Metadata = {
+  title: "Profile",
+  description:
+    "Manage profile page to manage profile by performing CRUD operations to manipulate profile.",
+};
 
 const ProfilePage = async ({
   params,

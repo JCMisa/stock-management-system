@@ -5,8 +5,14 @@ import {
   getDoctorAppointments,
 } from "@/lib/actions/appointment";
 import { getCurrentUser } from "@/lib/actions/user";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import React from "react";
+
+export const metadata: Metadata = {
+  title: "Appointements",
+  description:
+    "Manage appointments page to manage appointments by performing CRUD operations to manipulate appointments.",
+};
 
 const AppointmentsPage = async () => {
   try {
