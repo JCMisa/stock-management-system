@@ -13,7 +13,7 @@ export async function generateStaticParams() {
     throw new Error("Invalid user data format");
   }
 
-  return patientsList.data.map((userId: string) => userId);
+  return patientsList.data.map((patientId: string) => patientId);
 }
 
 const CreatePatientPage = async ({
