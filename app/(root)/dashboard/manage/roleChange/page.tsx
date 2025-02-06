@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "Role Change",
   description:
     "Manage role change page to manage role change by performing CRUD operations to manipulate role change.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const RoleChangePage = async () => {

@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "Transactions",
   description:
     "Manage transactions page to manage transactions by performing CRUD operations to manipulate transactions.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const TransactionsPage = async () => {

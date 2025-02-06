@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "Inventory",
   description:
     "Inventory status page to display inventory overview and manipulate medicine stocks and expiration dates.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const InventoryStatusPage = async () => {

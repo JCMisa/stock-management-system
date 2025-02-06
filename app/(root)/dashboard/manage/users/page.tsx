@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "Users",
   description:
     "Manage users page to manage users by performing CRUD operations to manipulate users.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const ManageUsersPage = async () => {

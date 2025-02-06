@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   title: "Appointements",
   description:
     "Manage appointments page to manage appointments by performing CRUD operations to manipulate appointments.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const AppointmentsPage = async () => {

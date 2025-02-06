@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "Medicines",
   description:
     "Manage medicines page to manage medicines by performing CRUD operations to manipulate medicines.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const MedicinesPage = async () => {
