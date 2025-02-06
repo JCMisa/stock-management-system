@@ -19,7 +19,7 @@ export async function generateStaticParams() {
     throw new Error("Invalid user data format");
   }
 
-  return userList.data.map((userId: string) => userId);
+  return userList.data.map((userId: string) => userId).slice(0, 5);
 }
 
 export async function generateMetadata({

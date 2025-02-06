@@ -15,3 +15,7 @@ export const formatCurrency = (price: number) => {
     currency: "PHP",
   }).format(price);
 };
+
+export async function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
