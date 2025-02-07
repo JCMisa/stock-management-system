@@ -282,6 +282,9 @@ const AddTransaction = () => {
                                 {patient?.imageUrl ? (
                                   <Image
                                     src={patient?.imageUrl}
+                                    loading="lazy"
+                                    placeholder="blur"
+                                    blurDataURL="/blur.jpg"
                                     alt="avatar"
                                     width={1000}
                                     height={1000}
@@ -290,6 +293,9 @@ const AddTransaction = () => {
                                 ) : (
                                   <Image
                                     src={"/empty-img.png"}
+                                    loading="lazy"
+                                    placeholder="blur"
+                                    blurDataURL="/blur.jpg"
                                     alt="avatar"
                                     width={1000}
                                     height={1000}
@@ -349,6 +355,9 @@ const AddTransaction = () => {
                             {medicine?.imageUrl ? (
                               <Image
                                 src={medicine?.imageUrl}
+                                loading="lazy"
+                                placeholder="blur"
+                                blurDataURL="/blur.jpg"
                                 alt="avatar"
                                 width={1000}
                                 height={1000}
@@ -357,6 +366,9 @@ const AddTransaction = () => {
                             ) : (
                               <Image
                                 src={"/empty-img.png"}
+                                loading="lazy"
+                                placeholder="blur"
+                                blurDataURL="/blur.jpg"
                                 alt="avatar"
                                 width={1000}
                                 height={1000}

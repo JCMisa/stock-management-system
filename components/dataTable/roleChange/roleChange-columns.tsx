@@ -158,6 +158,9 @@ export const columns: ColumnDef<any>[] = [
           {imageProofUrl ? (
             <Image
               src={imageProofUrl}
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="/blur.jpg"
               alt="proof"
               width={1000}
               height={1000}
@@ -167,6 +170,9 @@ export const columns: ColumnDef<any>[] = [
           ) : (
             <Image
               src={"/empty-img.png"}
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="/blur.jpg"
               alt="proof"
               width={1000}
               height={1000}

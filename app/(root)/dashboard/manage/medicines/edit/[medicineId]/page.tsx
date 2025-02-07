@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   const medicinesList = await getAllMedicines();
 
   if (!Array.isArray(medicinesList?.data)) {
-    throw new Error("Invalid user data format");
+    return [];
   }
 
   return medicinesList.data.map((medicineId: string) => medicineId).slice(0, 5);
@@ -39,6 +39,9 @@ const MedicineManagePage = async ({
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="/blur.jpg"
                 height={1000}
                 width={1000}
                 alt="logo"
@@ -59,6 +62,9 @@ const MedicineManagePage = async ({
 
         <Image
           src="/create-medicine-img.png"
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="/blur.jpg"
           height={1000}
           width={1000}
           alt="banner"

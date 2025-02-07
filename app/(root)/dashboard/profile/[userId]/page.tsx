@@ -16,7 +16,7 @@ export async function generateStaticParams() {
   const userList = await getAllUser();
 
   if (!Array.isArray(userList?.data)) {
-    throw new Error("Invalid user data format");
+    return [];
   }
 
   return userList.data.map((userId: string) => userId).slice(0, 5);
@@ -64,6 +64,9 @@ const ProfilePage = async ({
             {userFromProps ? (
               <Image
                 src={userFromProps?.data?.imageUrl as string}
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="/blur.jpg"
                 alt="Profile Picture"
                 className="rounded-full w-48 h-48 mx-auto mb-4 shadow-lg from-primary to-secondary transition-transform duration-300 hover:scale-105"
                 width={1000}
@@ -72,6 +75,9 @@ const ProfilePage = async ({
             ) : (
               <Image
                 src="empty-img.png"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="/blur.jpg"
                 alt="Profile Picture"
                 className="rounded-full w-48 h-48 mx-auto mb-4 shadow-lg from-primary to-secondary transition-transform duration-300 hover:scale-105"
                 width={1000}

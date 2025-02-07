@@ -57,6 +57,9 @@ const UploadImage = ({ user }: { user: any }) => {
         {selectedFile ? (
           <Image
             src={selectedFile ? selectedFile : user?.imageUrl}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             alt={"banner"}
@@ -65,6 +68,9 @@ const UploadImage = ({ user }: { user: any }) => {
         ) : (
           <Image
             src={"/empty-img.png"}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             alt={"banner"}

@@ -146,6 +146,9 @@ const DashboardSidebar = () => {
         >
           <Image
             src={"/logo.svg"}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             alt="logo"
             width={1000}
             height={1000}

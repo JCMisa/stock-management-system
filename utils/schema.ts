@@ -33,7 +33,6 @@ export const Patient = pgTable("patient", {
   doctorId: varchar("doctorId"), // doctor who prescribed medicine to the patient - ok
   pharmacistId: varchar("pharmacistId"), // pharmacist who sold medicine to the patient
   addedBy: varchar("addedBy"), // receptionist or admin who added this patient - ok
-  updatedBy: varchar("updatedBy"),
 
   firstname: varchar("firstname"), //ok
   lastname: varchar("lastname"), //ok
@@ -53,7 +52,7 @@ export const Patient = pgTable("patient", {
   identificationCardNumber: varchar("identificationCardNumber"), //ok
 
   conditionName: varchar("conditionName"), //ok
-  conditionDescription: varchar("conditionDescription"), //ok
+  conditionDescription: text("conditionDescription"), //ok
   conditionSeverity: varchar("conditionSeverity"), //ok
   allergies: varchar("allergies"), //ok
   familyMedicalHistory: varchar("familyMedicalHistory"), //ok
@@ -72,6 +71,10 @@ export const Appointment = pgTable("appointment", {
   patientName: varchar("patientName"),
   doctorName: varchar("doctorName"),
   reason: varchar("reason"),
+  conditionDescription: text("conditionDescription"),
+  severity: varchar("severity"),
+  familyMedicalHistory: varchar("familyMedicalHistory"),
+  allergies: varchar("allergies"),
   status: varchar("status").default("pending"),
   date: varchar("date"),
   timeStart: varchar("timeStart"),

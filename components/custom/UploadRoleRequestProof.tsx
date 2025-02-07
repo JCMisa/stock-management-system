@@ -53,6 +53,9 @@ const UploadRoleRequestProof = ({
         {selectedFile ? (
           <Image
             src={selectedFile}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             alt={"banner"}
@@ -61,6 +64,9 @@ const UploadRoleRequestProof = ({
         ) : (
           <Image
             src={"/empty-img.png"}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             alt={"banner"}

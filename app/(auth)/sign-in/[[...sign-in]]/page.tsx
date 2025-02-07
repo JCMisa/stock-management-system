@@ -11,6 +11,9 @@ const SignInPage = () => {
           <Image
             alt="sample"
             src="/empty-img.png"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             className="absolute inset-0 h-full w-full object-cover opacity-80"
@@ -19,7 +22,15 @@ const SignInPage = () => {
           <div className="hidden lg:relative lg:block lg:p-12">
             <a className="block text-light" href="#">
               <span className="sr-only">Home</span>
-              <Image src="/logo.svg" alt="logo" width="50" height="40" />
+              <Image
+                src="/logo.svg"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="/blur.jpg"
+                alt="logo"
+                width="50"
+                height="40"
+              />
             </a>
 
             <h2 className="mt-6 text-2xl font-bold text-light sm:text-3xl md:text-4xl">
@@ -45,6 +56,9 @@ const SignInPage = () => {
                 <span className="sr-only">Home</span>
                 <Image
                   src="/logo.svg"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="/blur.jpg"
                   alt="logo"
                   width={1000}
                   height={1000}

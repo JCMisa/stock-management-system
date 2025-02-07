@@ -80,6 +80,9 @@ export const columns: ColumnDef<any>[] = [
       return imageUrl ? (
         <Image
           src={imageUrl}
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="/blur.jpg"
           alt="avatar"
           width={1000}
           height={1000}
@@ -88,6 +91,9 @@ export const columns: ColumnDef<any>[] = [
       ) : (
         <Image
           src="/empty-img.png"
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="/blur.jpg"
           alt="avatar"
           width={1000}
           height={1000}

@@ -18,11 +18,13 @@ const HomeStep = () => {
           <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
             <Image
               alt="step"
-              loading="lazy"
               width={1000}
               height={500}
               className="w-full"
               src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg"
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="/blur.jpg"
             />
           </div>
           <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">

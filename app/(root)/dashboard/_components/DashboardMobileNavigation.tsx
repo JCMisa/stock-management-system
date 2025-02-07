@@ -152,6 +152,9 @@ const DashboardMobileNavigation = () => {
     <header className="flex items-center h-[60px] justify-between px-5 md:hidden">
       <Image
         src={"/logo.svg"}
+        loading="lazy"
+        placeholder="blur"
+        blurDataURL="/blur.jpg"
         alt="logo"
         width={1000}
         height={1000}

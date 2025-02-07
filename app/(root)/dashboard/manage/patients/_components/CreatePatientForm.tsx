@@ -19,18 +19,18 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { LoaderCircle, PlusCircle, XIcon } from "lucide-react";
+import { LoaderCircle, PlusCircle } from "lucide-react";
 import { IdentificationTypes } from "@/constants";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { getAllDoctors } from "@/lib/actions/user";
+import { getAllDoctors, getCurrentUser } from "@/lib/actions/user";
 import Image from "next/image";
 import { addAppointment } from "@/lib/actions/appointment";
 import { v4 as uuidv4 } from "uuid";
 import "react-quill-new/dist/quill.snow.css";
 import LoaderDialog from "@/components/custom/LoaderDialog";
+import AllergiesInput from "./AllergiesInput";
 
 const CreatePatientForm = ({ patientId }: { patientId: string }) => {
   const router = useRouter();
@@ -44,32 +44,29 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
   const [identificationCardType, setIdentificationCardType] = useState<string>(
     patientLayout?.identificationCardType
   );
-  const [doctorId, setDoctorId] = useState<string>(patientLayout?.doctorId);
+  const [doctorId, setDoctorId] = useState<string | null>(
+    patientLayout?.doctorId || null
+  );
   const [loading, setLoading] = useState(false);
 
-  // for input with multiple values
-  const [allergiesInputValue, setAllergiesInputValue] = useState<string>("");
-  const [allergiesArray, setAllergiesArray] = useState<string[]>([]); // stringify or join this first before assigning in the database
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const lastChar = value.charAt(value.length - 1);
-    if (lastChar === " ") {
-      const trimmedValue = value.slice(0, -1).trim();
-      if (trimmedValue) {
-        setAllergiesArray((prevArray) => [...prevArray, trimmedValue]);
-        console.log(allergiesArray);
-      }
-      setAllergiesInputValue("");
-    } else {
-      setAllergiesInputValue(value);
-    }
-  };
-  const removeItem = (index: number) => {
-    setAllergiesArray((prevArray) => prevArray.filter((_, i) => i !== index));
-  };
-  // for input with multiple values
+  const [currentUser, setCurrentUser] = useState<UserType>();
 
-  // to get all doctors in database
+  // for input with multiple values - start
+  const [allergiesArray, setAllergiesArray] = useState<string[]>([]); // stringify or join this first before assigning in the database
+  // for input with multiple values - end
+
+  // get current user - start
+  useEffect(() => {
+    const getCurrentUserEffect = async () => {
+      const user = await getCurrentUser();
+      if (user?.data !== null) setCurrentUser(user.data);
+    };
+
+    getCurrentUserEffect();
+  }, []);
+  // get current user - end
+
+  // to get all doctors in database - start
   const getDoctorsList = async () => {
     try {
       const result = await getAllDoctors();
@@ -88,7 +85,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
   useEffect(() => {
     getDoctorsList();
   }, []);
-  // to get all doctors in database
+  // to get all doctors in database - send
 
   const getPatient = async () => {
     try {
@@ -175,6 +172,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
           doctorId || patientLayout?.doctorId,
           formData.get("firstname") + " " + formData.get("lastname"),
           formData.get("conditionName") as string,
+          formData.get("conditionDescription") as string,
+          finalConditionSeverity as string,
+          formData.get("familyMedicalHistory") as string,
+          allergiesArray.join(", "),
           "pending",
           moment().format("MM-DD-YYYY")
         );
@@ -279,7 +280,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 </label>
                 <Select
                   onValueChange={(value) => setGender(value ? value : "male")}
-                  defaultValue={patientLayout?.gender}
+                  defaultValue={patientLayout?.gender || gender}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Gender" />
@@ -463,7 +464,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
               </label>
               <Select
                 onValueChange={(value) => setSeverity(value ? value : "mild")}
-                defaultValue={patientLayout?.conditionSeverity}
+                value={patientLayout?.conditionSeverity || severity}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Severity" />
@@ -475,7 +476,7 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex flex-col gap-1 w-full">
+            {/* <div className="flex flex-col gap-1 w-full">
               <label
                 htmlFor="allergies"
                 className="text-xs text-gray-500  dark:text-gray-400"
@@ -492,20 +493,29 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                 placeholder="Type and add items with space or comma"
               />
               <ul className="w-full shadow-lg p-3 flex flex-auto gap-1 overflow-auto card-scroll">
-                {allergiesArray.map((item: string, index: number) => (
-                  <Badge
-                    key={index}
-                    className="bg-light hover:bg-light-100 dark:bg-dark dark:hover:bg-dark-100 text-dark dark:text-white flex flex-row items-center gap-1"
-                  >
-                    {item}
-                    <XIcon
-                      onClick={() => removeItem(index)}
-                      className="cursor-pointer w-4 h-4 text-red-500"
-                    />
-                  </Badge>
-                ))}
+                {allergiesArray.length !== 0 &&
+                  allergiesArray.map((item: string, index: number) => (
+                    <Badge
+                      key={index}
+                      className="bg-light hover:bg-light-100 dark:bg-dark dark:hover:bg-dark-100 text-dark dark:text-white flex flex-row items-center gap-1"
+                    >
+                      {item}
+                      <XIcon
+                        onClick={() => removeItem(index)}
+                        className="cursor-pointer w-4 h-4 text-red-500"
+                      />
+                    </Badge>
+                  ))}
               </ul>
-            </div>
+            </div> */}
+            <AllergiesInput
+              initialAllergies={patientLayout?.allergies}
+              onAllergiesChange={(newAllergies) => {
+                setAllergiesArray(newAllergies);
+                const allergiesString = newAllergies.join(", ");
+                console.log("allergies string: ", allergiesString);
+              }}
+            />
           </div>
         </div>
 
@@ -560,7 +570,10 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
                   onValueChange={(value) =>
                     setIdentificationCardType(value ? value : "Student ID Card")
                   }
-                  defaultValue={patientLayout?.identificationCardType}
+                  value={
+                    patientLayout?.identificationCardType ||
+                    identificationCardType
+                  }
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Identification Type" />
@@ -593,57 +606,65 @@ const CreatePatientForm = ({ patientId }: { patientId: string }) => {
           </div>
         </div>
 
-        {/* assign to doctor */}
-        <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary">
-          <h1 className="text-center text-2xl font-bold py-3">Doctor</h1>
-          <Separator className="border border-light-200 dark:border-dark-200" />
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="prescription"
-              className="text-xs text-gray-500  dark:text-gray-400"
-            >
-              Assign a Doctor for the patient
-            </label>
-            <Select
-              onValueChange={(value) => setDoctorId(value)}
-              defaultValue={patientLayout?.doctorId}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a Doctor" />
-              </SelectTrigger>
-              <SelectContent>
-                {doctorsList?.length > 0 &&
-                  doctorsList?.map((doctor: UserType) => (
-                    <SelectItem key={doctor?.id} value={doctor?.userId}>
-                      <div className="flex items-center gap-2">
-                        {doctor?.imageUrl ? (
-                          <Image
-                            src={doctor?.imageUrl}
-                            alt="avatar"
-                            width={1000}
-                            height={1000}
-                            className="w-7 h-7 rounded-full"
-                          />
-                        ) : (
-                          <Image
-                            src={"/empty-img.png"}
-                            alt="avatar"
-                            width={1000}
-                            height={1000}
-                            className="w-7 h-7 rounded-full"
-                          />
-                        )}
+        {/* assign to doctor - can assign if admin or doctor only */}
+        {(currentUser?.role === "admin" || currentUser?.role === "doctor") && (
+          <div className="flex flex-col gap-2 mt-10 border border-transparent border-t-primary">
+            <h1 className="text-center text-2xl font-bold py-3">Doctor</h1>
+            <Separator className="border border-light-200 dark:border-dark-200" />
+            <div className="flex flex-col gap-1 w-full">
+              <label
+                htmlFor="prescription"
+                className="text-xs text-gray-500  dark:text-gray-400"
+              >
+                Assign a Doctor for the patient
+              </label>
+              <Select
+                onValueChange={(value) => setDoctorId(value)}
+                value={patientLayout?.doctorId || undefined}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a Doctor" />
+                </SelectTrigger>
+                <SelectContent>
+                  {doctorsList?.length > 0 &&
+                    doctorsList?.map((doctor: UserType) => (
+                      <SelectItem key={doctor?.id} value={doctor?.userId}>
+                        <div className="flex items-center gap-2">
+                          {doctor?.imageUrl ? (
+                            <Image
+                              src={doctor?.imageUrl}
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="/blur.jpg"
+                              alt="avatar"
+                              width={1000}
+                              height={1000}
+                              className="w-7 h-7 rounded-full"
+                            />
+                          ) : (
+                            <Image
+                              src={"/empty-img.png"}
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="/blur.jpg"
+                              alt="avatar"
+                              width={1000}
+                              height={1000}
+                              className="w-7 h-7 rounded-full"
+                            />
+                          )}
 
-                        <p>
-                          {doctor?.firstname} {doctor?.lastname}
-                        </p>
-                      </div>
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
+                          <p>
+                            {doctor?.firstname} {doctor?.lastname}
+                          </p>
+                        </div>
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* todo: add a select field to select who the doctor is / who the pharmacist who sold the medicines */}
         {/* todo: add the list of medicines in a select field to select medicines bought by the patient */}

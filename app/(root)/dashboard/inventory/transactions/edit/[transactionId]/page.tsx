@@ -369,6 +369,9 @@ const EditTransaction = ({ params }: PageProps) => {
                           {patient?.imageUrl ? (
                             <Image
                               src={patient?.imageUrl}
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="/blur.jpg"
                               alt="avatar"
                               width={1000}
                               height={1000}
@@ -377,6 +380,9 @@ const EditTransaction = ({ params }: PageProps) => {
                           ) : (
                             <Image
                               src={"/empty-img.png"}
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="/blur.jpg"
                               alt="avatar"
                               width={1000}
                               height={1000}
@@ -444,6 +450,9 @@ const EditTransaction = ({ params }: PageProps) => {
                                   {medicine?.imageUrl ? (
                                     <Image
                                       src={medicine?.imageUrl}
+                                      loading="lazy"
+                                      placeholder="blur"
+                                      blurDataURL="/blur.jpg"
                                       alt="avatar"
                                       width={1000}
                                       height={1000}
@@ -452,6 +461,9 @@ const EditTransaction = ({ params }: PageProps) => {
                                   ) : (
                                     <Image
                                       src={"/empty-img.png"}
+                                      loading="lazy"
+                                      placeholder="blur"
+                                      blurDataURL="/blur.jpg"
                                       alt="avatar"
                                       width={1000}
                                       height={1000}

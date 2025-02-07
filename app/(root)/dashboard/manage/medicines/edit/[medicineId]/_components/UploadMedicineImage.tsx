@@ -60,6 +60,9 @@ const UploadMedicineImage = ({ medicine }: { medicine: any }) => {
         {selectedFile ? (
           <Image
             src={selectedFile ? selectedFile : medicine?.imageUrl}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             alt={"banner"}
@@ -68,6 +71,9 @@ const UploadMedicineImage = ({ medicine }: { medicine: any }) => {
         ) : (
           <Image
             src={"/empty-img.png"}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             width={1000}
             height={1000}
             alt={"banner"}

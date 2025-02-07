@@ -31,6 +31,7 @@ import { getPatientLayout } from "@/lib/actions/patient";
 import LoaderDialog from "@/components/custom/LoaderDialog";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import AllergiesInput from "../../patients/_components/AllergiesInput";
 
 const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
   const router = useRouter();
@@ -38,9 +39,22 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
   const [appointment, setAppointment] = useState<AppointmentType>();
   const [patient, setPatient] = useState<PatientType>();
   const [status, setStatus] = useState<string>(appointment?.status as string);
+
+  const [appointmentReason, setAppointmentReason] = useState<string>(
+    appointment?.reason as string
+  );
+  const [appointmentConditionDesc, setAppointmentConditionDesc] = useState<
+    string | null
+  >((appointment?.conditionDescription as string) || null);
+  const [appointmentConditionSeverity, setAppointmentConditionSeverity] =
+    useState<string | null>((appointment?.severity as string) || null);
+
   const [prescription, setPrescription] = useState<string>(
     patient?.prescription as string
   );
+
+  const [allergiesArray, setAllergiesArray] = useState<string[]>([]);
+
   const [loading, setLoading] = useState(false);
 
   const handleQuillChange = (value: string) => {
@@ -100,11 +114,20 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
     try {
       const finalStatus = status || appointment?.status;
       const finalPrescription = prescription || patient?.prescription;
+      const finalReason = appointmentReason || appointment?.reason;
+      const finalConditionDesc =
+        appointmentConditionDesc || appointment?.conditionDescription;
+      const finalConditionSeverity =
+        appointmentConditionSeverity || appointment?.severity;
 
       const formField = {
         patientName: formData.get("patientName") as string,
         doctorName: formData.get("doctorName") as string,
-        reason: formData.get("reason") as string,
+        reason: finalReason as string,
+        conditionDescription: finalConditionDesc as string,
+        severity: finalConditionSeverity as string,
+        familyMedicalHistory: appointment?.familyMedicalHistory as string,
+        allergies: allergiesArray.join(", "),
         status: finalStatus as string,
         date: moment(formData.get("date") as string).format("MM-DD-YYYY"),
         timeStart: formData.get("timeStart") as string,
@@ -187,7 +210,7 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                   />
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-center gap-3 w-full">
+              <div className="flex flex-col gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">
                   <label className="text-xs text-gray-500 dark:text-gray-400">
                     Appointment Reason
@@ -197,9 +220,64 @@ const EditAppointment = ({ appointmentId }: { appointmentId: string }) => {
                     id="reason"
                     name="reason"
                     defaultValue={appointment?.reason}
+                    onChange={(e) => setAppointmentReason(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1 w-full">
+                  <label className="text-xs text-gray-500 dark:text-gray-400">
+                    Condition Description
+                  </label>
+                  <Textarea
+                    rows={5}
+                    id="conditionDescription"
+                    name="conditionDescription"
+                    defaultValue={appointment?.conditionDescription}
+                    onChange={(e) =>
+                      setAppointmentConditionDesc(e.target.value)
+                    }
+                    className="card-scroll"
                   />
                 </div>
               </div>
+
+              <div className="flex flex-col gap-3 w-full">
+                <div className="flex flex-col gap-1 w-full">
+                  <label
+                    htmlFor="conditionSeverity"
+                    className="text-xs text-gray-500  dark:text-gray-400"
+                  >
+                    Patient&apos;s Condition Severity
+                  </label>
+                  <Select
+                    onValueChange={(value) =>
+                      setAppointmentConditionSeverity(value ? value : "mild")
+                    }
+                    value={appointment?.severity || ""}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Severity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={"mild"}>Mild</SelectItem>
+                      <SelectItem value={"moderate"}>Moderate</SelectItem>
+                      <SelectItem value={"severe"}>Severe</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex flex-col gap-1 w-full">
+                  <AllergiesInput
+                    initialAllergies={appointment?.allergies}
+                    onAllergiesChange={(newAllergies) => {
+                      setAllergiesArray(newAllergies);
+                      const allergiesString = newAllergies.join(", ");
+                      console.log("allergies string: ", allergiesString);
+                    }}
+                  />
+                </div>
+              </div>
+
               <div className="flex flex-row items-center justify-center gap-3 w-full">
                 <div className="flex flex-col gap-1 w-full">
                   <label className="text-xs text-gray-500 dark:text-gray-400">

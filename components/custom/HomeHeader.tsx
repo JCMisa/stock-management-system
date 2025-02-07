@@ -12,6 +12,9 @@ const HomeHeader = ({ user }: { user: UserType }) => {
         <a className="flex title-font font-medium items-center dark:text-white text-dark mb-4 md:mb-0">
           <Image
             src={"/logo.svg"}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             alt="logo"
             width={1000}
             height={1000}
@@ -49,6 +52,9 @@ const HomeHeader = ({ user }: { user: UserType }) => {
         <a className="flex items-center">
           <Image
             src={"/logo.svg"}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/blur.jpg"
             alt="logo"
             width={1000}
             height={1000}

@@ -22,6 +22,9 @@ const CreateMedicinePage = () => {
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="/blur.jpg"
                 height={1000}
                 width={1000}
                 alt="logo"
@@ -42,6 +45,9 @@ const CreateMedicinePage = () => {
 
         <Image
           src="/create-medicine-img.png"
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="/blur.jpg"
           height={1000}
           width={1000}
           alt="banner"

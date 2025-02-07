@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   const patientsList = await getAllPatients();
 
   if (!Array.isArray(patientsList?.data)) {
-    throw new Error("Invalid user data format");
+    return [];
   }
 
   return patientsList.data.map((patientId: string) => patientId).slice(0, 5);
@@ -40,6 +40,9 @@ const CreatePatientPage = async ({
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="/blur.jpg"
                 height={1000}
                 width={1000}
                 alt="logo"
@@ -60,6 +63,9 @@ const CreatePatientPage = async ({
 
         <Image
           src="/register-patient-banner.jpg"
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="/blur.jpg"
           height={1000}
           width={1000}
           alt="banner"

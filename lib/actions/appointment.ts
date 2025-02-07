@@ -48,6 +48,10 @@ export const addAppointment = async (
   doctorId: string,
   patientName: string,
   reason: string,
+  conditionDescription: string,
+  severity: string,
+  familyMedicalHistory: string,
+  allergies: string,
   status: string,
   createdAt: string
 ) => {
@@ -58,6 +62,10 @@ export const addAppointment = async (
       doctorId: doctorId,
       patientName: patientName,
       reason: reason,
+      conditionDescription: conditionDescription,
+      severity: severity,
+      familyMedicalHistory: familyMedicalHistory,
+      allergies: allergies,
       status: status,
       createdAt: createdAt,
     });
@@ -77,6 +85,10 @@ export const updateAppointment = async (
     patientName: string;
     doctorName: string;
     reason: string;
+    conditionDescription: string;
+    severity: string;
+    familyMedicalHistory: string;
+    allergies: string;
     status: string;
     date: string;
     timeStart: string;
@@ -91,6 +103,10 @@ export const updateAppointment = async (
         patientName: form.patientName,
         doctorName: form.doctorName,
         reason: form.reason,
+        conditionDescription: form.conditionDescription,
+        severity: form.severity,
+        familyMedicalHistory: form.familyMedicalHistory,
+        allergies: form.allergies,
         status: form.status,
         date: form.date,
         timeStart: form.timeStart,

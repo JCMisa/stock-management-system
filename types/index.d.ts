@@ -59,6 +59,10 @@ declare interface AppointmentType {
   patientName: string;
   doctorName: string;
   reason: string;
+  conditionDescription: string;
+  severity: string;
+  familyMedicalHistory: string;
+  allergies: string;
   status: string;
   date: string;
   timeStart: string;
